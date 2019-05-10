@@ -19,7 +19,7 @@ function connectDB()
 
 /**
  * Retire la série et tout ce qui lui est associée
- * @param $idShow
+ * @param INTEGER $idShow
  */
 function removeTVShow($idShow)
 {

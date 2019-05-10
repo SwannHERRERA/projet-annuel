@@ -2,7 +2,7 @@
 <html>
 
 <?php
-$site_url = (isset($_SERVER['HTTPS'])) ? 'https://' : 'http://'; 
+$site_url = (isset($_SERVER['HTTPS'])) ? 'https://' : 'http://';
 $site_url .= $_SERVER['HTTP_HOST'];
 $uri_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri_segments = explode('/', $uri_path);
