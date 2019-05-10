@@ -4,14 +4,14 @@
   <div id="carouselExample3" class="carousel text-center slide" data-ride="carousel" data-interval="9000">
     <div class="carousel-inner row w-10 mxauto" role="listbox">
 
-<?php 
+<?php
 function connectDB(){
 require_once BASEPATH . '/conf.inc.php';
 	// "mysql:host=localhost;dbname=projet1a1"
 	try{
 		$pdo = new PDO( DBDRIVER.":host=".DBHOST.";dbname=".DBNAME ,DBUSER,DBPWD);
 		//Permet d'afficher les erreurs SQL
-		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}catch(Exception $e){
 		die("Erreur SQL : ".$e->getMessage());
 	}

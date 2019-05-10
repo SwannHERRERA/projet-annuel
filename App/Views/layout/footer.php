@@ -73,7 +73,7 @@ $(document).ready(function () {
   }
 })
 </script>
-<?php 
+<?php
 echo "SESSION<br>";
 var_dump($_SESSION);
 echo "POST<br>";
