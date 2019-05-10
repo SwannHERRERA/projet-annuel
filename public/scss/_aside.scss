@@ -1,0 +1,21 @@
+aside {
+  background-color: $aside;
+  padding: 30px 0;
+  ul {
+    @extend %ul_without_bullet;
+    li {
+    padding: 10px 0 6px;
+      a {
+        color: $white;
+        &:hover {
+          text-decoration: none;
+          color: $white;
+        }
+      }//a
+    }
+  }//ul
+  .logo {
+    height: 70px;
+    width: 70px;
+  }
+}

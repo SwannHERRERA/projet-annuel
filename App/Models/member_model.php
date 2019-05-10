@@ -1,0 +1,258 @@
+<?php
+require_once BASEPATH . DIRECTORY_SEPARATOR . "Core" . DIRECTORY_SEPARATOR . "My_model.php";
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+class Member_model extends My_model
+{
+    public $_table = 'MEMBER';
+    public $table_primary_key = "email";
+    //ici on met les methode propre a la table
+
+    /**
+    * INSERT a user via front
+    */
+    public function register()
+    {
+        if (!empty($_POST)) {
+            require BASEPATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Form_validation.php';
+            $form_validation = new Form_validation('register');
+            $form_validation->set_rules('email', 'email', ['require', 'valid_email', 'is_unique', ['max_length' => 100]]);
+            $form_validation->set_rules('pseudo', 'pseudo', ['trim', 'require', 'is_unique', ['max_length' => 20]]);
+            $form_validation->set_rules('password', 'Mot de passe', ['require', ['match' => 'confPassword']]);
+            $form_validation->set_rules('genre', '', []);
+            $form_validation->set_rules('dateNaissance', '', []);
+            $form_validation->set_rules('city', '', ['trim', ['max_length' => 60]]);
+            $form_validation->set_rules('country', '', ['trim', ['max_length' => 50]]);
+            $form_validation->set_rules('captcha', 'captcha', ['trim', 'to_lower']);
+            if ($_SESSION['captcha'] != $_POST['captcha']) {
+                $_SESSION['register'][] = 'Le captcha ne corespond pas';
+            }
+            $query = $this->pdo->prepare("SELECT pseudo FROM MEMBER WHERE pseudo = :pseudo");
+            $result = $query->execute([':pseudo' => $_POST['pseudo']]);
+            $result = $query->fetch();
+            if (!empty($result['pseudo'])) {
+                $_SESSION['register'][] = 'Le pseudo existe déjà';
+            }
+            $query = $this->pdo->prepare("SELECT email FROM MEMBER WHERE email = :email");
+            $result = $query->execute([':email' => $_POST['email']]);
+            $result = $query->fetch();
+            if (!empty($result['email'])) {
+                $_SESSION['register'][] = 'L\'email existe déjà';
+            }
+            if (empty($_SESSION['register'])) {
+                $lien = substr(md5($_POST['email'].time().uniqid()), 0, 30);
+                $query = $this->pdo->prepare('INSERT INTO ' . $this->_table . ' (email, pseudo, gender, birth_date, city, country, password,account_status, account_role,date_inscription, verified_email)
+                VALUES (:email,:pseudo,:gender, :birth_date, :city, :country, :password, "non-active", "user", :date_inscription, :verified_email)');
+                $query->execute([
+                    ':email' => $_POST['email'],
+                    ':pseudo' => $_POST['pseudo'],
+                    ':gender' => $_POST['genre'],
+                    ':birth_date' => ($_POST['dateNaissance'] == "")? null : $_POST['dateNaissance'],
+                    ':city' => $_POST['city'],
+                    ':country' => $_POST['country'],
+                    ':password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+                    ':date_inscription' => date("Y-m-d"),
+                    ':verified_email' => $lien
+                ]);
+
+                require_once BASEPATH . DIRECTORY_SEPARATOR . "vendor/autoload.php";
+                $mail = new PHPMailer(true);
+
+                try {
+                    //Server settings
+                    $mail->SMTPDebug = 2;
+                    $mail->isSMTP();
+                    $mail->CharSet = 'UTF-8';
+                    $mail->Host = 'ssl0.ovh.net';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'contact@flixadvisor.fr';
+                    $mail->Password = 'ESGIfredo75';
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port = 587;
+
+                    //Recipients
+                    $mail->setFrom('contact@flixadvisor.fr', 'Flix Advisor');
+                    $mail->addAddress($_POST['email'], $_POST['pseudo']);
+
+                    // Content
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Flix Advisor : confirmation d\'adresse e-mail';
+                    $mail->Body = "Bonjour" .  $_POST["pseudo"] .",<br>
+                    Vous venez de créer un compte sur FlixAdvisor.fr : merci d'avoir rejoint notre communauté !<br>
+                    Terminez la création de votre compte et validez votre adresse e-mail<br>
+                    en cliquant sur le lien suivant : https://flixadvisor.fr/member/verify?link=" . $lien .
+                    "A bientôt,<br>
+                    L'équipe Flix Advisor<br>
+                    https://flixadvisor.fr";
+                    //$mail->AltBody = 'non-HTML mail clients';
+
+                    $mail->send();
+                } catch (Exception $e) {
+                    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                }
+
+                header("Location: /");
+            }
+        }
+    }
+
+    /**
+    * Back INSERT /UPDATE User
+    * @param STRING $member = pseudo
+    */
+    public function back_insert($member = null)
+    {
+        $arr_of_post = [];
+        require BASEPATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Form_validation.php';
+        $form_validation = new Form_validation('gestion_membre');
+        $form_validation->set_rules('pseudo', 'pseudo', ['trim', 'require', ['max_length' => 20]]);
+        if (!isset($member)) {
+            $form_validation->set_rules('email', 'email', ['require', 'valid_email', ['max_length' => 100]]);
+            $form_validation->set_rules('pwd', 'Mot de passe', ['require']);
+        }
+        $query = $this->pdo->prepare("SELECT pseudo FROM MEMBER WHERE pseudo = :pseudo");
+        $result = $query->execute([':pseudo' => $_POST['pseudo']]);
+        $result = $query->fetch();
+        if ($_POST['pseudo'] != $member && !empty($result['pseudo'])) {
+            $_SESSION['gestion_membre'][] =  'Le pseudo existe déjà';
+        }
+
+        if (empty($_SESSION['gestion_membre'])) {
+            $arr_of_post = [
+                ":pseudo" => $_POST['pseudo'],
+                ":genre" => $_POST['genre'],
+                ":dateNaissance" => $_POST['dateNaissance'],
+                ":ville" => $_POST['ville'],
+                ":pays" => $_POST['pays'],
+                ":role" => $_POST['role']
+            ];
+            if (isset($member)) {
+                $str= "UPDATE " . $this->_table . " SET
+                pseudo = :pseudo,
+                gender = :genre,
+                birth_date = :dateNaissance,
+                city = :ville,
+                country = :pays,
+                account_role = :role";
+
+                if (!empty($_POST['pwd'])) {
+                    $str .= ',password = :pwd';
+                    $arr_of_post += ['pwd' => password_hash($_POST['pwd'], PASSWORD_DEFAULT)];
+                }
+                $arr_of_post += [":old_pseudo" => $member];
+                $str .= ' WHERE pseudo=:old_pseudo';
+                $update = $this->pdo->prepare($str);
+                $update->execute($arr_of_post);
+                header('Location: /back/member/gestion');
+            } else {
+                $str= "INSERT INTO " . $this->_table . "
+                (email, pseudo, gender, birth_date, city, country, account_role, password, date_inscription, verified_email, account_status)
+                VALUES (:email,:pseudo,:genre,:dateNaissance,:ville,:pays,:role, :pwd, :date_inscription, :verified_email, :account_status)";
+
+                $arr_of_post += [
+                    ":email" => $_POST['email'],
+                    ':pwd' => password_hash($_POST['pwd'], PASSWORD_DEFAULT),
+                    ":date_inscription" => date("Y-m-d"),
+                    ":verified_email" => null,
+                    ":account_status" => 'actif'
+                ];
+
+                $insert = $this->pdo->prepare($str);
+                $insert->execute($arr_of_post);
+                header('Location: /back/member/gestion');
+            }
+        }
+    }
+
+    /**
+    * login
+    * @param STRING $email = primary_key
+    */
+    public function login($email)
+    {
+        $token = md5($email."cfcccfde;".time().uniqid());
+        $token = substr($token, 0, rand(15, 20));
+        //On la refera avec le My_model
+        $query = $this->pdo->prepare("UPDATE " . $this->_table . " SET token=:token WHERE email=:email AND verified_email IS NULL");
+        $query->execute([":token"=>$token,":email"=>$email]);
+        $_SESSION["token"] = $token;
+        $_SESSION["email"] = $email;
+        header("Location: /");
+    }
+
+    /**
+    * logout
+    * @param STRING $email = primary_key
+    */
+    public function logout($email)
+    {
+        $queryPrepared = $this->pdo->prepare("UPDATE " . $this->_table . " SET token=null WHERE email=:email ");
+        $queryPrepared->execute([":email"=>$email]);
+    }
+
+    /**
+    * check is connected
+    */
+    public function isConnected()
+    {
+        if (!empty($_SESSION['email']) && !empty($_SESSION['token'])) {
+            $email = $_SESSION['email'];
+            $token = $_SESSION['token'];
+            $queryPrepared = $this->pdo->prepare("SELECT email FROM " . $this->_table . " WHERE email=:email AND token=:token");
+            $queryPrepared->execute([
+                ":email"=>$email,
+                ":token"=>$token
+            ]);
+            if (!empty($queryPrepared->fetch())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+    * check is admin
+    */
+    public function check_is_admin()
+    {
+        $role = '';
+        if (isset($_SESSION['email'])) {
+            $role = $this->get_columns_where(['account_role'], ['email' => $_SESSION['email']]);
+        }
+        if ($role[0]['account_role'] != 'admin') {
+            $_SESSION['login_modal'][] = 'Vous n\'être pas autorisé a aller dans cette partie du site';
+            header('Location: /#modal');
+        }
+    }
+
+    /**
+    * get link for validate the user
+    * @param STRING $link = hash
+    */
+    public function get_link($link)
+    {
+        $query = $this->pdo->prepare('SELECT email FROM ' . $this->_table . ' WHERE verified_email = :link');
+        $query->execute([':link' => $link]);
+        return $query->fetch();
+    }
+
+    /**
+    * UPDATE the user to validate
+    * @param STRING $email = primary_key
+    */
+    public function valid_member($email)
+    {
+        $query = $this->pdo->prepare("UPDATE " . $this->_table . " SET verified_email = NULL, account_status = 'actif' where email = :email");
+        $query->execute([':email' => $email]);
+    }
+
+    /**
+    * @return ARRAY of int with the nb of user connected for stat in BO
+    */
+    public function get_nb_user_connected()
+    {
+        $query = $this->pdo->query("SELECT count(*) FROM " . $this->_table . " WHERE TOKEN IS NOT NULL");
+        return $query->fetch();
+    }
+}

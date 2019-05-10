@@ -1,0 +1,14 @@
+.modal {
+  .modal-header{
+      border-bottom: none;
+  }
+  h5 {
+      @extend %titre;
+      font-family: 'Caveat';
+      font-weight: 700;
+  }
+  input:focus {
+    border-color: $yellow;
+    box-shadow: 0 0 0 0.3rem rgba(250, 219, 20, 0.5);
+  }
+}

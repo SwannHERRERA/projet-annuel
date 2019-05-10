@@ -1,0 +1,32 @@
+footer {
+  padding: 40px 0;
+  background-color: $gray-600;
+  h3 {
+    @extend %titre;
+    font-family: 'Caveat', sans-serif;
+    font-size: 26px;
+    line-height: 26px;
+  }
+  ul {
+    @extend %ul_without_bullet;
+    & > li {
+      display: inline;
+      margin: 0 10px;
+    }
+  }
+  .btn {
+    background: inherit;
+    border: 2px solid $white;
+    border-radius: 20px;
+    color: $white;
+    text-transform: uppercase;
+    font-size: 13px;
+    line-height: 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    &:hover {
+      background-color: $white;
+      color: $gray-600;
+    }
+  }
+}

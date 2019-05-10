@@ -1,0 +1,161 @@
+@import "./myVariables";
+@import "./scss_bootstrap/bootstrap.scss";
+@import "./gost";
+@import url('https://fonts.googleapis.com/css?family=Caveat:700|Lato:300,400,700|Montserrat:300,400,600');
+@import "./switch";
+@import "./modal";
+@import "./aside";
+@import "./footer";
+
+body {
+  font-family: "lato";
+  font-weight: 400;
+  min-height: 100vh;
+}
+h1 {
+  @extend %titre;
+  font-family: "caveat";
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 40px;
+  @include media-breakpoint-down(sm) {
+    font-size: 26px;
+    line-height: 26px;
+  }
+}
+h2, .h2 {
+  @extend %titre;
+  @include media-breakpoint-down(sm) {
+    font-size: 22px;
+    line-height: 26px;
+    margin: 10px 0;
+  }
+}
+.h3 {
+  @extend %titre;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 22px;
+  text-transform: capitalize;
+  &:after {
+    height: 2px;
+    background-color: $red;
+    width: 40px;
+  }
+}
+
+hr {
+  border-top: 1px solid $primary;
+  margin-bottom: 20px;  
+}
+.btn-connexion {
+  background-color: $yellow;
+  color: $black;
+  border: none;
+  transition:
+  width 0.15s ease-in-out,
+  box-shadow 0.15s ease-in-out,
+  border-radius 0.15s ease-in-out;
+  &:hover {
+    width: 10rem;
+    box-shadow: 0 0 0 0.4rem $yellow;
+    border-radius: 0;
+    /*##########*/
+    color: initial;
+  }
+}
+.menu{
+  position: -webkit-sticky;
+  position: sticky;
+  top: 2rem;
+  left: calc(100% - 4rem);
+  background-position-x: 50%;
+  background-color: $yellow;
+  padding: 10px;
+  z-index: 10;
+  font-size: 18px;
+  line-height: 18px;
+  color: $black;
+  &:hover {
+    color: initial;
+  }
+}
+.myCard {
+  padding: 20px;
+  background-color: $lite;
+  margin-bottom: 20px;
+  .table {
+    margin: 0;
+  }
+}
+
+form span.require {
+  color: $red;
+}
+@include media-breakpoint-up(sm)  {
+
+  /* show 3 items */
+  .carousel-inner .active,
+  .carousel-inner .active + .carousel-item,
+  .carousel-inner .active + .carousel-item + .carousel-item {
+      display: block;
+  }
+  
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left),
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item,
+  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item {
+      transition: none;
+      margin-right: initial;
+  }
+  
+  .carousel-inner .carousel-item-next,
+  .carousel-inner .carousel-item-prev {
+    position: relative;
+    transform: translate3d(0, 0, 0);
+  }
+  
+  .carousel-inner .active.carousel-item + .carousel-item + .carousel-item + .carousel-item {
+      position: absolute;
+      top: 0;
+      right: -33.3333%;
+      z-index: -1;
+      display: block;
+      visibility: visible;
+  }
+  
+  /* left or forward direction */
+  .active.carousel-item-left + .carousel-item-next.carousel-item-left,
+  .carousel-item-next.carousel-item-left + .carousel-item,
+  .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item,
+  .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item + .carousel-item {
+      position: relative;
+      transform: translate3d(-100%, 0, 0);
+      visibility: visible;
+  }
+  
+  /* farthest right hidden item must be abso position for animations */
+  .carousel-inner .carousel-item-prev.carousel-item-right {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      display: block;
+      visibility: visible;
+  }
+  
+  /* right or prev direction */
+  .active.carousel-item-right + .carousel-item-prev.carousel-item-right,
+  .carousel-item-prev.carousel-item-right + .carousel-item,
+  .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item,
+  .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item + .carousel-item {
+      position: relative;
+      transform: translate3d(100%, 0, 0);
+      visibility: visible;
+      display: block;
+      visibility: visible;
+  }
+
+}
+.logo-reseau-sociaux {
+  width: 40px;
+}
