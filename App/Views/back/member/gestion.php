@@ -23,8 +23,8 @@
           </td>
           <td class="text-center">
               <a href="<?= $site_url . '/back/member/modification?pseudo=' . $member['pseudo']?>"><i class="fas fa-edit"></i></a>
-              <a><i class="fas fa-trash-alt"></i></a>
-              <a class="open-modal" data-toggle="modal" id="<?= $member['pseudo']?>" data-target="#modal_ban"><i class="fas fa-ban"></i></button>
+              <a onclick="confdel('<?= $site_url . '/back/member/delete?pseudo=' . $member['pseudo']?>')" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+              <a class="open-modal text-danger" data-toggle="modal" id="<?= $member['pseudo']?>" data-target="#modal_ban"><i class="fas fa-ban"></i></button>
           </td>
       </tr>
       <?php endforeach; ?>

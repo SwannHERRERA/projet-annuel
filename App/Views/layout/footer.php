@@ -64,7 +64,6 @@
 <script>
 $(document).ready(function () {
   let url = document.location.href
-  console.log(url);
   let tab = url.split('#')
   let id = tab[1]
   console.log(id);

@@ -74,10 +74,6 @@ class Member extends Controller
     {
         if (!empty($_POST)) {
             require BASEPATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Form_validation.php';
-            $form_validation = new form_validation('ban_modal');
-            if(!filter_var($_POST["email_hidden"], FILTER_VALIDATE_EMAIL)){
-              echo "l'email est incorrect";
-            }
             $form_validation->set_rules('email_hidden', 'Email', ['require', 'valid_email']);
             $form_validation->set_rules('nb_day', '', ['']);
             $form_validation->set_rules('raison', 'le champs text', [['max_length' => 100]]);
@@ -100,6 +96,7 @@ class Member extends Controller
         header('Location: /back/member/ban');
     }
     public function delete() {
-        //je laisse ça la je vais sur le login
+        $this->member_model->delete($_GET['pseudo']);
+        header('Location: /back/member/gestion');
     }
 }

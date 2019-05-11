@@ -78,11 +78,11 @@ class Member_model extends My_model
                     // Content
                     $mail->isHTML(true);
                     $mail->Subject = 'Flix Advisor : confirmation d\'adresse e-mail';
-                    $mail->Body = "Bonjour" .  $_POST["pseudo"] .",<br>
+                    $mail->Body = "Bonjour " .  $_POST["pseudo"] .",
                     Vous venez de créer un compte sur FlixAdvisor.fr : merci d'avoir rejoint notre communauté !<br>
                     Terminez la création de votre compte et validez votre adresse e-mail<br>
                     en cliquant sur le lien suivant : https://flixadvisor.fr/member/verify?link=" . $lien .
-                    "A bientôt,<br>
+                    "<br>A bientôt,<br>
                     L'équipe Flix Advisor<br>
                     https://flixadvisor.fr";
                     //$mail->AltBody = 'non-HTML mail clients';
@@ -197,7 +197,7 @@ class Member_model extends My_model
     */
     public function delete($pseudo)
     {
-        $queryPrepared = $this->pdo->prepare("DELETE " . $this->_table . " WHERE pseudo=:pseudo");
+        $queryPrepared = $this->pdo->prepare("DELETE FROM " . $this->_table . " WHERE pseudo=:pseudo");
         $queryPrepared->execute([":pseudo"=>$pseudo]);
     }
 
@@ -295,7 +295,6 @@ class Member_model extends My_model
 
     public function listBannedMembers()
     {
-
         $query = "SELECT email, pseudo, date_inscription, account_status, banned_date, banned_time FROM MEMBER where account_status != 'actif' AND account_status != 'non-active'";
         $queryPrepared = $this->pdo->query($query);
         if ($queryPrepared->errorCode() != '00000') {
