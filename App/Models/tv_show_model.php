@@ -6,6 +6,24 @@ class Tv_show_model extends My_model
     protected $table_primary_key = "id_show";
 
     /**
+     * Récupère un tableau 1 dimension contenant les colonnes de la série demandée
+     * @param $idShow
+     * @return array [id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated]
+     */
+    function getTVShow($idShow)
+    {
+
+        $query = "SELECT id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated FROM flixadvisor.TV_SHOW WHERE id_show = :id";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([":id" => $idShow]);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la recuperation de la serie.");
+        }
+        return $queryPrepared->fetch();
+    }
+
+    /**
     * Inserte tvShow with actor,network,episodes,genre or update if it already exists according to TVDB
     * @param INTEGER $id = id of TVDB
     */
@@ -271,20 +289,97 @@ class Tv_show_model extends My_model
     }
 
     /**
-    * DELETE CATEGORIZED_SHOW (je sais pas trop ou le mettre)
-    * @param INTEGER $tv_show
-    * @param INTEGER $category
-    */
-    public function removeCategorizedShow($tv_show, $category)
+     * A tester quand on aura du contenu !
+     */
+    function getTVShowRecommendations($idShow)
     {
-        $query = "DELETE FROM flixadvisor.CATEGORIZED_SHOW WHERE tv_show = :tv AND category = :category";
+
+        $query = "SELECT id_reco , text_reco, date_reco, recommended_show, hosting_show, member, (SELECT COUNT(*) FROM flixadvisor.VOTED_RECO WHERE recommendation = id_reco) AS nbVotes  FROM flixadvisor.RECOMMENDATION WHERE hosting_show = :id ORDER BY nbVotes DESC ";
         $queryPrepared = $this->pdo->prepare($query);
-        $queryPrepared->execute([
-            ":tv" => $tv_show,
-            ":category" => $category]);
+        $queryPrepared->execute([":id" => $idShow]);
         if ($queryPrepared->errorCode() != '00000') {
             var_dump($queryPrepared->errorInfo());
-            die("une erreur est survenu lors de la suppression du hodor");
+            die("Une erreur est survenue lors de la recuperation des recommendations de la serie.");
         }
+
+        return $queryPrepared->fetchAll();
     }
+
+    /**
+     * A tester quand on aura du contenu !
+     */
+    function getTVShowRecommendations($idShow)
+    {
+
+        $query = "SELECT id_reco , text_reco, date_reco, recommended_show, hosting_show, member, (SELECT COUNT(*) FROM flixadvisor.VOTED_RECO WHERE recommendation = id_reco) AS nbVotes  FROM flixadvisor.RECOMMENDATION WHERE hosting_show = :id ORDER BY nbVotes DESC ";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([":id" => $idShow]);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la recuperation des recommendations de la serie.");
+        }
+
+        return $queryPrepared->fetchAll();
+    }
+
+    /**
+     * Retourne la moyenne de la série (score)
+     * @param $idShow
+     * @return integer
+     */
+    function getShowLastAiringDate($idShow)
+    {
+
+        $query = "SELECT max(first_aired_episode) FROM EPISODE WHERE season IN (SELECT id_season FROM SEASON WHERE tv_show = :id)";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([":id" => $idShow]);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la recuperation de la derniere date de diffusion de la série.");
+        }
+        return $queryPrepared->fetch()[0];
+    }
+
+    function getShowScore($idShow)
+    {
+
+        $query = "SELECT CAST(AVG(mark_followed_show) AS DECIMAL(10,2)) FROM flixadvisor.FOLLOWED_SHOW WHERE tv_show = :id";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([":id" => $idShow]);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la recuperation du score de la série.");
+        }
+
+        return $queryPrepared->fetch()[0];
+    }
+
+    /**
+     * Récupère la liste des séries existantes en BDD par ordre alphabétique dans un tableau à 2 dimensions
+     * @return array [0 => [id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated], 1 => ...]
+     */
+    function getTVShowList()
+    {
+
+        $query = "SELECT id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated FROM flixadvisor.TV_SHOW ORDER BY name_show";
+        $queryPrepared = $this->pdo->query($query);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la recupération des series");
+        }
+        return $queryPrepared->fetchAll();
+    }
+
+    function getTVYearStatusStat()
+    {
+
+        $query = "SELECT count(*) as nb_show, YEAR(first_aired_show) as year, (SELECT count(*) from TV_SHOW where YEAR(first_aired_show) = year AND production_status = 'Ended') as ended, (SELECT count(*) from TV_SHOW where YEAR(first_aired_show) = year AND production_status = 'Continuing') as continuing from TV_SHOW group by YEAR(first_aired_show)";
+        $queryPrepared = $this->pdo->query($query);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la récupération des stats des stats d'année de diffusion des séries.");
+        }
+        return $queryPrepared->fetchAll();
+    }
+
 }

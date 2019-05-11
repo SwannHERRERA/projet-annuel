@@ -255,4 +255,105 @@ class Member_model extends My_model
         $query = $this->pdo->query("SELECT count(*) FROM " . $this->_table . " WHERE TOKEN IS NOT NULL");
         return $query->fetch();
     }
+
+
+    function banMember($email, $banType, $time)
+    {
+
+        $query = "UPDATE MEMBER SET account_status = :status, banned_date = curdate(), banned_time = :time where email = :email";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([
+            ":status" => $banType,
+            ":time" => $time,
+            ":email" => $email
+        ]);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors du banissement d'un membre.");
+        }
+    }
+
+    function unbanMember($email)
+    {
+
+        $query = "UPDATE MEMBER SET account_status = 'actif', banned_date = NULL, banned_time = NULL where email = :email";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([":email" => $email]);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors du débanissement d'un membre.");
+        }
+    }
+
+    function listBannedMembers()
+    {
+
+        $query = "SELECT email, pseudo, date_inscription, account_status, banned_date, banned_time FROM MEMBER where account_status != 'actif' AND account_status != 'non-active'";
+        $queryPrepared = $this->pdo->query($query);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la récupération des membres bannis.");
+        }
+        return $queryPrepared->fetchAll();
+    }
+
+    function getGenderStats()
+    {
+
+        $query = "SELECT count(*) * 100 / (select count(*) from MEMBER) as nombres, gender FROM MEMBER group by gender";
+        $queryPrepared = $this->pdo->query($query);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la récupération des stats des genres.");
+        }
+        return $queryPrepared->fetchAll();
+    }
+
+    function getMembersCountry()
+    {
+
+        $query = "SELECT count(*) as nombres, country FROM MEMBER where country != '' AND country is not null group by country";
+        $queryPrepared = $this->pdo->query($query);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la récupération des pays des membres.");
+        }
+        return $queryPrepared->fetchAll();
+    }
+
+    function getMembersCity()
+    {
+
+        $query = "SELECT count(*) as nombres, city FROM MEMBER where city != '' AND city is not null group by city";
+        $queryPrepared = $this->pdo->query($query);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la récupération des villes des membres.");
+        }
+        return $queryPrepared->fetchAll();
+    }
+
+    function getMembersAge()
+    {
+
+        $query = "SELECT email, floor(datediff(curdate(), birth_date) / 365) as AGE FROM MEMBER where birth_date is not null";
+        $queryPrepared = $this->pdo->query($query);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la récupération de l'age des membres.");
+        }
+        return $queryPrepared->fetchAll();
+    }
+
+    function getMembersInscriptionStat()
+    {
+
+        $query = "SELECT count(*) as nb_inscription, date_inscription from MEMBER group by date_inscription";
+        $queryPrepared = $this->pdo->query($query);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la récupération des stats des date d'inscription des membres.");
+        }
+        return $queryPrepared->fetchAll();
+    }
 }

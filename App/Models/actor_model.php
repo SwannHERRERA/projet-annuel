@@ -29,7 +29,7 @@ class Actor_model extends My_model
     */
     public function addActor($id, $name)
     {
-        $pdo = connectDB();
+        
         $query = "INSERT IGNORE INTO flixadvisor.ACTOR (id_actor, name_actor) VALUES (:id, :name);";
         $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->execute([
@@ -59,5 +59,22 @@ class Actor_model extends My_model
             var_dump($queryPrepared->errorInfo());
             die("une erreur est survenu lors de la maj de l'acteur");
         }
+    }
+
+    /**
+     * Récupère la liste des acteurs d'une série par odre alaphabétique (nom de l'acteur) dans un tableau 2 dimensions
+     * @param $idShow
+     * @return array [0 => [name_actor, role_actor, photo_actor], 1 => [name_actor, ...], 2 => ..., ...]
+     */
+    function getTVShowActors($idShow)
+    {
+        $query = "SELECT ACTOR.name_actor, CASTING.role_actor, CASTING.photo_actor FROM flixadvisor.ACTOR, flixadvisor.CASTING WHERE CASTING.actor = ACTOR.id_actor AND CASTING.tv_show = :id order by name_actor";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([":id" => $idShow]);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la recuperation des acteurs de la serie.");
+        }
+        return $queryPrepared->fetchAll();
     }
 }

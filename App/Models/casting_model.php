@@ -13,7 +13,7 @@ class Actor_model extends My_model
     public function removeCasting($tv_show, $actor)
     {
         $query = "DELETE FROM flixadvisor.CASTING WHERE actor = :actor AND tv_show = :tv";
-        $queryPrepared = $pdo->prepare($query);
+        $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->execute([
         ":tv" => $tv_show,
         ":actor" => $actor]);
@@ -34,7 +34,7 @@ class Actor_model extends My_model
     {
         $query = "insert into flixadvisor.CASTING (tv_show, actor, role_actor, photo_actor) VALUES (:tv, :actor, :role, :photo) " .
         "ON DUPLICATE KEY UPDATE role_actor = :role, photo_actor = :photo";
-        $queryPrepared = $pdo->prepare($query);
+        $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->execute([
         ":tv" => $tv_show,
         ":actor" => $actor,

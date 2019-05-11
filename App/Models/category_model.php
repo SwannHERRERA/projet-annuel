@@ -78,4 +78,38 @@ class Actor_model extends My_model
             die("une erreur est survenu lors de l'ajout du hodor");
         }
     }
+
+    /**
+     * Récupère la liste des catégories d'une série par ordre alphabétique dans un tableau 2 dimensions
+     * @param $idShow
+     * @return array [0 => [name_category], 1 => [name_category], 2 => ...]
+     */
+    function getTVShowCategories($idShow)
+    {
+        $query = "SELECT CATEGORY.name_category FROM flixadvisor.CATEGORY, flixadvisor.CATEGORIZED_SHOW WHERE category = id_category AND tv_show = :id order by CATEGORY.name_category";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([":id" => $idShow]);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la recuperation des episodes de la serie.");
+        }
+        return $queryPrepared->fetchAll();
+    }
+
+
+    /**
+     * Récupère la liste des catégories existantes en BDD par ordre alaphabétique dans un tableau à 2 dimensions
+     * @return array [0 => [id_category, name_category], 1 => [id_category, name_category], 2 => ...]
+     */
+    function getCategoryList()
+    {
+        $query = "SELECT id_category, name_category FROM flixadvisor.CATEGORY ORDER BY name_category";
+        $queryPrepared = $this->pdo->query($query);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la recuperation des categories.");
+        }
+
+        return $queryPrepared->fetchAll();
+    }
 }

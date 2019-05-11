@@ -278,28 +278,10 @@ function getTVShow($idShow)
     return $queryPrepared->fetch();
 }
 
-/**
- * Récupère la liste des épisodes de la série par ordre croissant dans un tableau 2 dimensions
- * @param $idShow
- * @return array [0 => [id_episode, nb_episode,nb_season,name_episode,first_aired_episode,director_episode,author_episode,summary_episode,season,id_season,tv_show],
- * 1 => [id_episode,...], 2 => ...]
- */
-function getTVEpisodes($idShow)
-{
-    $pdo = connectDB();
-    $query = "SELECT id_episode, nb_episode,nb_season,name_episode,first_aired_episode,director_episode,author_episode,summary_episode,season,id_season,tv_show FROM flixadvisor.EPISODE, flixadvisor.SEASON WHERE EPISODE.season = SEASON.id_season AND SEASON.tv_show = :id ORDER BY SEASON.nb_season, EPISODE.nb_episode";
-    $queryPrepared = $pdo->prepare($query);
-    $queryPrepared->execute([":id" => $idShow]);
-    if ($queryPrepared->errorCode() != '00000') {
-        var_dump($queryPrepared->errorInfo());
-        die("Une erreur est survenue lors de la recuperation des episodes de la serie.");
-    }
-    return $queryPrepared->fetchAll();
-}
 
 /**
  * Récupère le nombre d'épisodes d'une série
- * @param $idShow
+ * @param INTEGER $idShow
  * @return integer
  */
 function getTVNumberEpisodes($idShow)
@@ -317,7 +299,7 @@ function getTVNumberEpisodes($idShow)
 
 /**
  * Récupère le nombre de saisons d'une série
- * @param $idShow
+ * @param INTEGER $idShow
  * @return integer
  */
 function getTVNumberSeasons($idShow)
@@ -347,24 +329,6 @@ function getTVShowActors($idShow)
     if ($queryPrepared->errorCode() != '00000') {
         var_dump($queryPrepared->errorInfo());
         die("Une erreur est survenue lors de la recuperation des acteurs de la serie.");
-    }
-    return $queryPrepared->fetchAll();
-}
-
-/**
- * Récupère la liste des catégories d'une série par ordre alphabétique dans un tableau 2 dimensions
- * @param $idShow
- * @return array [0 => [name_category], 1 => [name_category], 2 => ...]
- */
-function getTVShowCategories($idShow)
-{
-    $pdo = connectDB();
-    $query = "SELECT CATEGORY.name_category FROM flixadvisor.CATEGORY, flixadvisor.CATEGORIZED_SHOW WHERE category = id_category AND tv_show = :id order by CATEGORY.name_category";
-    $queryPrepared = $pdo->prepare($query);
-    $queryPrepared->execute([":id" => $idShow]);
-    if ($queryPrepared->errorCode() != '00000') {
-        var_dump($queryPrepared->errorInfo());
-        die("Une erreur est survenue lors de la recuperation des episodes de la serie.");
     }
     return $queryPrepared->fetchAll();
 }
@@ -540,5 +504,129 @@ function getNetworkList()
         die("Une erreur est survenue lors de la recuperation des chaines.");
     }
 
+    return $queryPrepared->fetchAll();
+}
+
+function banMember($email, $banType, $time)
+{
+    $pdo = connectDB();
+    $query = "UPDATE MEMBER SET account_status = :status, banned_date = curdate(), banned_time = :time where email = :email";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":status" => $banType,
+        ":time" => $time,
+        ":email" => $email
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors du banissement d'un membre.");
+    }
+}
+
+function unbanMember($email)
+{
+    $pdo = connectDB();
+    $query = "UPDATE MEMBER SET account_status = 'actif', banned_date = NULL, banned_time = NULL where email = :email";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":email" => $email]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors du débanissement d'un membre.");
+    }
+}
+
+function listBannedMembers()
+{
+    $pdo = connectDB();
+    $query = "SELECT email, pseudo, date_inscription, account_status, banned_date, banned_time FROM MEMBER where account_status != 'actif' AND account_status != 'non-active'";
+    $queryPrepared = $pdo->query($query);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la récupération des membres bannis.");
+    }
+    return $queryPrepared->fetchAll();
+}
+
+function getGenderStats()
+{
+    $pdo = connectDB();
+    $query = "SELECT count(*) * 100 / (select count(*) from MEMBER) as nombres, gender FROM MEMBER group by gender";
+    $queryPrepared = $pdo->query($query);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la récupération des stats des genres.");
+    }
+    return $queryPrepared->fetchAll();
+}
+
+function getMembersCountry()
+{
+    $pdo = connectDB();
+    $query = "SELECT count(*) as nombres, country FROM MEMBER where country != '' AND country is not null group by country";
+    $queryPrepared = $pdo->query($query);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la récupération des pays des membres.");
+    }
+    return $queryPrepared->fetchAll();
+}
+
+function getMembersCity()
+{
+    $pdo = connectDB();
+    $query = "SELECT count(*) as nombres, city FROM MEMBER where city != '' AND city is not null group by city";
+    $queryPrepared = $pdo->query($query);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la récupération des villes des membres.");
+    }
+    return $queryPrepared->fetchAll();
+}
+
+function getMembersAge()
+{
+    $pdo = connectDB();
+    $query = "SELECT email, floor(datediff(curdate(), birth_date) / 365) as AGE FROM MEMBER where birth_date is not null";
+    $queryPrepared = $pdo->query($query);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la récupération de l'age des membres.");
+    }
+    return $queryPrepared->fetchAll();
+}
+
+function getMembersInscriptionStat()
+{
+    $pdo = connectDB();
+    $query = "SELECT count(*) as nb_inscription, date_inscription from MEMBER group by date_inscription";
+    $queryPrepared = $pdo->query($query);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la récupération des stats des date d'inscription des membres.");
+    }
+    return $queryPrepared->fetchAll();
+}
+
+function getCategoriesStats()
+{
+    $pdo = connectDB();
+    $query = "SELECT count(*) as used, count(*)*100/(select count(*) from CATEGORIZED_SHOW) as stat_used, name_category from CATEGORY, CATEGORIZED_SHOW where CATEGORIZED_SHOW.category = CATEGORY.id_category group by category";
+    $queryPrepared = $pdo->query($query);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la récupération des stats des date d'inscription des membres.");
+    }
+    return $queryPrepared->fetchAll();
+}
+
+function getTVYearStatusStat()
+{
+    $pdo = connectDB();
+    $query = "SELECT count(*) as nb_show, YEAR(first_aired_show) as year, (SELECT count(*) from TV_SHOW where YEAR(first_aired_show) = year AND production_status = 'Ended') as ended, (SELECT count(*) from TV_SHOW where YEAR(first_aired_show) = year AND production_status = 'Continuing') as continuing from TV_SHOW group by YEAR(first_aired_show)";
+    $queryPrepared = $pdo->query($query);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la récupération des stats des stats d'année de diffusion des séries.");
+    }
     return $queryPrepared->fetchAll();
 }
