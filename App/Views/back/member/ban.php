@@ -5,7 +5,9 @@
                 <th class='text-center'>Email</th>
                 <th class='text-center'>Pseudo</th>
                 <th class='text-center'>Date d'inscription</th>
-                <th class='text-center'></th>
+                <th class='text-center'>type</th>
+                <th class='text-center'>Date de bannissement</th>
+                <th class='text-center'>Durée</th>
                 <th></th>
             </tr>
         </thead>
@@ -18,11 +20,12 @@
                         <?php $date = new DateTime($member['date_inscription']);
                         echo $date->format('d-m-Y'); ?>
                     </td>
+                    <td><?= $member['account_status'] ?></td>
+                    <td><?= $member['banned_date'] ?></td>
+                    <td><?= $member['banned_time'] ?? 'Permanent'?></td>
+                    <td class="text-center"><a href="<?= $site_url . '/back/member/unban?member=' . $member['pseudo']?>" class="btn btn-secondary"><i class="fas fa-balance-scale"></i></a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <p class="mt-5 mr-5 text-right">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalBan">Bannir un membre</button>
-    </p>
 </div>

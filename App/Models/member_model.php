@@ -257,7 +257,7 @@ class Member_model extends My_model
     }
 
 
-    function ban($email, $banType, $time)
+    public function ban($email, $banType, $time)
     {
         $query = "UPDATE MEMBER SET account_status = :status, banned_date = curdate(), banned_time = :time where email = :email";
         $queryPrepared = $this->pdo->prepare($query);
@@ -272,18 +272,18 @@ class Member_model extends My_model
         }
     }
 
-    function unban($email)
+    public function unban($pseudo)
     {
-        $query = "UPDATE MEMBER SET account_status = 'actif', banned_date = NULL, banned_time = NULL where email = :email";
+        $query = "UPDATE MEMBER SET account_status = 'actif', banned_date = NULL, banned_time = NULL where pseudo = :pseudo";
         $queryPrepared = $this->pdo->prepare($query);
-        $queryPrepared->execute([":email" => $email]);
+        $queryPrepared->execute([":pseudo" => $pseudo]);
         if ($queryPrepared->errorCode() != '00000') {
             var_dump($queryPrepared->errorInfo());
             die("Une erreur est survenue lors du débanissement d'un membre.");
         }
     }
 
-    function listBannedMembers()
+    public function listBannedMembers()
     {
 
         $query = "SELECT email, pseudo, date_inscription, account_status, banned_date, banned_time FROM MEMBER where account_status != 'actif' AND account_status != 'non-active'";
@@ -295,7 +295,7 @@ class Member_model extends My_model
         return $queryPrepared->fetchAll();
     }
 
-    function getGenderStats()
+    public function getGenderStats()
     {
 
         $query = "SELECT count(*) * 100 / (select count(*) from MEMBER) as nombres, gender FROM MEMBER group by gender";
@@ -307,7 +307,7 @@ class Member_model extends My_model
         return $queryPrepared->fetchAll();
     }
 
-    function getMembersCountry()
+    public function getMembersCountry()
     {
 
         $query = "SELECT count(*) as nombres, country FROM MEMBER where country != '' AND country is not null group by country";
@@ -319,7 +319,7 @@ class Member_model extends My_model
         return $queryPrepared->fetchAll();
     }
 
-    function getMembersCity()
+    public function getMembersCity()
     {
 
         $query = "SELECT count(*) as nombres, city FROM MEMBER where city != '' AND city is not null group by city";
@@ -331,7 +331,7 @@ class Member_model extends My_model
         return $queryPrepared->fetchAll();
     }
 
-    function getMembersAge()
+    public function getMembersAge()
     {
 
         $query = "SELECT email, floor(datediff(curdate(), birth_date) / 365) as AGE FROM MEMBER where birth_date is not null";
@@ -343,7 +343,7 @@ class Member_model extends My_model
         return $queryPrepared->fetchAll();
     }
 
-    function getMembersInscriptionStat()
+    public function getMembersInscriptionStat()
     {
 
         $query = "SELECT count(*) as nb_inscription, date_inscription from MEMBER group by date_inscription";

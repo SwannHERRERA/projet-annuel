@@ -1,7 +1,7 @@
 const btn_modal = document.querySelectorAll(".open-modal");
 const email_modal = document.querySelector('#email_modal');
 const pseudo_modal = document.querySelector('#pseudo_modal');
-const email_hidden = document.querySelector('#pseudo_hidden');
+const email_hidden = document.querySelector('#email_hidden');
 
 for (let i = 0; i < btn_modal.length; i++){
     btn_modal[i].addEventListener('click', function(a){
@@ -29,5 +29,5 @@ function makeRequest(pseudo) {
     }
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     httpRequest.send('pseudo=' + encodeURIComponent(pseudo));
-    
+
 }

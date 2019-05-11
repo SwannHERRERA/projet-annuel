@@ -54,20 +54,20 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" value="permanent" selected name="permanent" id="permanent">
+                            <input class="form-check-input" type="radio" value="permanent" checked name="type" id="permanent">
                             <label class="form-check-label" for="permanent">
                             Permanent
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" value="temporaire" id="temporaire" name="temporaire">
+                            <input class="form-check-input" type="radio" value="temporaire" name="type" id="temporaire">
                             <label class="form-check-label" for="temporaire">
                             Temporaire
                             </label>
                         </div>
                     </div>
                     <div class="col-6 align-self-end">
-                        <select id="inputState" class="select-day form-control form-control-sm">
+                        <select class="select-day form-control form-control-sm" name="nb_day" id="inputState">
                             <option selected>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -80,7 +80,7 @@
                         </select>
                     </div>
                 </div>
-                <input type="hidden" id='pseudo_hidden'>
+                <input type="hidden" name="email_hidden" id="email_hidden">
                 <div class="form-group mt-20">
                     <textarea class="form-control" name="raison" row="3"></textarea>
                 </div>
