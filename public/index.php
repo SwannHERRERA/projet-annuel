@@ -16,7 +16,7 @@ if ($uri_segments[1] == "back" || $uri_segments[1] == "bo") {
      require $controllerPath . $uri_segments[1] . '.php';
      $class[] = new $uri_segments[1];
     } else {
-      require $controllerPath . 'Page.php';
+      require $controllerPath . 'page.php';
       $class[] = new Page;
    }
 }

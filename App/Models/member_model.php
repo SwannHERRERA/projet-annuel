@@ -67,7 +67,7 @@ class Member_model extends My_model
                     $mail->Host = 'ssl0.ovh.net';
                     $mail->SMTPAuth = true;
                     $mail->Username = 'contact@flixadvisor.fr';
-                    $mail->Password = 'ESGIfredo75';
+                    $mail->Password = 'uWRWBNQrg8me88R';
                     $mail->SMTPSecure = 'tls';
                     $mail->Port = 587;
 
@@ -189,6 +189,16 @@ class Member_model extends My_model
     {
         $queryPrepared = $this->pdo->prepare("UPDATE " . $this->_table . " SET token=null WHERE email=:email ");
         $queryPrepared->execute([":email"=>$email]);
+    }
+
+    /**
+    * DELETE a user
+    * @param STRING $pseudo = UNIQUE AND NOT NULL
+    */
+    public function delete($pseudo)
+    {
+        $queryPrepared = $this->pdo->prepare("DELETE " . $this->_table . " WHERE pseudo=:pseudo");
+        $queryPrepared->execute([":pseudo"=>$pseudo]);
     }
 
     /**
@@ -354,4 +364,15 @@ class Member_model extends My_model
         }
         return $queryPrepared->fetchAll();
     }
+
+    public function request_parameters($email) {
+        $query = $this->pdo->prepare("SELECT email, pseudo, password, gender, birth_date, city, country FROM " . $this->_table . " WHERE token IS NOT NULL AND email = :email");
+        $query->execute([':email' => $email]);
+        return $query->fetch();
+    }
+
+    /*public function update_parameters($email) {
+
+    }*/
+
 }

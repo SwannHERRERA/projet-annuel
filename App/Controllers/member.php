@@ -2,7 +2,7 @@
 require_once BASEPATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Controller.php';
 class Member extends Controller
 {
-    //private $member_model;
+    public $member_model;
 
     public function __construct()
     {
@@ -34,12 +34,11 @@ class Member extends Controller
         if (empty($_SESSION['login_modal'])) {
             $result = $this->member_model->get_columns_where(['password', 'account_status'], ['email' => $_POST['email_modal']]);
             if (password_verify($_POST["password_modal"], $result[0]["password"])) {
-                $this->member_model->login($_POST['email_modal']);
                 if ($result[0]["account_status"] != 'actif') {
-                    die(var_dump($result[0]["account_status"]));
                     $_SESSION['login_modal'][] = "Veuillez valider votre email avant de vous connecter";
                     header("Location: /#modal");
                 }
+                $this->member_model->login($_POST['email_modal']);
             } else {
                 $_SESSION['login_modal'][] = "Le mot de passe ou l'email est erroné";
                 header("Location: /#modal");
@@ -66,5 +65,11 @@ class Member extends Controller
             $this->member_model->valid_member($result['email']);
         }
         header("Location: /#modal");
+    }
+    public function parameters() {
+        $current_param = $this->member_model->request_parameters($_SESSION['email']);
+        require self::VIEW_PATH . 'layout/header.php';
+        require self::VIEW_PATH . 'member/parameters.php';
+        require self::VIEW_PATH . 'layout/footer.php';
     }
 }

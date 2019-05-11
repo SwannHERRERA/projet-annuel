@@ -131,10 +131,4 @@
 
         }
       } */
-     public function update($champs, $primary_key)
-     {
-     }
-     public function delete($champs, $primary_key)
-     {
-     }
  }

@@ -1,6 +1,6 @@
 <?php
 require_once BASEPATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Controller.php';
-class Statistique extends Controller
+class Statistics extends Controller
 {
     private $member_model;
 
@@ -14,7 +14,7 @@ class Statistique extends Controller
 
     public function index()
     {
-        header('Location: /back/statistique/user');
+        header('Location: /back/statistics/user');
     }
 
     public function user()

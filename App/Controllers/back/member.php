@@ -99,4 +99,7 @@ class Member extends Controller
         $this->member_model->unban($_GET['member']);
         header('Location: /back/member/ban');
     }
+    public function delete() {
+        //je laisse ça la je vais sur le login
+    }
 }
