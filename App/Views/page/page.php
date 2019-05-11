@@ -1,14 +1,16 @@
 <div class="col-md-9 col-lg-10 align-self">
     <h1>Flixadvisor</h1>
     <h2>Les plus vues</h2>
-    <?php foreach ($most_vieweds as $most_viewed): ?>
-        <a href="<?= $site_url . '/show/' . $most_viewed['image'] ?>">
-            <div class="white-card">
-                <img class="img-fluid mx-auto d-bloc" src="<?= $most_viewed['image'] ?>" alt="slide 1">
-                <p class="text-center"><?= $most_viewed['title'] ?></p>
+    <div class="row">
+        <?php foreach ($most_vieweds as $most_viewed): ?>
+            <div class="white-card d-inline-block m-10">
+                <a href="<?= $site_url . '/show/' . $most_viewed['image'] ?>">
+                    <img class="card-img-top" src="<?= $most_viewed['image'] ?>" alt="slide 1">
+                    <p class="text-center"><?= $most_viewed['title'] ?></p>
+                </a>
             </div>
-        </a>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
+    </div>
 
     <h2>Les mieux notées</h2>
 

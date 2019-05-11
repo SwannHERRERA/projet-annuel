@@ -257,9 +257,8 @@ class Member_model extends My_model
     }
 
 
-    function banMember($email, $banType, $time)
+    function ban($email, $banType, $time)
     {
-
         $query = "UPDATE MEMBER SET account_status = :status, banned_date = curdate(), banned_time = :time where email = :email";
         $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->execute([
@@ -273,9 +272,8 @@ class Member_model extends My_model
         }
     }
 
-    function unbanMember($email)
+    function unban($email)
     {
-
         $query = "UPDATE MEMBER SET account_status = 'actif', banned_date = NULL, banned_time = NULL where email = :email";
         $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->execute([":email" => $email]);

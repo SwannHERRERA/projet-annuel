@@ -10,9 +10,8 @@ class Tv_show_model extends My_model
      * @param $idShow
      * @return array [id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated]
      */
-    function getTVShow($idShow)
+    public function getTVShow($idShow)
     {
-
         $query = "SELECT id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated FROM flixadvisor.TV_SHOW WHERE id_show = :id";
         $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->execute([":id" => $idShow]);
@@ -291,26 +290,8 @@ class Tv_show_model extends My_model
     /**
      * A tester quand on aura du contenu !
      */
-    function getTVShowRecommendations($idShow)
+    public function getTVShowRecommendations($idShow)
     {
-
-        $query = "SELECT id_reco , text_reco, date_reco, recommended_show, hosting_show, member, (SELECT COUNT(*) FROM flixadvisor.VOTED_RECO WHERE recommendation = id_reco) AS nbVotes  FROM flixadvisor.RECOMMENDATION WHERE hosting_show = :id ORDER BY nbVotes DESC ";
-        $queryPrepared = $this->pdo->prepare($query);
-        $queryPrepared->execute([":id" => $idShow]);
-        if ($queryPrepared->errorCode() != '00000') {
-            var_dump($queryPrepared->errorInfo());
-            die("Une erreur est survenue lors de la recuperation des recommendations de la serie.");
-        }
-
-        return $queryPrepared->fetchAll();
-    }
-
-    /**
-     * A tester quand on aura du contenu !
-     */
-    function getTVShowRecommendations($idShow)
-    {
-
         $query = "SELECT id_reco , text_reco, date_reco, recommended_show, hosting_show, member, (SELECT COUNT(*) FROM flixadvisor.VOTED_RECO WHERE recommendation = id_reco) AS nbVotes  FROM flixadvisor.RECOMMENDATION WHERE hosting_show = :id ORDER BY nbVotes DESC ";
         $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->execute([":id" => $idShow]);
@@ -327,9 +308,8 @@ class Tv_show_model extends My_model
      * @param $idShow
      * @return integer
      */
-    function getShowLastAiringDate($idShow)
+    public function getShowLastAiringDate($idShow)
     {
-
         $query = "SELECT max(first_aired_episode) FROM EPISODE WHERE season IN (SELECT id_season FROM SEASON WHERE tv_show = :id)";
         $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->execute([":id" => $idShow]);
@@ -340,9 +320,8 @@ class Tv_show_model extends My_model
         return $queryPrepared->fetch()[0];
     }
 
-    function getShowScore($idShow)
+    public function getShowScore($idShow)
     {
-
         $query = "SELECT CAST(AVG(mark_followed_show) AS DECIMAL(10,2)) FROM flixadvisor.FOLLOWED_SHOW WHERE tv_show = :id";
         $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->execute([":id" => $idShow]);
@@ -358,9 +337,8 @@ class Tv_show_model extends My_model
      * Récupère la liste des séries existantes en BDD par ordre alphabétique dans un tableau à 2 dimensions
      * @return array [0 => [id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated], 1 => ...]
      */
-    function getTVShowList()
+    public function getTVShowList()
     {
-
         $query = "SELECT id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated FROM flixadvisor.TV_SHOW ORDER BY name_show";
         $queryPrepared = $this->pdo->query($query);
         if ($queryPrepared->errorCode() != '00000') {
@@ -370,9 +348,8 @@ class Tv_show_model extends My_model
         return $queryPrepared->fetchAll();
     }
 
-    function getTVYearStatusStat()
+    public function getTVYearStatusStat()
     {
-
         $query = "SELECT count(*) as nb_show, YEAR(first_aired_show) as year, (SELECT count(*) from TV_SHOW where YEAR(first_aired_show) = year AND production_status = 'Ended') as ended, (SELECT count(*) from TV_SHOW where YEAR(first_aired_show) = year AND production_status = 'Continuing') as continuing from TV_SHOW group by YEAR(first_aired_show)";
         $queryPrepared = $this->pdo->query($query);
         if ($queryPrepared->errorCode() != '00000') {
@@ -381,5 +358,4 @@ class Tv_show_model extends My_model
         }
         return $queryPrepared->fetchAll();
     }
-
 }
