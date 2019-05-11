@@ -1,61 +1,61 @@
 /*---- basic color ----*/
-$blue:    #2F54EB;
-$indigo:  #6610f2;
-$purple:  #B37FEB;
-$pink:    #e83e8c;
-$red:     #D4380D;
-$orange:  #FA8C16;
-$yellow:  #fadb14;
-$green:   #389E0D;
-$teal:    #20c997;
-$cyan:    #17a2b8;
+$blue: #2f54eb;
+$indigo: #6610f2;
+$purple: #b37feb;
+$pink: #e83e8c;
+$red: #d4380d;
+$orange: #fa8c16;
+$yellow: #fadb14;
+$green: #389e0d;
+$teal: #20c997;
+$cyan: #17a2b8;
 
 /*---- shade of grey ------*/
-$white:    #fff;
-$gray-100: #CFD8DC;
-$gray-200: #B0BEC5;
-$gray-300: #90A4AE;
-$gray-400: #78909C;
-$gray-500: #607D8B;
-$gray-600: #546E7A;
-$gray-700: #455A64;
-$gray-800: #37474F;
+$white: #fff;
+$gray-100: #cfd8dc;
+$gray-200: #b0bec5;
+$gray-300: #90a4ae;
+$gray-400: #78909c;
+$gray-500: #607d8b;
+$gray-600: #546e7a;
+$gray-700: #455a64;
+$gray-800: #37474f;
 $gray-900: #263238;
-$black:    #000;
+$black: #000;
 
 /*---- Personal color ------*/
-$myDark:#282C35;
+$myDark: #282c35;
 $aside: #111035;
-$lite: #D1F3F0;
-$lite_blue: #AFD7E8;
+$lite: #d1f3f0;
+$lite_blue: #afd7e8;
 
 /*---- bootstrap assignment ----*/
-$primary:       $blue;
-$secondary:     $cyan;
-$success:       $green;
-$info:          $lite_blue;
-$warning:       $orange;
-$danger:        $red;
-$light:         $lite;
-$dark:          $gray-800;
+$primary: $blue;
+$secondary: $cyan;
+$success: $green;
+$info: $lite_blue;
+$warning: $orange;
+$danger: $red;
+$light: $lite;
+$dark: $gray-800;
 
 $theme-colors: ();
 // stylelint-disable-next-line scss/dollar-variable-default
 $theme-colors: map-merge(
   (
-    "primary":    $primary,
-    "secondary":  $secondary,
-    "success":    $success,
-    "info":       $info,
-    "warning":    $warning,
-    "danger":     $danger,
-    "light":      $light,
-    "dark":       $dark,
-    "indigo":     $indigo,
-    "purple":     $purple,
-    "pink":       $pink,
-    "yellow":     $yellow,
-    "teal":       $teal
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark,
+    "indigo": $indigo,
+    "purple": $purple,
+    "pink": $pink,
+    "yellow": $yellow,
+    "teal": $teal
   ),
   $theme-colors
 );
@@ -66,39 +66,87 @@ $spacers: ();
 $spacers: map-merge(
   (
     0: 0,
-    1: ($spacer * 1),
-    2: ($spacer * 2),
-    3: ($spacer * 3),
-    4: ($spacer * 4),
-    5: ($spacer * 5),
-    10:($spacer * 10),
-    15:($spacer * 15),
-    20:($spacer * 20),
-    25:($spacer * 25),
-    30:($spacer * 30),
-    35:($spacer * 35),
-    40:($spacer * 40),
-    45:($spacer * 45),
-    50:($spacer * 50),
-    55:($spacer * 55),
-    60:($spacer * 60),
-    65:($spacer * 65),
-    70:($spacer * 70),
-    75:($spacer * 75),
-    80:($spacer * 80),
-    85:($spacer * 85),
-    90:($spacer * 90),
-    95:($spacer * 95),
-    100:($spacer * 100),
+    1: (
+      $spacer * 1
+    ),
+    2: (
+      $spacer * 2
+    ),
+    3: (
+      $spacer * 3
+    ),
+    4: (
+      $spacer * 4
+    ),
+    5: (
+      $spacer * 5
+    ),
+    10: (
+      $spacer * 10
+    ),
+    15: (
+      $spacer * 15
+    ),
+    20: (
+      $spacer * 20
+    ),
+    25: (
+      $spacer * 25
+    ),
+    30: (
+      $spacer * 30
+    ),
+    35: (
+      $spacer * 35
+    ),
+    40: (
+      $spacer * 40
+    ),
+    45: (
+      $spacer * 45
+    ),
+    50: (
+      $spacer * 50
+    ),
+    55: (
+      $spacer * 55
+    ),
+    60: (
+      $spacer * 60
+    ),
+    65: (
+      $spacer * 65
+    ),
+    70: (
+      $spacer * 70
+    ),
+    75: (
+      $spacer * 75
+    ),
+    80: (
+      $spacer * 80
+    ),
+    85: (
+      $spacer * 85
+    ),
+    90: (
+      $spacer * 90
+    ),
+    95: (
+      $spacer * 95
+    ),
+    100: (
+      $spacer * 100
+    )
   ),
   $spacers
 );
 
-$body-bg:                   $myDark;
-$body-color:                $white;
-$modal-content-bg:            $myDark;
-$modal-content-color:          $white;
-$close-color:                       $white;
-$close-text-shadow:                 0 1px 0 $myDark;
-$card-bg $myDark;
-$card-color $white;
+$body-bg: $myDark;
+$body-color: $white;
+$modal-content-bg: $myDark;
+$modal-content-color: $white;
+$close-color: $white;
+$close-text-shadow: 0 1px 0 $myDark;
+$card-bg: $myDark;
+$card-color: $white;

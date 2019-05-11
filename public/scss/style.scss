@@ -1,7 +1,7 @@
 @import "./myVariables";
 @import "./scss_bootstrap/bootstrap.scss";
 @import "./gost";
-@import url('https://fonts.googleapis.com/css?family=Caveat:700|Lato:300,400,700|Montserrat:300,400,600');
+@import url("https://fonts.googleapis.com/css?family=Caveat:700|Lato:300,400,700|Montserrat:300,400,600");
 @import "./switch";
 @import "./modal";
 @import "./aside";
@@ -23,7 +23,8 @@ h1 {
     line-height: 26px;
   }
 }
-h2, .h2 {
+h2,
+.h2 {
   @extend %titre;
   @include media-breakpoint-down(sm) {
     font-size: 22px;
@@ -46,16 +47,14 @@ h2, .h2 {
 
 hr {
   border-top: 1px solid $primary;
-  margin-bottom: 20px;  
+  margin-bottom: 20px;
 }
 .btn-connexion {
   background-color: $yellow;
   color: $black;
   border: none;
-  transition:
-  width 0.15s ease-in-out,
-  box-shadow 0.15s ease-in-out,
-  border-radius 0.15s ease-in-out;
+  transition: width 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    border-radius 0.15s ease-in-out;
   &:hover {
     width: 10rem;
     box-shadow: 0 0 0 0.4rem $yellow;
@@ -64,7 +63,7 @@ hr {
     color: initial;
   }
 }
-.menu{
+.menu {
   position: -webkit-sticky;
   position: sticky;
   top: 2rem;
@@ -80,82 +79,15 @@ hr {
     color: initial;
   }
 }
-.myCard {
-  padding: 20px;
-  background-color: $lite;
-  margin-bottom: 20px;
-  .table {
-    margin: 0;
-  }
+.white-card {
+  @extend .card;
+  background-color: $white;
 }
 
 form span.require {
   color: $red;
 }
-@include media-breakpoint-up(sm)  {
 
-  /* show 3 items */
-  .carousel-inner .active,
-  .carousel-inner .active + .carousel-item,
-  .carousel-inner .active + .carousel-item + .carousel-item {
-      display: block;
-  }
-  
-  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left),
-  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item,
-  .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item {
-      transition: none;
-      margin-right: initial;
-  }
-  
-  .carousel-inner .carousel-item-next,
-  .carousel-inner .carousel-item-prev {
-    position: relative;
-    transform: translate3d(0, 0, 0);
-  }
-  
-  .carousel-inner .active.carousel-item + .carousel-item + .carousel-item + .carousel-item {
-      position: absolute;
-      top: 0;
-      right: -33.3333%;
-      z-index: -1;
-      display: block;
-      visibility: visible;
-  }
-  
-  /* left or forward direction */
-  .active.carousel-item-left + .carousel-item-next.carousel-item-left,
-  .carousel-item-next.carousel-item-left + .carousel-item,
-  .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item,
-  .carousel-item-next.carousel-item-left + .carousel-item + .carousel-item + .carousel-item {
-      position: relative;
-      transform: translate3d(-100%, 0, 0);
-      visibility: visible;
-  }
-  
-  /* farthest right hidden item must be abso position for animations */
-  .carousel-inner .carousel-item-prev.carousel-item-right {
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      display: block;
-      visibility: visible;
-  }
-  
-  /* right or prev direction */
-  .active.carousel-item-right + .carousel-item-prev.carousel-item-right,
-  .carousel-item-prev.carousel-item-right + .carousel-item,
-  .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item,
-  .carousel-item-prev.carousel-item-right + .carousel-item + .carousel-item + .carousel-item {
-      position: relative;
-      transform: translate3d(100%, 0, 0);
-      visibility: visible;
-      display: block;
-      visibility: visible;
-  }
-
-}
 .logo-reseau-sociaux {
   width: 40px;
 }

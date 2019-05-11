@@ -226,6 +226,18 @@ class Tv_show_model extends My_model
         return $queryPrepared->fetch()[0];
     }
 
+    public function getName($id)
+    {
+        $query = "SELECT name_show FROM flixadvisor.TV_SHOW WHERE id_show = :id";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([":id" => $id]);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la recherche de nom.");
+        }
+        return $queryPrepared->fetch()[0];
+    }
+
     /**
     * DEELTE TV_SHOW and foreignKey
     * @param INTEGER id of TV_SHOW
