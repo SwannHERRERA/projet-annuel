@@ -54,7 +54,7 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" value="permanent" name="permanent" id="permanent">
+                            <input class="form-check-input" type="radio" value="permanent" selected name="permanent" id="permanent">
                             <label class="form-check-label" for="permanent">
                             Permanent
                             </label>

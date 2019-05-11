@@ -75,13 +75,18 @@ class Member extends Controller
         if (!empty($_POST)) {
             require BASEPATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Form_validation.php';
             $form_validation = new form_validation('ban_modal');
+            die(var_dump($_POST));
             $form_validation->set_rules('email_hidden', 'Email', ['require']);
             $form_validation->set_rules('nb_day', '', ['valid_email']);
             $form_validation->set_rules('raison', 'le champs text', ['require', ['max_length' => 100]]);
             $form_validation->set_rules('type', 'veuillez séléctionnez le type', ['require']);
             if (empty($_SESSION['ban_modal'])) {
                 // UPDATE MEMBER SET account_status = 'banned' WHERE email = $_POST['email_hidden'] && je sais pas ou on met le text, le nombre de jour et le type
-                $this->member_model->ban($_POST['email_hidden'], 'bannish', $_POST['nb_day']);
+                if ('type' == 'permanant'){
+                    $this->member_model->ban($_POST['email_hidden'], 'ban-perm', NULL);
+                } else {
+                    $this->member_model->ban($_POST['email_hidden'], 'ban', $_POST['nb_day']);
+                }
             }
         }
     }
