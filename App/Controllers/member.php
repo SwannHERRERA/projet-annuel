@@ -66,7 +66,11 @@ class Member extends Controller
         }
         header("Location: /#modal");
     }
+
     public function parameters() {
+        if (!empty($_POST)) {
+            $this->member_model->update_parameters($_SESSION['email']);
+        }
         $current_param = $this->member_model->request_parameters($_SESSION['email']);
         require self::VIEW_PATH . 'layout/header.php';
         require self::VIEW_PATH . 'member/parameters.php';
