@@ -36,7 +36,7 @@ $categories = ['member' => 'Membre', 'tv_show' => 'Tv_show','ticket' => 'Ticket'
             <?= '<ul class="onglet">'?>
               <?php foreach ($sous_categories as $sous_categorie => $segment) :
               echo '<li class="';
-              echo ($uri_segments[3] == $segment) ? 'active' : '';?>"<?php echo '>';
+              echo ($uri_segments[3] == $segment || $uri_segments[3] == $categorie_active) ? 'active' : '';?>"<?php echo '>';
               echo '<a href="';
               echo $site_url . '/back/' . $uri_segments[2] . '/' . $segment ;
               echo '">';

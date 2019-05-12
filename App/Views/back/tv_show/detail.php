@@ -2,9 +2,9 @@
     <div class="row mt-5 mb-5">
         <div class="col-12">
             <h1><?= $serie->seriesName?></h1>
-            <form method="post" action="insert.php">
-                Ajouter -><input type="submit" name="insert" id="insert" value="'.$serie->id.'" />
-            </form>';
+            <form method="POST">
+                <input type="submit" class="btn btn-secondary" name="insert" id="insert" value="Ajouter" />
+            </form>
         </div>
     </div>
     <div class="row">
@@ -30,6 +30,21 @@
 
         </div>
         <div class="col-8">
+            <?php
+                $lastUpdated = null;
+                var_dump($result);
+                if ($result != null) {
+                    $lastUpdated = new DateTime($result);
+                }
+                if ($lastUpdated == null) {
+                    ?>
+                    <div class="text-danger">Série non présente en base</div> <?php
+                } else {
+                ?>
+                <div class="text-success"> Série présente en base, date de dernière maj : <?php
+                echo $lastUpdated->format("d/m/Y") . '</div>';
+                }
+            ?>
             <div> Date de diffusion :<?= $serie->firstAired ?></div>
             <div> Statut :<?= $serie->status ?></div>
             <div> Durée :<?= $serie->runtime ?> min</div>
@@ -47,7 +62,7 @@
         <div class="col-4">
             <div class="row mt-2">
                 <div class="col-12">
-                    <h3>Episodes :</h3>
+                    <h3 class="mb-10">Episodes :</h3>
                 </div>
             </div>
             <?php
@@ -68,23 +83,21 @@
         <div class="col-8">
             <div class="row mt-2">
                 <div class="col-12">
-                    <h3>Acteurs : </h3>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <?php
-                        $actors = $this->api->series_actors($serie->id);
-                        foreach ($actors as $actor) :?>
-                        <div class="col-sm-4 mb-3">
-                            <?php if (!empty($actor->image)): ?>
-                                <img src="<?= $this->imurl . $actor->image ?>" width="200">
-                            <?php else : ?>
-                                <img src="https://incomarinspection.com/wp-content/uploads/2017/04/Unknown-Profile.png" width="150">
-                            <?php endif ?>
-                            <br>
-                            <p>Nom : <?= $actor->name?></p>
-                            <p>Rôle : <?= $actor->role?></p>
-                        </div>
+                    <h3 class="mb-10">Acteurs : </h3>
+                    <?php
+                    $actors = $this->api->series_actors($serie->id);?>
+                    <div class="row">
+                        <?php foreach ($actors as $actor) :?>
+                            <div class="col-md-4 mb-3">
+                                <?php if (!empty($actor->image)): ?>
+                                    <img src="<?= $this->imurl . $actor->image ?>" class="img-fluid">
+                                <?php else : ?>
+                                    <img src="https://incomarinspection.com/wp-content/uploads/2017/04/Unknown-Profile.png" width="150">
+                                <?php endif ?>
+                                <br>
+                                <p class="text-center mb-10">Nom : <?= $actor->name?></p>
+                                <p class="text-center">Rôle : <?= $actor->role?></p>
+                            </div>
                         <?php endforeach ?>
                     </div>
                 </div>

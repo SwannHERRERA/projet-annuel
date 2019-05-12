@@ -26,13 +26,8 @@ class Tv_show_model extends My_model
     * Inserte tvShow with actor,network,episodes,genre or update if it already exists according to TVDB
     * @param INTEGER $id = id of TVDB
     */
-    public function insertTV($id)
+    public function insertTV($id, $serie, $api, $imurl)
     {
-        $apikey = "PU7E1HBXTFB2K1UL";
-        $imurl = "https://www.thetvdb.com/banners/";
-        $api = new TheTvdbApi($apikey, "", "");
-        $api->authenticate();
-        $serie = $api->series($id);
         /* On vérifie que l'API nous renvoie bien une série avec l'id donné */
         if (!empty($serie)) {
             /* Préparation des informations sur la série car qu'elle existe ou pas, elle sera créée / mis à jour  */
@@ -357,5 +352,13 @@ class Tv_show_model extends My_model
             die("Une erreur est survenue lors de la récupération des stats des stats d'année de diffusion des séries.");
         }
         return $queryPrepared->fetchAll();
+    }
+
+    public function get_last_updated($id){
+        $query = "SELECT last_updated FROM flixadvisor.TV_SHOW WHERE id_show = :id";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([":id" => $id]);
+        $result = $queryPrepared->fetch()[0];
+        return $result;
     }
 }

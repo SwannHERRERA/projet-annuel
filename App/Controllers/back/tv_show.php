@@ -72,19 +72,28 @@ class Tv_show extends Controller
 
     public function detail()
     {
-        $page_title = 'Création d\'une serie';
-        $sous_categories = ['Gestion des seriés' => 'gestion', 'Création d\'une serie' => 'add', 'Propositions de séries' => 'proposition'];
-        if (empty($_GET['idserie'])) {
-            echo 'L\'id de la série n\'est pas renseignée';
-        } else {
+        if (!empty($_POST)){
             $this->api->authenticate();
-
             $serie = $this->api->series($_GET['idserie']);
-            if (!empty($serie)) {
-                require self::VIEW_PATH . 'back/layout/header.php';
-                require self::VIEW_PATH . 'back/tv_show/detail.php';
-                require self::VIEW_PATH . 'back/layout/footer.php';
+
+            $result = $this->tv_show_model->insertTV($serie->id, $serie, $this->api, $this->imurl);
+        } else {
+            $page_title = 'Création d\'une serie';
+            $sous_categories = ['Gestion des seriés' => 'gestion', 'Création d\'une serie' => 'add', 'Propositions de séries' => 'proposition'];
+            $categorie_active = 'add';
+            if (empty($_GET['idserie'])) {
+                echo 'L\'id de la série n\'est pas renseignée';
             } else {
+                $this->api->authenticate();
+
+                $serie = $this->api->series($_GET['idserie']);
+                $result = $this->tv_show_model->get_last_updated($serie->id);
+                if (!empty($serie)) {
+                    require self::VIEW_PATH . 'back/layout/header.php';
+                    require self::VIEW_PATH . 'back/tv_show/detail.php';
+                    require self::VIEW_PATH . 'back/layout/footer.php';
+                } else {
+                }
             }
         }
     }
