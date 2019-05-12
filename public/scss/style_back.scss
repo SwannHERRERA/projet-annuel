@@ -4,50 +4,98 @@ $spacers: ();
 $spacers: map-merge(
   (
     0: 0,
-    1: ($spacer * 1),
-    2: ($spacer * 2),
-    3: ($spacer * 3),
-    4: ($spacer * 4),
-    5: ($spacer * 5),
-    10:($spacer * 10),
-    15:($spacer * 15),
-    20:($spacer * 20),
-    25:($spacer * 25),
-    30:($spacer * 30),
-    35:($spacer * 35),
-    40:($spacer * 40),
-    45:($spacer * 45),
-    50:($spacer * 50),
-    55:($spacer * 55),
-    60:($spacer * 60),
-    65:($spacer * 65),
-    70:($spacer * 70),
-    75:($spacer * 75),
-    80:($spacer * 80),
-    85:($spacer * 85),
-    90:($spacer * 90),
-    95:($spacer * 95),
-    100:($spacer * 100),
+    1: (
+      $spacer * 1
+    ),
+    2: (
+      $spacer * 2
+    ),
+    3: (
+      $spacer * 3
+    ),
+    4: (
+      $spacer * 4
+    ),
+    5: (
+      $spacer * 5
+    ),
+    10: (
+      $spacer * 10
+    ),
+    15: (
+      $spacer * 15
+    ),
+    20: (
+      $spacer * 20
+    ),
+    25: (
+      $spacer * 25
+    ),
+    30: (
+      $spacer * 30
+    ),
+    35: (
+      $spacer * 35
+    ),
+    40: (
+      $spacer * 40
+    ),
+    45: (
+      $spacer * 45
+    ),
+    50: (
+      $spacer * 50
+    ),
+    55: (
+      $spacer * 55
+    ),
+    60: (
+      $spacer * 60
+    ),
+    65: (
+      $spacer * 65
+    ),
+    70: (
+      $spacer * 70
+    ),
+    75: (
+      $spacer * 75
+    ),
+    80: (
+      $spacer * 80
+    ),
+    85: (
+      $spacer * 85
+    ),
+    90: (
+      $spacer * 90
+    ),
+    95: (
+      $spacer * 95
+    ),
+    100: (
+      $spacer * 100
+    )
   ),
   $spacers
 );
 
 @import "./scss_bootstrap/bootstrap.scss";
 
-aside{
+aside {
   background-color: #263238;
-  ul{
+  ul {
     margin: 0;
     padding: 0;
-    li a{
+    li a {
       display: block;
       list-style: none;
       text-decoration: none;
       margin: 0;
       padding: 10px 6px;
-      color: #FFF;
-      border-bottom: 1px solid #F2F2F2;
-      font-family: 'lato';
+      color: #fff;
+      border-bottom: 1px solid #f2f2f2;
+      font-family: "lato";
       font-weight: 400;
       font-size: 14px;
       line-height: 18px;
@@ -56,7 +104,7 @@ aside{
         text-decoration: none;
         color: rgb(236, 132, 12);
       }
-      &.active{
+      &.active {
         color: rgb(236, 94, 12);
         &:before {
           content: "•";
@@ -67,7 +115,7 @@ aside{
   }
 }
 main .onglet {
-  padding:0;
+  padding: 0;
   margin: 20px 0;
   li {
     display: inline-block;
@@ -75,22 +123,36 @@ main .onglet {
     margin: 0;
     padding: 3px 5px;
     border-top-right-radius: 20px;
-    background-color: #F2F2F2;
-    border: 1px solid #CCCCCC;
-    a{
+    background-color: #f2f2f2;
+    border: 1px solid #cccccc;
+    a {
       color: inherit;
-      &:hover{
+      &:hover {
         text-decoration: none;
       }
     }
-      &.active{
-        background-color: #FFF;
-        border-bottom: none;
-      }
+    &.active {
+      background-color: #fff;
+      border-bottom: none;
+    }
   }
 }
 
 .table {
   width: 100%;
+}
+svg {
+  width: 100px;
+  height: 100px;
+  transform: rotate(-90deg);
+  background: yellowgreen;
+  border-radius: 50%;
+}
+
+circle {
+  fill: yellowgreen;
+  stroke: #655;
+  stroke-width: 32;
+  stroke-dasharray: 38 100; /* for 38% */
 }
 //Mettre le blanc sur le li

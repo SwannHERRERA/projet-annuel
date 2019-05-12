@@ -23,10 +23,18 @@ class Statistics extends Controller
         $sous_categories = ['Statistiques utilisateurs' => 'user', 'Statistiques des séries' => 'series'];
         $nb_user = $this->member_model->get_columns(['count(*)']);
         $nb_user_connected = $this->member_model->get_nb_user_connected();
-        $gender = $this->member_model->get_nb_user_connected();
-        $country = $this->member_model->get_nb_user_connected();
-        $city = $this->member_model->get_nb_user_connected();
-        $years_of_user = $this->member_model->get_nb_user_connected();
+        $gender = $this->member_model->getGenderStats();
+        $country = $this->member_model->getMembersCountry();
+        $city = $this->member_model->getMembersCity();
+        $years_of_user = $this->member_model->getMembersAge();
+
+        require self::VIEW_PATH . 'back/layout/header.php';
+        echo '<pre>';
+        var_dump($gender);
+        echo '</pre>';
+
+        require self::VIEW_PATH . 'back/statistics/series.php';
+        require self::VIEW_PATH . 'back/layout/footer.php';
     }
     public function series()
     {
@@ -36,24 +44,24 @@ class Statistics extends Controller
         $actor_model = new Actor_model;
         require self::MODEL_PATH . 'network_model.php';
         $network_model = new Network_model;
+        require self::MODEL_PATH . 'category_model.php';
+        $category_model = new Categorie_model;
         $page_title = 'Statistiques';
         $sous_categories = ['Statistiques utilisateurs' => 'user', 'Statistiques des séries' => 'series'];
         $nb_series = $tv_show_model->get_columns(['count(*)']);
         $nb_actor = $actor_model->get_columns(['count(*)']);
         $nb_studios = $network_model->get_columns(['count(*)']);
+        $nb_realisator = "";
+        $status_series = $category_model->getCategoriesStats();
+        $TVYearStatusStat = $tv_show_model->getTVYearStatusStat();
 
-        $nb_realisateur = 2;
-        /*$nb_realisateur = $this->member_model->get_nb_user_connected();
-        $gender = $this->member_model->get_nb_user_connected();
-        $status = $this->member_model->get_nb_user_connected();
-        $years_of_diffusion = $this->member_model->get_nb_user_connected();
-        $years_of_user = $this->member_model->get_nb_user_connected();*/
+
         require self::VIEW_PATH . 'back/layout/header.php';
         echo '<pre>';
-        var_dump($nb_actor, $nb_series, $nb_studios);
+        var_dump($TVYearStatusStat);
         echo '</pre>';
 
-        require self::VIEW_PATH . 'back/statistique/series.php';
+        require self::VIEW_PATH . 'back/statistics/series.php';
         require self::VIEW_PATH . 'back/layout/footer.php';
     }
 }

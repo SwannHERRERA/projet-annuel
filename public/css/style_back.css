@@ -16508,8 +16508,8 @@ aside ul li a {
   text-decoration: none;
   margin: 0;
   padding: 10px 6px;
-  color: #FFF;
-  border-bottom: 1px solid #F2F2F2;
+  color: #fff;
+  border-bottom: 1px solid #f2f2f2;
   font-family: "lato";
   font-weight: 400;
   font-size: 14px;
@@ -16538,8 +16538,8 @@ main .onglet li {
   margin: 0;
   padding: 3px 5px;
   border-top-right-radius: 20px;
-  background-color: #F2F2F2;
-  border: 1px solid #CCCCCC;
+  background-color: #f2f2f2;
+  border: 1px solid #cccccc;
 }
 main .onglet li a {
   color: inherit;
@@ -16548,12 +16548,28 @@ main .onglet li a:hover {
   text-decoration: none;
 }
 main .onglet li.active {
-  background-color: #FFF;
+  background-color: #fff;
   border-bottom: none;
 }
 
 .table {
   width: 100%;
+}
+
+svg {
+  width: 100px;
+  height: 100px;
+  transform: rotate(-90deg);
+  background: yellowgreen;
+  border-radius: 50%;
+}
+
+circle {
+  fill: yellowgreen;
+  stroke: #655;
+  stroke-width: 32;
+  stroke-dasharray: 38 100;
+  /* for 38% */
 }
 
 /*# sourceMappingURL=style_back.css.map */

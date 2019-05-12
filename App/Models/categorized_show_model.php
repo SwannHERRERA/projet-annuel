@@ -41,15 +41,4 @@ class Categorized_show_model extends My_model
             die("une erreur est survenu lors de la suppression du hodor");
         }
     }
-
-    public function getCategoriesStats()
-    {
-        $query = "SELECT count(*) as used, count(*)*100/(select count(*) from CATEGORIZED_SHOW) as stat_used, name_category from CATEGORY, CATEGORIZED_SHOW where CATEGORIZED_SHOW.category = CATEGORY.id_category group by category";
-        $queryPrepared = $this->pdo->query($query);
-        if ($queryPrepared->errorCode() != '00000') {
-            var_dump($queryPrepared->errorInfo());
-            die("Une erreur est survenue lors de la récupération des stats des date d'inscription des membres.");
-        }
-        return $queryPrepared->fetchAll();
-    }
 }

@@ -31,7 +31,7 @@ class Tv_show extends Controller
         $page_title = 'Gestion des Séries';
         $sous_categories = ['Gestion des seriés' => 'gestion', 'Création d\'une serie' => 'add', 'Propositions de séries' => 'proposition'];
 
-        $tv_shows = $this->tv_show_model->getAllTVShow();
+        $tv_shows = $this->tv_show_model->getTVShowList();
         require self::VIEW_PATH . 'back/layout/header.php';
         require self::VIEW_PATH . 'back/tv_show/gestion.php';
         require self::VIEW_PATH . 'back/layout/footer.php';

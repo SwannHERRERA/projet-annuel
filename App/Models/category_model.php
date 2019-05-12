@@ -1,6 +1,6 @@
 <?php
 require_once BASEPATH . DIRECTORY_SEPARATOR . "Core" . DIRECTORY_SEPARATOR . "My_model.php";
-class Actor_model extends My_model
+class Categorie_model extends My_model
 {
     protected $_table = 'CATEGORY';
     protected $table_primary_key = "id_category";
@@ -84,7 +84,7 @@ class Actor_model extends My_model
      * @param $idShow
      * @return array [0 => [name_category], 1 => [name_category], 2 => ...]
      */
-    function getTVShowCategories($idShow)
+    public function getTVShowCategories($idShow)
     {
         $query = "SELECT CATEGORY.name_category FROM flixadvisor.CATEGORY, flixadvisor.CATEGORIZED_SHOW WHERE category = id_category AND tv_show = :id order by CATEGORY.name_category";
         $queryPrepared = $this->pdo->prepare($query);
@@ -101,7 +101,7 @@ class Actor_model extends My_model
      * Récupère la liste des catégories existantes en BDD par ordre alaphabétique dans un tableau à 2 dimensions
      * @return array [0 => [id_category, name_category], 1 => [id_category, name_category], 2 => ...]
      */
-    function getCategoryList()
+    public function getCategoryList()
     {
         $query = "SELECT id_category, name_category FROM flixadvisor.CATEGORY ORDER BY name_category";
         $queryPrepared = $this->pdo->query($query);
@@ -110,6 +110,17 @@ class Actor_model extends My_model
             die("Une erreur est survenue lors de la recuperation des categories.");
         }
 
+        return $queryPrepared->fetchAll();
+    }
+
+    public function getCategoriesStats()
+    {
+        $query = "SELECT count(*) as used, count(*)*100/(select count(*) from CATEGORIZED_SHOW) as stat_used, name_category from CATEGORY, CATEGORIZED_SHOW where CATEGORIZED_SHOW.category = CATEGORY.id_category group by category";
+        $queryPrepared = $this->pdo->query($query);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la récupération des stats des date d'inscription des membres.");
+        }
         return $queryPrepared->fetchAll();
     }
 }

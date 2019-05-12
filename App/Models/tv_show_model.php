@@ -23,22 +23,6 @@ class Tv_show_model extends My_model
     }
 
     /**
-     * Récupère un tableau 1 dimension contenant les colonnes de la série demandée
-     * @return array of array [id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated]
-     */
-    public function getAllTVShow()
-    {
-        $query = "SELECT id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated FROM flixadvisor.TV_SHOW";
-        $queryPrepared = $this->pdo->prepare($query);
-        $queryPrepared->execute();
-        if ($queryPrepared->errorCode() != '00000') {
-            var_dump($queryPrepared->errorInfo());
-            die("Une erreur est survenue lors de la recuperation de la serie.");
-        }
-        return $queryPrepared->fetchAll();
-    }
-
-    /**
     * Inserte tvShow with actor,network,episodes,genre or update if it already exists according to TVDB
     * @param INTEGER $id = id of TVDB
     */
