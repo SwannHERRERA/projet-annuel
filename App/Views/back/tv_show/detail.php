@@ -9,11 +9,11 @@
     </div>
     <div class="row">
         <div class="col-4">
-            <?php $posters = $api->series_images($serie->id, ["keyType" => "poster", "resolution" => "680x1000"]);
+            <?php $posters = $this->api->series_images($serie->id, ["keyType" => "poster", "resolution" => "680x1000"]);
             if (empty($posters)) {
-                $api->language("en");
-                $posters = $api->series_images($serie->id, ["keyType" => "poster", "resolution" => "680x1000"]);
-                $api->language("fr");
+                $this->api->language("en");
+                $posters = $this->api->series_images($serie->id, ["keyType" => "poster", "resolution" => "680x1000"]);
+                $this->api->language("fr");
             }
             if (!empty($posters)) {
                 $image = array("filename" => $posters[0]->thumbnail, "score" => $posters[0]->ratingsInfo->average);
@@ -53,7 +53,7 @@
             <?php
             $page = 1;
             do {
-                $episodes = $api->series_episodes($serie->id, $page);
+                $episodes = $this->api->series_episodes($serie->id, $page);
                 $i = 0;
                 foreach ($episodes as $episode) {
                     if ($episode->airedSeason > 0) {
@@ -73,7 +73,7 @@
                 <div class="row">
                     <div class="col-12">
                         <?php
-                        $actors = $api->series_actors($serie->id);
+                        $actors = $this->api->series_actors($serie->id);
                         foreach ($actors as $actor) :?>
                         <div class="col-sm-4 mb-3">
                             <?php if (!empty($actor->image)): ?>

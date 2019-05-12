@@ -1,17 +1,18 @@
 <?php
 require_once BASEPATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Controller.php';
 require BASEPATH . '/vendor/autoload.php';
-use Nihilarr\TheTvdbApi;
+require BASEPATH . '/TheTvdbApi.php';
+use RestAPI\TheTvdbApi;
+
 
 class Tv_show extends Controller
 {
     private $tv_show_model;
     private $member_model;
-
+    private $apikey = "PU7E1HBXTFB2K1UL";
+    private $api;
     /* Les clés et URLS de bases Création de l'objet TheTvdbApi */
     private $imurl = "https://www.thetvdb.com/banners/";
-    private $apikey = "PU7E1HBXTFB2K1UL";
-    private $api;// = new TheTvdbApi ($apikey, "", "");
 
     public function __construct()
     {
@@ -20,12 +21,15 @@ class Tv_show extends Controller
         require self::MODEL_PATH . 'member_model.php';
         $this->member_model = new Member_model;
         $this->member_model->check_is_admin();
+        $this->api = new TheTvdbApi($this->apikey, '', '');
         parent::__construct(__CLASS__);
     }
+
     public function index()
     {
         header('Location: /back/tv_show/gestion');
     }
+
     public function gestion()
     {
         $page_title = 'Gestion des Séries';
@@ -36,6 +40,7 @@ class Tv_show extends Controller
         require self::VIEW_PATH . 'back/tv_show/gestion.php';
         require self::VIEW_PATH . 'back/layout/footer.php';
     }
+
     public function add()
     {
         if (!empty($_POST['query'])) {
@@ -58,7 +63,7 @@ class Tv_show extends Controller
         /* Obtention du token */
         $this->api->authenticate();
         /* Appel de la fonction search du RESTAPI */
-        $results = $this->api->search_series($searchWord);
+        $results = $this->api->search_series($_POST['query']);
 
         require self::VIEW_PATH . 'back/layout/header.php';
         require self::VIEW_PATH . 'back/tv_show/liste.php';
@@ -77,7 +82,7 @@ class Tv_show extends Controller
             $serie = $this->api->series($_GET['idserie']);
             if (!empty($serie)) {
                 require self::VIEW_PATH . 'back/layout/header.php';
-                require self::VIEW_PATH . 'back/member/detail.php';
+                require self::VIEW_PATH . 'back/tv_show/detail.php';
                 require self::VIEW_PATH . 'back/layout/footer.php';
             } else {
             }

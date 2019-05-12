@@ -1,8 +1,6 @@
 <?php
 require_once BASEPATH . '/conf.inc.php';
 
-getTVShowActors(121361);
-
 /**
  * @return PDO
  */
@@ -453,8 +451,33 @@ function getShowScore($idShow)
         var_dump($queryPrepared->errorInfo());
         die("Une erreur est survenue lors de la recuperation du score de la série.");
     }
-
     return $queryPrepared->fetch()[0];
+}
+
+
+function getShowCategories($idShow)
+{
+    $pdo = connectDB();
+    $query = "SELECT name_category FROM flixadvisor.CATEGORIZED_SHOW, flixadvisor.CATEGORY WHERE tv_show = :id AND category = id_category";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":id" => $idShow]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation des categories de la série.");
+    }
+    return $queryPrepared->fetchAll();
+}
+function getShowEpisodes($idShow)
+{
+    $pdo = connectDB();
+    $query = "SELECT nb_season, nb_episode, name_episode, first_aired_episode, director_episode, author_episode, summary_episode FROM flixadvisor.EPISODE, flixadvisor.SEASON WHERE season = id_season AND tv_show = :id ORDER BY nb_season, nb_episode ASC";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":id" => $idShow]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation des categories de la série.");
+    }
+    return $queryPrepared->fetchAll();
 }
 
 /**

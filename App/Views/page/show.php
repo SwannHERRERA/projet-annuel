@@ -6,7 +6,9 @@
  * Time: 14:45
  */
 require_once BASEPATH . '/Core/functions.php';
-$idShow = 121361;
+if (!getTVShow($idShow)) {
+    header("Location:https://flixadvisor.fr/");
+}
 $show = getTVShow($idShow);
 ?>
 
@@ -86,7 +88,7 @@ $show = getTVShow($idShow);
             </div>
             <div class="row pl-10 pb-10">
                 Genres
-                : <?php foreach (getTVShowCategories($idShow) as $categorie) echo $categorie['name_category'] . ' ' ?>
+                : <?php foreach (getShowCategories($idShow) as $categorie) echo $categorie['name_category'] . ' '; ?>
             </div>
         </div>
 
@@ -129,7 +131,7 @@ $show = getTVShow($idShow);
                     <hr>
                     <div class="accordion">
                         <?php
-                        $episodes = getTVEpisodes($idShow);
+                        $episodes = getShowEpisodes($idShow);
                         foreach ($episodes as $episode) { ?>
                             <div class="card">
                                 <div class="card-header"

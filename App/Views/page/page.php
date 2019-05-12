@@ -4,7 +4,7 @@
     <div class="row">
         <?php foreach ($most_vieweds as $most_viewed): ?>
             <div class="white-card d-inline-block m-10">
-                <a href="<?= $site_url . '/show/' . $most_viewed['image'] ?>">
+                <a href="<?= $site_url . '/show?show=' . $most_viewed['id'] ?>">
                     <img class="card-img-top" src="<?= $most_viewed['image'] ?>" alt="slide 1">
                     <p class="text-center"><?= $most_viewed['title'] ?></p>
                 </a>

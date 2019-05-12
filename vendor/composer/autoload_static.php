@@ -4,27 +4,43 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitfd2dd2ec752c9d37936e5272a19c07b2
+class ComposerStaticInitec283b1c8481cd8630b762dd5b9d7356
 {
     public static $prefixLengthsPsr4 = array (
+        'R' => 
+        array (
+            'RestAPI\\' => 8,
+        ),
         'P' => 
         array (
             'PHPMailer\\PHPMailer\\' => 20,
         ),
+        'C' => 
+        array (
+            'Curl\\' => 5,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'RestAPI\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/TheTvdbApi',
+        ),
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+        'Curl\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-curl-class/php-curl-class/src/Curl',
         ),
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitfd2dd2ec752c9d37936e5272a19c07b2::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitfd2dd2ec752c9d37936e5272a19c07b2::$prefixDirsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitec283b1c8481cd8630b762dd5b9d7356::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitec283b1c8481cd8630b762dd5b9d7356::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }
