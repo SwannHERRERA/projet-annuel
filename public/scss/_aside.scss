@@ -4,18 +4,18 @@ aside {
   ul {
     @extend %ul_without_bullet;
     li {
-    padding: 10px 0 6px;
+      padding: 10px 0 6px;
       a {
         color: $white;
         &:hover {
           text-decoration: none;
           color: $white;
         }
-      }//a
+      } //a
     }
-  }//ul
+  } //ul
   .logo {
-    height: 70px;
-    width: 70px;
+    height: 140px;
+    width: 140px;
   }
 }
