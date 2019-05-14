@@ -298,7 +298,15 @@ class Tv_show_model extends My_model
          first_aired_show = :first_aired_show, image_show = :image_show, runtime_show = :runtime_show,
           summary_show = :summary_show WHERE id_show = :id_show;";
         $queryPrepared = $this->pdo->prepare($query);
-        $queryPrepared->execute([]);
+        $queryPrepared->execute([
+            ":name_show" => $_POST['name_show'],
+            ":id_show" => $_POST['id_show'],
+            ":production_status" => $_POST['production_status'],
+            ":first_aired_show" => $_POST['first_aired_show'],
+            ":image_show" => $_POST['image_show'],
+            ":runtime_show" => $_POST['runtime_show'],
+            ":summary_show" => $_POST['summary_show']
+        ]);
     }
 
     /**

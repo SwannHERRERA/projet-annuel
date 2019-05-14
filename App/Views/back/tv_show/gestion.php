@@ -1,5 +1,5 @@
 <div class="mt-20 col-12">
-  <table class="table table-bordered table-striped">
+  <table class="table table-bordered table-striped mb-20">
     <thead>
       <tr>
         <th class='text-center'>Nom de la série</th>
