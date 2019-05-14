@@ -12,17 +12,17 @@ class Form_validation {
     foreach ($rules as $key => $rule) {
       if (!is_array($rule)){
         if ($rule == 'require'){
-          !empty($_POST[$field]) ? '' : $this->error[] = 'Le champ ' . $message . ' doit être remplie';
+          !empty($_POST[$field]) ? '' : $this->error[] = 'Le champ ' . $message . ' doit être rempli.';
         }
         if ($rule == 'valid_email'){
           if(!filter_var($_POST[$field], FILTER_VALIDATE_EMAIL)){
-            $this->error[] = 'Le champ ' . $message . ' doit être une adresse mail correct';
+            $this->error[] = 'Le champ ' . $message . ' doit être une adresse e-mail correcte.';
           }
         }
         if ($rule == 'is_unique'){
           //$result = member_model->is_unique($field);
           if(!empty($result)){
-            $this->error[] = "l'" . $message . ' existe déjà';
+            $this->error[] = "L'" . $message . ' existe déjà.';
           }
         }
         if ($rule == 'trim'){
@@ -34,7 +34,7 @@ class Form_validation {
       } else {
         foreach ($rule as $key => $value) {
           if ($key == 'match'){
-            ($_POST[$field] == $_POST[$value]) ? '' : $this->error[] = 'Les champs ' . $message . ' ne corespondent pas';
+            ($_POST[$field] == $_POST[$value]) ? '' : $this->error[] = 'Les champs ' . $message . ' ne correspondent pas.';
         }
         if ($key == 'in_list'){
 
@@ -42,13 +42,13 @@ class Form_validation {
         if ($key == 'regex'){
         }
         if ($key == 'min_length'){
-          (strlen($_POST[$field]) < $value) ? $this->error[] = 'La chaine ' . $message . ' est trop courte' : '';
+          (strlen($_POST[$field]) < $value) ? $this->error[] = 'La chaîne ' . $message . ' est trop courte.' : '';
         }
         if ($key == 'max_length'){
-          (strlen($_POST[$field]) > $value) ? $this->error[] = 'La chaine ' . $message . ' est trop longue' : '';
+          (strlen($_POST[$field]) > $value) ? $this->error[] = 'La chaîne ' . $message . ' est trop longue.' : '';
         }
         if ($key == 'exact_length'){
-          (strlen($_POST[$field]) == $value) ? $this->error[] = 'La chaine ' . $message . ' doit faire ' . $value . ' caractère' : '';
+          (strlen($_POST[$field]) == $value) ? $this->error[] = 'La chaîne ' . $message . ' doit contenir ' . $value . ' caractère' : '';
         }
       }
     }

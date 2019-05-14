@@ -467,6 +467,7 @@ function getShowCategories($idShow)
     }
     return $queryPrepared->fetchAll();
 }
+
 function getShowEpisodes($idShow)
 {
     $pdo = connectDB();
@@ -653,3 +654,48 @@ function getTVYearStatusStat()
     }
     return $queryPrepared->fetchAll();
 }
+
+function addOrRemoveMemberWatchedEpisode($email, $idEpisode)
+{
+    $pdo = connectDB();
+    $query = "select member,episode from flixadvisor.WATCHED_EPISODES WHERE episode = :episode AND member = :email;";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":episode" => $idEpisode,
+        ":email" => $email
+    ]);
+    if (sizeof($queryPrepared->fetchAll()) == 0)
+        $query = "insert ignore into flixadvisor.WATCHED_EPISODES (member, episode, date_watched) VALUES (:email, :episode, curdate());";
+    else
+        $query = "delete from flixadvisor.WATCHED_EPISODES WHERE episode = :episode AND member = :email;";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":episode" => $idEpisode,
+        ":email" => $email
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de l'insertion / suppression d'un episode regarde.");
+    }
+}
+
+function addOrRemoveMemberTVShowList($email, $idShow, $status, $notification, $mark)
+{
+
+}
+
+function updateNotificationMemberTVShowList($email, $idShow, $notification)
+{
+
+}
+
+function updateStatusMemberTVShowList($email, $idShow, $status)
+{
+
+}
+
+function updateMarkMemberTVShowList($email, $idShow, $mark)
+{
+    
+}
+

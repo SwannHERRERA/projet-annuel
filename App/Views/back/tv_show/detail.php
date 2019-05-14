@@ -3,7 +3,7 @@
         <div class="col-12">
             <h1><?= $serie->seriesName?></h1>
             <form method="POST">
-                <input type="submit" class="btn btn-secondary" name="insert" id="insert" value="Ajouter" />
+                <input type="submit" class="btn btn-secondary" name="insert" id="insert" value="Ajouter² / Actualiser" />
             </form>
         </div>
     </div>
@@ -32,7 +32,9 @@
         <div class="col-8">
             <?php
                 $lastUpdated = null;
-                var_dump($result);
+                ?>
+            <div>Date de maj sur l'api : <?=date("d/m/Y", $serie->lastUpdated)?></div>
+            <?php
                 if ($result != null) {
                     $lastUpdated = new DateTime($result);
                 }
