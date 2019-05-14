@@ -23,13 +23,10 @@
           <td><?= $tv_show['last_updated'] ?></td>
           <td class="text-center">
               <a><i class="fas fa-edit"></i></a>
-              <a><i class="fas fa-trash-alt"></i></a>
+              <a onclick="confdel('<?= $site_url . '/back/tv_show/remove?id=' . $tv_show['id']?>')" class="text-danger"><i class="fas fa-trash-alt"></i></a>
           </td>
       </tr>
       <?php endforeach; ?>
     </tbody>
   </table>
-  <p class="mt-5 mr-5 text-right">
-    <a href="export svg" class="btn btn-primary">exporter en CSV</a>
-  </p>
 </div>

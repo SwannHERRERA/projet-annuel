@@ -105,4 +105,10 @@ class Tv_show extends Controller
         require self::VIEW_PATH . 'back/layout/footer.php';
         require self::VIEW_PATH . 'back/layout/header.php';
     }
+
+    pulbic function remove()
+    {
+        $this->Tv_show_model->delete($_GET['id']);
+        header('Location: /back/tv_show/gestion');
+    }
 }
