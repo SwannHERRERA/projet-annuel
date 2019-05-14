@@ -10,8 +10,6 @@ class Tv_show_model extends My_model
     /**
      * @return PDO
      */
-<<<<<<< HEAD
-=======
     function connectDB()
     {
         try {
@@ -22,7 +20,6 @@ class Tv_show_model extends My_model
 
         return $pdo;
     }
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
 
     /**
      * Récupère un tableau 1 dimension contenant les colonnes de la série demandée
@@ -52,19 +49,12 @@ class Tv_show_model extends My_model
             /***************************************************************************************************************
              * On vérifie si la série est présente en base et sa date de dernière mise à jour
              */
-<<<<<<< HEAD
-=======
             $pdo = $this->connectDB();
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
             if ($hard) {
                 $new = true;
             } else {
                 $query = "SELECT last_updated FROM flixadvisor.TV_SHOW WHERE id_show = :id";
-<<<<<<< HEAD
-                $queryPrepared = $this->pdo->prepare($query);
-=======
                 $queryPrepared = $pdo->prepare($query);
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
                 $queryPrepared->execute([":id" => $serie->id]);
                 $result = $queryPrepared->fetch();
                 if (!empty($result)) {
@@ -101,32 +91,6 @@ class Tv_show_model extends My_model
                     "(:id, :name, :status, :run_time, :first_aired, :picture, :summary, :updated)" .
                     "ON DUPLICATE KEY UPDATE " .
                     "name_show = :name, production_status = :status, runtime_show = :run_time, image_show = :picture, summary_show = :summary, last_updated = :updated";
-<<<<<<< HEAD
-
-                /**
-                 * On execute la requete d'ajout / de mise à jour
-                 */
-                $queryPrepared = $this->pdo->prepare($query);
-                $queryPrepared->execute([
-                    ":id" => $id,
-                    ":name" => $serie->seriesName,
-                    ":status" => $serie->status,
-                    ":run_time" => $serie->runtime,
-                    ":first_aired" => $serie->firstAired,
-                    ":picture" => $imurl . $image["filename"],
-                    ":summary" => $serie->overview,
-                    ":updated" => date("Y-m-d H:i:s", $serie->lastUpdated)
-                ]);
-
-                /**
-                 * On vérifie que la série est bien ajouté, présente avant de continuer
-                 */
-                $queryPrepared = $this->pdo->prepare("SELECT id_show FROM flixadvisor.TV_SHOW WHERE id_show = :id");
-                $queryPrepared->execute([":id" => $id]);
-                if (sizeof($queryPrepared->fetchAll()) != 1)
-                    die("UNE ERREUR EST SURVENUE PENDANT L'INSERTION DE LA SERIE");
-
-=======
 
                 /**
                  * On execute la requete d'ajout / de mise à jour
@@ -151,7 +115,6 @@ class Tv_show_model extends My_model
                 if (sizeof($queryPrepared->fetchAll()) != 1)
                     die("UNE ERREUR EST SURVENUE PENDANT L'INSERTION DE LA SERIE");
 
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
                 /***************************************************************************************************************
                  * On passe à l'ajout / mise à jour des épisodes
                  *  $page et $i servent à changer de pages de resultat sur l'API (nécéssaire quand +100 épisodes)
@@ -174,22 +137,14 @@ class Tv_show_model extends My_model
                         if ($new || ($lastUpdated->diff($APIUpdated->setTimestamp($episode->lastUpdated))->days < 30 && $lastUpdated->diff($APIUpdated->setTimestamp($episode->lastUpdated))->days != 0)) {
                             //var_dump("ajout ep");
                             $isExist = "SELECT id_season FROM flixadvisor.SEASON WHERE tv_show = :id AND nb_season = :number";
-<<<<<<< HEAD
-                            $queryPrepared = $this->pdo->prepare($isExist);
-=======
                             $queryPrepared = $pdo->prepare($isExist);
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
                             $queryPrepared->execute([
                                 ":id" => $id,
                                 ":number" => $episode->airedSeason]);
                             if (sizeof($queryPrepared->fetchAll()) == 0) {
                                 echo $episode->airedSeason;
                                 $query = "INSERT INTO flixadvisor.SEASON (nb_season, tv_show) VALUES (:number, :serie_id)";
-<<<<<<< HEAD
-                                $queryPrepared = $this->pdo->prepare($query);
-=======
                                 $queryPrepared = $pdo->prepare($query);
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
                                 $queryPrepared->execute([
                                     ":number" => $episode->airedSeason,
                                     ":serie_id" => $id
@@ -207,11 +162,7 @@ class Tv_show_model extends My_model
                                 "(:id, :number, :name, :first_aired, :director, :author, :summary,(SELECT id_season FROM flixadvisor.SEASON " .
                                 "WHERE tv_show = :serie_id AND nb_season = :season_number)) " .
                                 "ON DUPLICATE KEY UPDATE name_episode = :name, director_episode = :director, author_episode = :author, summary_episode = :summary ";
-<<<<<<< HEAD
-                            $queryPrepared = $this->pdo->prepare($query);
-=======
                             $queryPrepared = $pdo->prepare($query);
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
                             $queryPrepared->execute([
                                 ":id" => $episode->id,
                                 ":number" => $episode->airedEpisodeNumber,
@@ -231,11 +182,7 @@ class Tv_show_model extends My_model
                             //var_dump("up ep");
                             $query = "UPDATE flixadvisor.EPISODE SET name_episode = :name, director_episode = :director, author_episode = :author, summary_episode = :summary " .
                                 "WHERE id_episode = :id";
-<<<<<<< HEAD
-                            $queryPrepared = $this->pdo->prepare($query);
-=======
                             $queryPrepared = $pdo->prepare($query);
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
                             $queryPrepared->execute([
                                 ":id" => $episode->id,
                                 ":name" => $episode->episodeName,
@@ -265,11 +212,7 @@ class Tv_show_model extends My_model
                      * On insère l'acteur s'il n'existe pas déjà
                      */
                     $query = "INSERT IGNORE INTO flixadvisor.ACTOR (id_actor, name_actor) VALUES (:id, :name)";
-<<<<<<< HEAD
-                    $queryPrepared = $this->pdo->prepare($query);
-=======
                     $queryPrepared = $pdo->prepare($query);
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
                     $queryPrepared->execute([
                         ":id" => $actor->id,
                         ":name" => $actor->name
@@ -285,11 +228,7 @@ class Tv_show_model extends My_model
                         "ON DUPLICATE KEY UPDATE " .
                         "role_actor = :role, photo_actor = :picture";
 
-<<<<<<< HEAD
-                    $queryPrepared = $this->pdo->prepare($query);
-=======
                     $queryPrepared = $pdo->prepare($query);
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
                     $queryPrepared->execute([
                         ":id" => $id,
                         ":actor_id" => $actor->id,
@@ -305,19 +244,11 @@ class Tv_show_model extends My_model
                  * On vérifie si le reseau existe déjà, auquel cas on l'ajoute
                  */
                 $isExist = "SELECT id_network FROM flixadvisor.NETWORK WHERE name_network = :name";
-<<<<<<< HEAD
                 $queryPrepared = $this->pdo->prepare($isExist);
                 $queryPrepared->execute([":name" => $serie->network]);
                 if (sizeof($queryPrepared->fetchAll()) == 0) {
                     $query = "INSERT IGNORE INTO flixadvisor.NETWORK (name_network) value (:name)";
                     $queryPrepared = $this->pdo->prepare($query);
-=======
-                $queryPrepared = $pdo->prepare($isExist);
-                $queryPrepared->execute([":name" => $serie->network]);
-                if (sizeof($queryPrepared->fetchAll()) == 0) {
-                    $query = "INSERT IGNORE INTO flixadvisor.NETWORK (name_network) value (:name)";
-                    $queryPrepared = $pdo->prepare($query);
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
                     $queryPrepared->execute([":name" => $serie->network]);
                     if ($queryPrepared->errorCode() != '00000')
                         die("UNE ERREUR EST SURVENUE PENDANT L'INSERTION D'UN RESEAU");
@@ -328,11 +259,7 @@ class Tv_show_model extends My_model
 
                 if ($serie->network != "") {
                     $query = "INSERT IGNORE INTO flixadvisor.BROADCAST (tv_show, network) VALUES (:id, (SELECT id_network FROM flixadvisor.NETWORK WHERE name_network = :name))";
-<<<<<<< HEAD
-                    $queryPrepared = $this->pdo->prepare($query);
-=======
                     $queryPrepared = $pdo->prepare($query);
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
                     $queryPrepared->execute([
                         ":id" => $id,
                         ":name" => $serie->network
@@ -351,30 +278,18 @@ class Tv_show_model extends My_model
 
                 foreach ($serie->genre as $genre) {
                     $isExist = "SELECT id_category FROM flixadvisor.CATEGORY where name_category = :name";
-<<<<<<< HEAD
-                    $queryPrepared = $this->pdo->prepare($isExist);
-                    $queryPrepared->execute([":name" => $genre]);
-                    if (sizeof($queryPrepared->fetchAll()) == 0) {
-                        $query = "INSERT INTO flixadvisor.CATEGORY (name_category) value (:name)";
-                        $queryPrepared = $this->pdo->prepare($query);
-=======
                     $queryPrepared = $pdo->prepare($isExist);
                     $queryPrepared->execute([":name" => $genre]);
                     if (sizeof($queryPrepared->fetchAll()) == 0) {
                         $query = "INSERT INTO flixadvisor.CATEGORY (name_category) value (:name)";
                         $queryPrepared = $pdo->prepare($query);
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
                         $queryPrepared->execute([":name" => $genre]);
                         if ($queryPrepared->errorCode() != '00000')
                             die("UNE ERREUR EST SURVENUE PENDANT L'INSERTION D'UN GENRE" . $queryPrepared->errorCode());
                     }
 
                     $query = "INSERT IGNORE INTO flixadvisor.CATEGORIZED_SHOW (tv_show, category) VALUES (:id, (SELECT id_category FROM flixadvisor.CATEGORY WHERE name_category = :name))";
-<<<<<<< HEAD
-                    $queryPrepared = $this->pdo->prepare($query);
-=======
                     $queryPrepared = $pdo->prepare($query);
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
                     $queryPrepared->execute([
                         ":id" => $id,
                         ":name" => $genre

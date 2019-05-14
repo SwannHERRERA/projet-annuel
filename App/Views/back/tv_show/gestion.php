@@ -23,11 +23,7 @@
           <td><?= $tv_show['last_updated'] ?></td>
           <td class="text-center">
               <a><i class="fas fa-edit"></i></a>
-<<<<<<< HEAD
               <a onclick="confdel('<?= $site_url . '/back/tv_show/remove?id=' . $tv_show['id_show']?>')" class="text-danger"><i class="fas fa-trash-alt"></i></a>
-=======
-              <a onclick="confdel('<?= $site_url . '/back/tv_show/remove?id=' . $tv_show['show_id']?>)" class="text-danger"><i class="fas fa-trash-alt"></i></a>
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
           </td>
       </tr>
       <?php endforeach; ?>
