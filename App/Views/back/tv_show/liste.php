@@ -6,7 +6,7 @@
             <?php foreach ($results as $result) : ?>
                 <div class="row mt-2">
                     <div class="col-12">
-                        <a href="<?= $site_url . '/back/tv_show/detail?idserie='.$result->id?>" target="_blank">
+                        <a href="<?= $site_url . '/back/tv_show/detail?idserie='.$result->id?>">
                             <h4><?= $result->seriesName ?></h4>
                         </a>
                     </div>
@@ -14,7 +14,7 @@
                 <?php if (!empty($result->banner)) :?>
                     <div class="row">
                         <div class="col-12">
-                            <a href="<?= $site_url . '/back/tv_show/detail?idserie='.$result->id?>" target="_blank">
+                            <a href="<?= $site_url . '/back/tv_show/detail?idserie='.$result->id?>">
                                 <img src="<?= $this->imurl . $result->banner ?>">
                             </a>
                         </div>

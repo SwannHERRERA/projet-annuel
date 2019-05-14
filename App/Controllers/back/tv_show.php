@@ -76,7 +76,7 @@ class Tv_show extends Controller
             $this->api->authenticate();
             $serie = $this->api->series($_GET['idserie']);
 
-            $result = $this->tv_show_model->insertTV($serie->id, $serie, $this->api, $this->imurl);
+            $result = $this->tv_show_model->insertTV($serie->id, $serie, $this->api, $this->imurl, true);
         } else {
             $page_title = 'Création d\'une serie';
             $sous_categories = ['Gestion des seriés' => 'gestion', 'Création d\'une serie' => 'add', 'Propositions de séries' => 'proposition'];
@@ -106,9 +106,9 @@ class Tv_show extends Controller
         require self::VIEW_PATH . 'back/layout/header.php';
     }
 
-    pulbic function remove()
+    public function remove()
     {
-        $this->Tv_show_model->delete($_GET['id']);
+        $this->tv_show_model->delete($_GET['id']);
         header('Location: /back/tv_show/gestion');
     }
 }

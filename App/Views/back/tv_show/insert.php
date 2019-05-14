@@ -1,9 +1,9 @@
 <?php
-require __DIR__ . '/vendor/autoload.php';
+require BASEPATH . '/vendor/autoload.php';
 
 use RestAPI\TheTvdbApi;
 
-require_once "conf.inc.php";
+require_once BASEPATH . 'conf.inc.php';
 
 if (array_key_exists('insert', $_POST)) {
     if (array_key_exists('hard', $_POST)) {
@@ -34,7 +34,7 @@ function insertTV($id, $hard)
             $query = "SELECT last_updated FROM flixadvisor.TV_SHOW WHERE id_show = :id";
             $queryPrepared = $pdo->prepare($query);
             $queryPrepared->execute([":id" => $serie->id]);
-            $result = $queryPrepared->fetch();
+            $result = $queryPrepared->fetch()[0];
             if (!empty($result)) {
                 $lastUpdated = new DateTime($result["last_updated"]);
                 $APIUpdated = new DateTime();
@@ -46,7 +46,7 @@ function insertTV($id, $hard)
         }
 
         if ($new || ($lastUpdated->diff($APIUpdated)->days < 30 && $lastUpdated->diff($APIUpdated)->days != 0)) {
-            /*print_r($lastUpdated->diff($APIUpdated)->days);*/
+            print_r($lastUpdated->diff($APIUpdated)->days);
             //var_dump("Ajout update");
             /***************************************************************************************************************
              * Préparation des informations sur la série car qu'elle existe ou pas, elle sera créée / mis à jour
