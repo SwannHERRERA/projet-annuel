@@ -290,7 +290,19 @@ class Tv_show_model extends My_model
     }
 
     /**
-     * @param INTEGER id = id of the TV_show
+    * UPDATE without apikey
+    */
+    public function update() {
+        $query = "UPDATE " . $this->_table .
+        " SET name_show = :name_show, id_show = :id_show, production_status = :production_status,
+         first_aired_show = :first_aired_show, image_show = :image_show, runtime_show = :runtime_show,
+          summary_show = :summary_show WHERE id_show = :id_show;";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([]);
+    }
+
+    /**
+     * @param integer id = id of the TV_show
      * @return ARRAY with image of the TV_show
      */
     public function getImage($id)

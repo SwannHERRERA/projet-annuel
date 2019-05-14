@@ -22,7 +22,7 @@
           <td><?= $tv_show['runtime_show'] ?></td>
           <td><?= $tv_show['last_updated'] ?></td>
           <td class="text-center">
-              <a><i class="fas fa-edit"></i></a>
+              <a href="<?= $site_url . '/back/tv_show/edit?id=' . $tv_show['id_show']?>"><i class="fas fa-edit"></i></a>
               <a onclick="confdel('<?= $site_url . '/back/tv_show/remove?id=' . $tv_show['id_show']?>')" class="text-danger"><i class="fas fa-trash-alt"></i></a>
           </td>
       </tr>

@@ -16,30 +16,28 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name_show">name show<span class="text-danger">&nbsp;*</span></label>
-                    <input type="text" name="name_show" id="name_show" class="form-control" required="required"<?= isset($tv_show['name_show']) ? "disabled" : '' ?> value="<?= $_POST['name_show'] ?? $tv_show['name_show'] ?? '' ?>">
+                    <input type="text" name="name_show" id="name_show" class="form-control" required="required" value="<?= $_POST['name_show'] ?? $tv_show['name_show'] ?? '' ?>">
                 </div>
 
                 <div class="form-group">
-                    <label for="genre">Genre</label>
+                    <label for="production_status">production status</label>
                     <select name="production_status" id="production_status" class="form-control">
-                        <?php if (isset($_POST['production_status'])): ?>
+                    <?php if (isset($_POST['production_status'])): ?>
                         <option <?php echo ($_POST['production_status'] == 'Continuing') ? 'selected' : ''?> value="Continuing">Continuing</option>
                         <option <?php echo ($_POST['production_status'] == 'endend') ? 'selected' : ''?> value="endend">endend</option>
                     <?php elseif (isset($tv_show['production_status'])): ?>
                         <option <?php echo ($tv_show['production_status'] == 'Continuing') ? 'selected' : ''?> value="Continuing">Continuing</option>
                         <option <?php echo ($tv_show['production_status'] == 'endend') ? 'selected' : ''?> value="endend">endend</option>
-                        <?php else: ?>
+                    <?php else: ?>
                         <option value="Continuing" selected>Continuing</option>
                         <option value="endend">endend</option>
-                        <?php endif; ?>
+                    <?php endif; ?>
                     </select>
                 </div>
-
                 <div class="form-group">
-                    <label for="ville">Ville</label>
-                    <input type="text" name="ville" id="ville" class="form-control" value="<?= $_POST['ville'] ?? $tv_show['city'] ?? '' ?>">
+                    <label for="id_show">id show</label>
+                    <input type="text" name="id_show" id="id_show" class="form-control" value="<?= $_POST['id_show'] ?? $tv_show['id_show'] ?? '' ?>">
                 </div>
-
             </div>
 
             <div class="col-md-6">
@@ -57,11 +55,15 @@
                     <label for="image_show">image show</label>
                     <input type="text" name="image_show" id="image_show" class="form-control" value="<?= $_POST['image_show'] ?? $tv_show['image_show'] ?? '' ?>">
                 </div>
+                <div class="form-group">
+                    <label for="runtime_show">runtime show</label>
+                    <input type="text" name="runtime_show" id="runtime_show" class="form-control" value="<?= $_POST['runtime_show'] ?? $tv_show['runtime_show'] ?? '' ?>">
+                </div>
             </div>
             <div class="col-12">
                 <div class="form-group">
-                    <label for="summary_show">summary show<span class="">&nbsp;*</span></label>
-                    <textarea name="summary_show" id="summary_show" class="form-control" value="<?= $_POST['summary_show'] ?? $tv_show['summary_show'] ?? '' ?>">
+                    <label for="summary_show">summary show<span class="text-danger">&nbsp;*</span></label>
+                    <textarea name="summary_show" id="summary_show" class="form-control" rows="5" ><?= $_POST['summary_show'] ?? $tv_show['summary_show'] ?? '' ?></textarea>
                 </div>
             </div>
         </div>

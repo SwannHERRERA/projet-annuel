@@ -115,6 +115,16 @@ class Tv_show extends Controller
 
     public function edit()
     {
+        if (!empty($_POST)){
+            require BASEPATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Form_validation.php';
+            $form_validation = new form_validation('');
+            $form_validation->set_rules('id_show', 'l\id', ['require']);
+            $form_validation->set_rules('name_show', 'l\id', ['require']);
+            $this->tv_show_model->update();
+        }
+
+        $tv_show = $this->tv_show_model->getTVShow($_GET['id']);
+
         $page_title = 'Modification d\'une serie';
         $sous_categories = ['Gestion des seriés' => 'gestion', 'Création d\'une serie' => 'add', 'Propositions de séries' => 'proposition'];
         require self::VIEW_PATH . 'back/layout/header.php';
