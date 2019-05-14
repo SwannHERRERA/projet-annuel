@@ -108,7 +108,6 @@ class Tv_show extends Controller
 
     public function remove()
     {
-<<<<<<< HEAD
         var_dump($_GET);
         $this->tv_show_model->removeTVShow($_GET['id']);
         header('Location: /back/tv_show/gestion');
@@ -122,9 +121,4 @@ class Tv_show extends Controller
         require self::VIEW_PATH . 'back/tv_show/form.php';
         require self::VIEW_PATH . 'back/layout/footer.php';
     }
-=======
-        $this->tv_show_model->delete($_GET['id']);
-        header('Location: /back/tv_show/gestion');
-    }
->>>>>>> b69cf700528bd2a4f9b69925681c47f2948015d1
 }
