@@ -112,4 +112,13 @@ class Tv_show extends Controller
         $this->tv_show_model->removeTVShow($_GET['id']);
         header('Location: /back/tv_show/gestion');
     }
+
+    public function edit()
+    {
+        $page_title = 'Modification d\'une serie';
+        $sous_categories = ['Gestion des seriés' => 'gestion', 'Création d\'une serie' => 'add', 'Propositions de séries' => 'proposition'];
+        require self::VIEW_PATH . 'back/layout/header.php';
+        require self::VIEW_PATH . 'back/tv_show/form.php';
+        require self::VIEW_PATH . 'back/layout/footer.php';
+    }
 }
