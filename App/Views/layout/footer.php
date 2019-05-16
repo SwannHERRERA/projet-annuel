@@ -65,8 +65,7 @@
 $(document).ready(function () {
   let url = document.location.href
   let tab = url.split('#')
-  let id = tab[1]
-  console.log(id);
+  let id = tab[1];
   if (id == 'modal'){
     $('#modal').modal('show')
   }

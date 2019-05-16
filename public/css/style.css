@@ -17267,6 +17267,7 @@ footer ul, aside ul {
 }
 
 aside {
+  z-index: 100;
   background-color: #111035;
   padding: 30px 0;
 }
@@ -17312,6 +17313,45 @@ footer .btn {
 footer .btn:hover {
   background-color: #fff;
   color: #546e7a;
+}
+
+.slider {
+  position: relative;
+  margin: 0 10px;
+}
+
+.slider_large {
+  transition: transform 0.3s;
+  transform: translate3d(0, 0, 0);
+}
+
+.slider_large::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.slider-item {
+  float: left;
+  padding: 20px;
+}
+
+.slider_next,
+.slider_prev {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  background: #fff url("https://flixadvisor.fr/images/chevron-right-solid.svg") center center no-repeat;
+  top: 50%;
+  right: -20px;
+  cursor: pointer;
+}
+
+.slider_prev {
+  right: auto;
+  left: -20px;
+  background: #fff url("https://flixadvisor.fr/images/chevron-left-solid.svg") center center no-repeat;
 }
 
 body {

@@ -679,23 +679,212 @@ function addOrRemoveMemberWatchedEpisode($email, $idEpisode)
     }
 }
 
-function addOrRemoveMemberTVShowList($email, $idShow, $status, $notification, $mark)
+function addOrRemoveMemberTVShowToFollowingShow($email, $idShow, $status, $notification, $mark)
 {
-
+    $pdo = connectDB();
+    $query = "select member, tv_show from flixadvisor.FOLLOWED_SHOW WHERE member = :email AND tv_show = :idShow;";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":idShow" => $idShow,
+        ":email" => $email
+    ]);
+    if (sizeof($queryPrepared->fetchAll()) == 0)
+        $query = "insert ignore into flixadvisor.FOLLOWED_SHOW (member, tv_show, status_followed_show, notification_followed_show, date_followed_show, mark_followed_show) VALUES (:email, :idShow,:status,:notification, curdate(),:mark);";
+    else
+        $query = "delete from flixadvisor.FOLLOWED_SHOW WHERE tv_show = :idShow AND member = :email;";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":idShow" => $idShow,
+        ":email" => $email,
+        ":status" => $status,
+        ":notification" => $notification,
+        ":mark" => $mark
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de l'insertion / suppression d'une serie en suivie.");
+    }
 }
 
 function updateNotificationMemberTVShowList($email, $idShow, $notification)
 {
-
+    $pdo = connectDB();
+    $query = "update flixadvisor.FOLLOWED_SHOW set notification_followed_show = :notification where tv_show = :idShow and member = :email";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":email" => $email,
+        ":idShow" => $idShow,
+        ":notification" => $notification
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la maj des notifications sur la serie.");
+    }
 }
 
 function updateStatusMemberTVShowList($email, $idShow, $status)
 {
-
+    $pdo = connectDB();
+    $query = "update flixadvisor.FOLLOWED_SHOW set status_followed_show = :status where tv_show = :idShow and member = :email";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":email" => $email,
+        ":idShow" => $idShow,
+        ":status" => $status
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la maj du statut sur la serie.");
+    }
 }
 
 function updateMarkMemberTVShowList($email, $idShow, $mark)
 {
-    
+    $pdo = connectDB();
+    $query = "update flixadvisor.FOLLOWED_SHOW set mark_followed_show = :mark where tv_show = :idShow and member = :email";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":email" => $email,
+        ":idShow" => $idShow,
+        ":mark" => $mark
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la maj de la note sur la serie.");
+    }
 }
 
+/**
+ * @param $nameShow string (nom de la serie ,recherche flexible : game => game of thrones, no game,...)
+ * @return array[array[id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated, score, followers],...]
+ */
+function searchTVShow($nameShow)
+{
+    $pdo = connectDB();
+    $query = "select id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, " .
+        "last_updated,(SELECT CAST(AVG(mark_followed_show) AS DECIMAL(10,2)) FROM flixadvisor.FOLLOWED_SHOW " .
+        "WHERE FOLLOWED_SHOW.tv_show = id_show) as score, (SELECT count(*) FROM FOLLOWED_SHOW where FOLLOWED_SHOW.tv_show = id_show) " .
+        "as followers from flixadvisor.TV_SHOW where instr(name_show, :name) >0";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":name" => $nameShow]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recherhce des series.");
+    }
+    return $queryPrepared->fetchAll();
+}
+
+/**
+ * @param $nameActor string (nom de l'acteur, recherche flexible : mai => maisie williams,...)
+ * @return array[array[id_actor, name_actor],...]
+ */
+function searchActor($nameActor)
+{
+    $pdo = connectDB();
+    $query = "select id_actor, name_actor from flixadvisor.ACTOR where instr(name_actor, :name) >0";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":name" => $nameActor]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recherhce des acteurs.");
+    }
+    return $queryPrepared->fetchAll();
+}
+
+/**
+ * @param $nameMember string (pseuso du membre, recherche flexible : ma => marie, manon,...)
+ * @return array[array[email,pseudo],...]
+ */
+function searchMember($nameMember)
+{
+    $pdo = connectDB();
+    $query = "select email, pseudo from flixadvisor.MEMBER where instr(pseudo, :name) >0";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":name" => $nameMember]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recherhce des series.");
+    }
+    return $queryPrepared->fetchAll();
+}
+
+/**
+ * @param $nameShow string (nom de la série, recherche flexible : game => game of thrones, no game,... , laisser "" ou null pour ne pas prendre en compte)
+ * @param $minimumRating string (note minimum de la série, laisser "" ou null pour ne pas prendre en compte)
+ * @param $status string (status de la série : Continuing, Ended, laisser "" ou null pour ne pas prendre en compte)
+ * @param $idNetworks array[id1,id2,id3,...] (réseaux de diffusion voulus, laisser "",[] ou null pour ne pas prendre en compte)
+ * @param $firstAiredYears array[year1,year2,year3,...] (années de diffusion de la série, laisser "",[] ou null pour ne pas prendre en compte)
+ * @param $runtimes array[time1,time2,time3,...] (durées moyennes de la série, laisser "",[] ou null pour ne pas prendre en compte)
+ * @param $idGenres array[id1,id2,id3,...] (genres voulus de la série, laisser "",[] ou null pour ne pas prendre en compte)
+ * @param $idActors array[id1,id2,id3,...] (acteurs voulus de la série, laisser "",[] ou null pour ne pas prendre en compte)
+ * @return array[array[id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated, score, followers],...]
+ */
+function searchTVShowAdvanced($nameShow, $minimumRating, $status, $idNetworks, $firstAiredYears, $runtimes, $idGenres, $idActors)
+{
+    $pdo = connectDB();
+    $parameters = [];
+    $query = "select " .
+        "id_show, " .
+        "name_show, " .
+        "production_status, " .
+        "runtime_show, " .
+        "first_aired_show, " .
+        "image_show, " .
+        "summary_show, " .
+        "last_updated, " .
+        "(SELECT CAST(AVG(mark_followed_show) AS DECIMAL(10,2)) " .
+        "FROM flixadvisor.FOLLOWED_SHOW WHERE FOLLOWED_SHOW.tv_show = id_show) as score, " .
+        "(SELECT count(*) " .
+        "FROM FOLLOWED_SHOW where FOLLOWED_SHOW.tv_show = id_show) as followers " .
+        "from flixadvisor.TV_SHOW ";
+    $join = "";
+    $condition = "where 1=1 ";
+    if ($nameShow != null && sizeof($nameShow) > 0) {
+        $condition .= "AND instr(name_show, :name) >0 ";
+        $parameters = array_merge($parameters, [":name" => $nameShow]);
+    }
+    if ($minimumRating != null && sizeof($minimumRating) > 0) {
+        $condition .= "AND " .
+            "(SELECT CAST(AVG(mark_followed_show) AS DECIMAL(10,2)) " .
+            "FROM flixadvisor.FOLLOWED_SHOW " .
+            "WHERE tv_show = id_show) " .
+            ">= :mark ";
+        $parameters = array_merge($parameters, [":mark" => $minimumRating]);
+    }
+    if ($status != null && sizeof($status) > 0) {
+        $condition .= "AND production_status = :status ";
+        $parameters = array_merge($parameters, [":status" => $status]);
+    }
+    if ($idNetworks != null and sizeof($idNetworks) > 0) {
+        $join .= "left join BROADCAST ON flixadvisor.TV_SHOW.id_show = tv_show " .
+            "left join NETWORK N on BROADCAST.network = N.id_network ";
+        $condition .= "AND N.id_network IN (:network) ";
+        $parameters = array_merge($parameters, [":network" => $idNetworks]);
+    }
+    if ($firstAiredYears != null && sizeof($firstAiredYears) > 0) {
+        $condition .= "AND YEAR(first_aired_show) IN (:airedYear) ";
+        $parameters = array_merge($parameters, ["airedYear" => $firstAiredYears]);
+    }
+    if ($runtimes != null && sizeof($runtimes) > 0) {
+        $condition .= "AND runtime_show IN (:runtime) ";
+        $parameters = array_merge($parameters, [":runtime" => $runtimes]);
+    }
+    if ($idGenres != null && sizeof($idGenres) > 0) {
+        $join .= "left join CATEGORIZED_SHOW CS on TV_SHOW.id_show = CS.tv_show " .
+            "left join CATEGORY C on CS.category = C.id_category ";
+        $condition .= "AND C.id_category IN (:genres) ";
+        $parameters = array_merge($parameters, [":genres" => $idGenres]);
+    }
+    if ($idActors != null && sizeof($idActors) > 0) {
+        $join .= "left join CASTING C2 on TV_SHOW.id_show = C2.tv_show " .
+            "left join ACTOR A on C2.actor = A.id_actor ";
+        $condition .= "and A.id_actor IN (:actors) ";
+        $parameters = array_merge($parameters, [":actors" => $idActors]);
+    }
+
+    $condition .= "group by id_show order by name_show";
+
+    $queryPrepared = $pdo->prepare($query . $join . $condition);
+    $queryPrepared->execute($parameters);
+    return $queryPrepared->fetchAll();
+}
