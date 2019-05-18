@@ -1,6 +1,7 @@
 .slider {
   position: relative;
   margin: 0 10px;
+  overflow: hidden;
 }
 
 .slider_large {
@@ -24,16 +25,17 @@
   position: absolute;
   width: 30px;
   height: 30px;
-  border-radius: 50px;
   background: #fff url("https://flixadvisor.fr/images/chevron-right-solid.svg")
     center center no-repeat;
+  background-size: 20px 20px;
+  border-radius: 50px;
   top: 50%;
-  right: -20px;
+  margin-top: -20px;
+  right: 0;
   cursor: pointer;
 }
 .slider_prev {
-  right: auto;
-  left: -20px;
+  left: 0;
   background: #fff url("https://flixadvisor.fr/images/chevron-left-solid.svg")
     center center no-repeat;
 }

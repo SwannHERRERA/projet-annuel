@@ -449,4 +449,50 @@ class Tv_show_model extends My_model
         $result = $queryPrepared->fetch()[0];
         return $result;
     }
+
+
+    /**
+     * Retourne les 10 premieres series les plus suivies
+     * @return array[array[id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated, followers],...]
+     */
+    public function get10MostFollowedShows()
+    {
+        $query = "select id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated, (select count(*) from flixadvisor.FOLLOWED_SHOW where tv_show = id_show) as followers from flixadvisor.TV_SHOW group by id_show order by followers desc limit 10;";
+        $queryPrepared = $this->pdo->query($query);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la recuperation des series les plus suivies.");
+        }
+        return $queryPrepared->fetchAll();
+    }
+
+    /**
+     * Retourne les 10 premieres series ayant sorti un episode recemment
+     * @return array[array[id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated,last_episode],...]
+     */
+    public function get10LastUpdatedShows()
+    {
+        $query = "select id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated, (select MAX(first_aired_episode) from flixadvisor.EPISODE left join SEASON S on EPISODE.season = S.id_season where S.tv_show = id_show and first_aired_episode <= sysdate()) as last_episode from flixadvisor.TV_SHOW group by id_show order by last_episode desc limit 10;";
+        $queryPrepared = $this->pdo->query($query);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la recuperation des series les plus recentes.");
+        }
+        return $queryPrepared->fetchAll();
+    }
+
+    /**
+     * Retourne les 10 series les mieux notés par les utilisateurs
+     * @return array[array[id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated, score],...]
+     */
+    public function get10BestShows()
+    {
+        $query = "select id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated, (SELECT CAST(AVG(mark_followed_show) AS DECIMAL(10, 2)) FROM flixadvisor.FOLLOWED_SHOW WHERE FOLLOWED_SHOW.tv_show = id_show) as score from flixadvisor.TV_SHOW group by id_show order by score desc limit 10;";
+        $queryPrepared = $this->pdo->query($query);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la recuperation des series les mieux notees.");
+        }
+        return $queryPrepared->fetchAll();
+    }
 }

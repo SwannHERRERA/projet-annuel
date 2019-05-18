@@ -71,12 +71,6 @@ $(document).ready(function () {
   }
 })
 </script>
-<?php
-echo "SESSION<br>";
-var_dump($_SESSION);
-echo "POST<br>";
-var_dump($_POST);
-?>
 
 <?php if (isset($_SESSION['POST'])){
   unset($_SESSION['POST']);
