@@ -17415,7 +17415,7 @@ hr {
   color: initial;
 }
 
-.menu {
+.menu-button {
   position: -webkit-sticky;
   position: sticky;
   top: 2rem;
@@ -17429,8 +17429,12 @@ hr {
   color: #000;
   border-radius: 5px;
 }
-.menu:hover {
+.menu-button:hover {
   color: initial;
+}
+
+.menu {
+  background-color: #fadb14;
 }
 
 .white-card {

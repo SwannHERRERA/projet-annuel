@@ -64,7 +64,7 @@ hr {
     color: initial;
   }
 }
-.menu {
+.menu-button {
   position: -webkit-sticky;
   position: sticky;
   top: 2rem;
@@ -81,6 +81,11 @@ hr {
   }
   border-radius: 5px;
 }
+
+.menu {
+  background-color: $yellow;
+}
+
 .white-card {
   @extend .card;
   padding: 0;

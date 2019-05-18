@@ -16,7 +16,7 @@
 
 <body class="container-fluid">
     <div class="row min-vh-100">
-        <a class=" d-md-none menu" href="<?= $site_url . '/menu' ?>" ><i class="fas fa-ellipsis-h"></i></a>
+        <a class=" d-md-none menu-button" href="<?= $site_url . '/menu' ?>" ><i class="fas fa-ellipsis-h"></i></a>
         <aside class="d-none d-md-block col-md-3 col-lg-2 align-self">
             <p class="text-center">
                 <a href="<?= $site_url?>"><img src="<?= $site_url . '/images/logo.png'?>" class="logo" alt="logo"></a>
@@ -40,7 +40,7 @@
                 <a href="<?= $site_url . '/member/logout'?>" class="btn btn-info btn-block">
                     Déconnexion</a>
             <?php endif;?>
-            <ul class="mb-20">
+            <ul class="mb-20 ">
                 <li><a href="#" class="link"><i class="fas fa-search"></i>&nbsp;Recherche avancée</a>
                 <li><a href="#" class="link"><i class="fas fa-flask"></i>&nbsp;Surprenez-moi !</a>
                 <li><a href="#" class="link"><i class="fas fa-plus"></i>&nbsp;Proposer une série</a>
