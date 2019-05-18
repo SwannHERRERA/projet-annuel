@@ -16,6 +16,7 @@
 
 <body class="container-fluid">
     <div class="row min-vh-100">
+        <a class=" d-md-none menu" href="<?= $site_url . '/menu' ?>" ><i class="fas fa-ellipsis-h"></i></a>
         <aside class="d-none d-md-block col-md-3 col-lg-2 align-self">
             <p class="text-center">
                 <a href="<?= $site_url?>"><img src="<?= $site_url . '/images/logo.png'?>" class="logo" alt="logo"></a>

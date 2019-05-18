@@ -79,6 +79,7 @@ hr {
   &:hover {
     color: initial;
   }
+  border-radius: 5px;
 }
 .white-card {
   @extend .card;

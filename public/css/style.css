@@ -17427,6 +17427,7 @@ hr {
   font-size: 18px;
   line-height: 18px;
   color: #000;
+  border-radius: 5px;
 }
 .menu:hover {
   color: initial;

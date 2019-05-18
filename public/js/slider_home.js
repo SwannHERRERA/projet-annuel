@@ -123,4 +123,3 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
 })
-console.log('je suis charger');
