@@ -495,4 +495,24 @@ class Tv_show_model extends My_model
         }
         return $queryPrepared->fetchAll();
     }
+
+    /**
+     * @param $nameShow string (nom de la serie ,recherche flexible : game => game of thrones, no game,...)
+     * @return array[array[id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated, score, followers],...]
+     */
+    function searchTVShow($nameShow)
+    {
+        $query = "SELECT id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, " .
+            "last_updated,(SELECT CAST(AVG(mark_followed_show) AS DECIMAL(10,2)) FROM flixadvisor.FOLLOWED_SHOW " .
+            "WHERE FOLLOWED_SHOW.tv_show = id_show) as score, (SELECT count(*) FROM FOLLOWED_SHOW where FOLLOWED_SHOW.tv_show = id_show) " .
+            "as followers from flixadvisor.TV_SHOW where instr(name_show, :name) >0";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([":name" => $nameShow]);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la recherhce des series.");
+        }
+        return $queryPrepared->fetchAll();
+    }
+
 }

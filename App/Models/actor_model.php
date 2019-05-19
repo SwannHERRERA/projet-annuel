@@ -29,7 +29,7 @@ class Actor_model extends My_model
     */
     public function addActor($id, $name)
     {
-        
+
         $query = "INSERT IGNORE INTO flixadvisor.ACTOR (id_actor, name_actor) VALUES (:id, :name);";
         $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->execute([
@@ -74,6 +74,22 @@ class Actor_model extends My_model
         if ($queryPrepared->errorCode() != '00000') {
             var_dump($queryPrepared->errorInfo());
             die("Une erreur est survenue lors de la recuperation des acteurs de la serie.");
+        }
+        return $queryPrepared->fetchAll();
+    }
+
+    /**
+     * @param $nameActor string (nom de l'acteur, recherche flexible : mai => maisie williams,...)
+     * @return array[array[id_actor, name_actor],...]
+     */
+    function searchActor($nameActor)
+    {
+        $query = "select id_actor, name_actor from flixadvisor.ACTOR where instr(name_actor, :name) >0";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([":name" => $nameActor]);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la recherhce des acteurs.");
         }
         return $queryPrepared->fetchAll();
     }

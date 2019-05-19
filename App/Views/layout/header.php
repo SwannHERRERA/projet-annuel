@@ -21,7 +21,7 @@
             <p class="text-center">
                 <a href="<?= $site_url?>"><img src="<?= $site_url . '/images/logo.png'?>" class="logo" alt="logo"></a>
             </p>
-            <form class="mb-20">
+            <div class="mb-20">
                 <label class="sr-only" for="inlineFormInputGroup">search</label>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
@@ -29,7 +29,8 @@
                     </div>
                     <input type="text" class="form-control" id="search" name="search" placeholder="Chercher...">
                 </div>
-            </form>
+                <div id="result"></div>
+            </div>
             <?php
             if (!$this->member_model->isConnected()):?>
                 <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modal">

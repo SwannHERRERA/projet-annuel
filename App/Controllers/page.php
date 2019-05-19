@@ -28,4 +28,14 @@ class Page extends Controller
         require self::VIEW_PATH . 'page/menu.php';
         require self::VIEW_PATH . 'layout/footer.php';
     }
+
+    public function recherche()
+    {
+        require self::MODEL_PATH . 'actor_model.php';
+        $actor_model = new Actor_model;
+        $result = $this->tv_show_model->searchTVShow($_POST['q']);
+        $result += $actor_model->searchActor($_POST['q']);
+        $result += $this->member_model->searchMember($_POST['q']);
+        echo json_encode($result);
+    }
 }

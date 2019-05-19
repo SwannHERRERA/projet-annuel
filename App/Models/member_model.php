@@ -409,4 +409,20 @@ class Member_model extends My_model
             }
         }
     }
+
+    /**
+     * @param $nameMember string (pseuso du membre, recherche flexible : ma => marie, manon,...)
+     * @return array[array[email,pseudo],...]
+     */
+    function searchMember($nameMember)
+    {
+        $query = "select email, pseudo from flixadvisor.MEMBER where instr(pseudo, :name) >0";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([":name" => $nameMember]);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de la recherhce des series.");
+        }
+        return $queryPrepared->fetchAll();
+    }
 }
