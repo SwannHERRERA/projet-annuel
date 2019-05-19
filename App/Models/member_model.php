@@ -25,7 +25,7 @@ class Member_model extends My_model
             $form_validation->set_rules('city', '', ['trim', ['max_length' => 60]]);
             $form_validation->set_rules('country', '', ['trim', ['max_length' => 50]]);
             $form_validation->set_rules('captcha', 'captcha', ['trim']);
-            $captcha = strtolower ($_POST['captcha']);
+            $captcha = strtolower($_POST['captcha']);
             if ($_SESSION['captcha'] != $captcha) {
                 $_SESSION['register'][] = 'Le captcha ne corespond pas';
             }
@@ -43,13 +43,14 @@ class Member_model extends My_model
             }
             if (empty($_SESSION['register'])) {
                 $lien = substr(md5($_POST['email'].time().uniqid()), 0, 30);
-                $query = $this->pdo->prepare('INSERT INTO ' . $this->_table . ' (email, pseudo, gender, birth_date, city, country, password,account_status, account_role,date_inscription, verified_email)
-                VALUES (:email,:pseudo,:gender, :birth_date, :city, :country, :password, "non-active", "user", :date_inscription, :verified_email)');
+                $query = $this->pdo->prepare('INSERT INTO ' . $this->_table . ' (email, pseudo, gender, birth_date, photo city, country, password,account_status, account_role,date_inscription, verified_email)
+                VALUES (:email,:pseudo,:gender, :birth_date, :photo, :city, :country, :password, "non-active", "user", :date_inscription, :verified_email)');
                 $query->execute([
                     ':email' => $_POST['email'],
                     ':pseudo' => $_POST['pseudo'],
                     ':gender' => $_POST['genre'],
                     ':birth_date' => ($_POST['dateNaissance'] == "")? null : $_POST['dateNaissance'],
+                    ':photo' => 'https://flixadvisor.fr/images/default_pp.jpg',
                     ':city' => $_POST['city'],
                     ':country' => $_POST['country'],
                     ':password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
@@ -307,7 +308,6 @@ class Member_model extends My_model
 
     public function getGenderStats()
     {
-
         $query = "SELECT count(*) * 100 / (select count(*) from MEMBER) as nombres, gender FROM MEMBER group by gender";
         $queryPrepared = $this->pdo->query($query);
         if ($queryPrepared->errorCode() != '00000') {
@@ -319,7 +319,6 @@ class Member_model extends My_model
 
     public function getMembersCountry()
     {
-
         $query = "SELECT count(*) as nombres, country FROM MEMBER where country != '' AND country is not null group by country";
         $queryPrepared = $this->pdo->query($query);
         if ($queryPrepared->errorCode() != '00000') {
@@ -331,7 +330,6 @@ class Member_model extends My_model
 
     public function getMembersCity()
     {
-
         $query = "SELECT count(*) as nombres, city FROM MEMBER where city != '' AND city is not null group by city";
         $queryPrepared = $this->pdo->query($query);
         if ($queryPrepared->errorCode() != '00000') {
@@ -343,7 +341,6 @@ class Member_model extends My_model
 
     public function getMembersAge()
     {
-
         $query = "SELECT email, floor(datediff(curdate(), birth_date) / 365) as AGE FROM MEMBER where birth_date is not null";
         $queryPrepared = $this->pdo->query($query);
         if ($queryPrepared->errorCode() != '00000') {
@@ -355,7 +352,6 @@ class Member_model extends My_model
 
     public function getMembersInscriptionStat()
     {
-
         $query = "SELECT count(*) as nb_inscription, date_inscription from MEMBER group by date_inscription";
         $queryPrepared = $this->pdo->query($query);
         if ($queryPrepared->errorCode() != '00000') {
@@ -365,13 +361,15 @@ class Member_model extends My_model
         return $queryPrepared->fetchAll();
     }
 
-    public function request_parameters($email) {
-        $query = $this->pdo->prepare("SELECT email, pseudo, password, gender, birth_date, city, country FROM " . $this->_table . " WHERE token IS NOT NULL AND email = :email");
+    public function request_parameters($email)
+    {
+        $query = $this->pdo->prepare("SELECT email, pseudo, password, gender, birth_date, city, country, photo FROM " . $this->_table . " WHERE token IS NOT NULL AND email = :email");
         $query->execute([':email' => $email]);
         return $query->fetch();
     }
 
-    public function update_parameters($email) {
+    public function update_parameters($email)
+    {
         if (!empty($_POST)) {
             $currentUser = $this->request_parameters($email);
             require BASEPATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Form_validation.php';
@@ -411,10 +409,10 @@ class Member_model extends My_model
     }
 
     /**
-     * @param $nameMember string (pseuso du membre, recherche flexible : ma => marie, manon,...)
-     * @return array[array[email,pseudo],...]
-     */
-    function searchMember($nameMember)
+    * @param $nameMember string (pseuso du membre, recherche flexible : ma => marie, manon,...)
+    * @return array[array[email,pseudo],...]
+    */
+    public function searchMember($nameMember)
     {
         $query = "select email, pseudo from flixadvisor.MEMBER where instr(pseudo, :name) >0";
         $queryPrepared = $this->pdo->prepare($query);
