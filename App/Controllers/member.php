@@ -37,8 +37,9 @@ class Member extends Controller
                 if ($result[0]["account_status"] != 'actif') {
                     $_SESSION['login_modal'][] = "Veuillez valider votre email avant de vous connecter";
                     header("Location: /#modal");
+                } else {
+                    $this->member_model->login($_POST['email_modal']);
                 }
-                $this->member_model->login($_POST['email_modal']);
             } else {
                 $_SESSION['login_modal'][] = "Le mot de passe ou l'email est erroné";
                 header("Location: /#modal");

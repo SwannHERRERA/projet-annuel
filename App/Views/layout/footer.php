@@ -61,18 +61,7 @@
   integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
   integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script>
-$(document).ready(function () {
-  let url = document.location.href
-  let tab = url.split('#')
-  let id = tab[1];
-  if (id == 'modal'){
-    $('#modal').modal('show')
-  }if (id == 'valid_email'){
-    $('#valid_email').modal('show')
-  }
-})
-</script>
+<script src="<?= $site_url . "/js/script.js"?>"></script>
 
 <?php if (isset($_SESSION['POST'])){
   unset($_SESSION['POST']);
