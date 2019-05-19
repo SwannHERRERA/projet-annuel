@@ -43,8 +43,8 @@ class Member_model extends My_model
             }
             if (empty($_SESSION['register'])) {
                 $lien = substr(md5($_POST['email'].time().uniqid()), 0, 30);
-                $query = $this->pdo->prepare('INSERT INTO ' . $this->_table . ' (email, pseudo, gender, birth_date, photo city, country, password,account_status, account_role,date_inscription, verified_email)
-                VALUES (:email,:pseudo,:gender, :birth_date, :photo, :city, :country, :password, "non-active", "user", :date_inscription, :verified_email)');
+                $query = $this->pdo->prepare('INSERT INTO ' . $this->_table . ' (email, pseudo, gender, birth_date, photo, city, country, password,account_status, account_role, date_inscription, verified_email)
+                VALUES (:email,:pseudo, :gender, :birth_date, :photo, :city, :country, :password, "non-active", "user", :date_inscription, :verified_email)');
                 $query->execute([
                     ':email' => $_POST['email'],
                     ':pseudo' => $_POST['pseudo'],
