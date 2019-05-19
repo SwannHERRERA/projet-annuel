@@ -28,9 +28,6 @@ class Form_validation {
         if ($rule == 'trim'){
           $_POST[$field] = trim($_POST[$field]);
         }
-        if ($rule == 'to_lower'){
-          is_string($_POST[$field]) ? $_POST[$field] = strtolower($_POST[$field]) : $this->error[] = 'Erreur';
-        }
       } else {
         foreach ($rule as $key => $value) {
           if ($key == 'match'){

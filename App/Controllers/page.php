@@ -27,6 +27,5 @@ class Page extends Controller
     {
         require self::VIEW_PATH . 'page/menu.php';
         require self::VIEW_PATH . 'layout/footer.php';
-        
     }
 }

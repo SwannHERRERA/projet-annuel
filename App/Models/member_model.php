@@ -24,8 +24,9 @@ class Member_model extends My_model
             $form_validation->set_rules('dateNaissance', '', []);
             $form_validation->set_rules('city', '', ['trim', ['max_length' => 60]]);
             $form_validation->set_rules('country', '', ['trim', ['max_length' => 50]]);
-            $form_validation->set_rules('captcha', 'captcha', ['trim', 'to_lower']);
-            if ($_SESSION['captcha'] != $_POST['captcha']) {
+            $form_validation->set_rules('captcha', 'captcha', ['trim']);
+            $captcha = strtolower ($_POST['captcha']);
+            if ($_SESSION['captcha'] != $captcha) {
                 $_SESSION['register'][] = 'Le captcha ne corespond pas';
             }
             $query = $this->pdo->prepare("SELECT pseudo FROM MEMBER WHERE pseudo = :pseudo");
@@ -92,7 +93,7 @@ class Member_model extends My_model
                     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                 }
 
-                header("Location: /");
+                header("Location: /member/register/#valid_email");
             }
         }
     }
