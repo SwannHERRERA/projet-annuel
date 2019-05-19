@@ -224,7 +224,7 @@ class Member_model extends My_model
     }
 
     /**
-    * check is admin
+    * check is admin and redirect if is not admin to modal of connection
     */
     public function check_is_admin()
     {
@@ -236,6 +236,17 @@ class Member_model extends My_model
             $_SESSION['login_modal'][] = 'Vous n\'être pas autorisé a aller dans cette partie du site';
             header('Location: /#modal');
         }
+    }
+
+    public function is_admin()
+    {
+        if (isset($_SESSION['email'])) {
+            $role = $this->get_columns_where(['account_role'], ['email' => $_SESSION['email']]);
+            if ($role[0]['account_role'] === 'admin') {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

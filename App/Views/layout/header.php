@@ -66,4 +66,8 @@
                 <a href="#" class="logo-reseau-sociaux p-2"><img class="w-100" src="<?= $site_url . '/images/instagram.png'?>"></a>
                 <a href="#" class="logo-reseau-sociaux p-2"><img class="w-100" src="<?= $site_url . '/images/twitter.png'?>"></a>
             </p>
+
+            <?php if($this->member_model->is_admin()): ?>
+                <p class="text-center"><a class="btn btn-success" href="<?= $site_url . '/back/member/gestion'?>">Back office</a></p>
+            <?php endif ?>
         </aside>
