@@ -66,6 +66,57 @@
 <?php if (isset($_SESSION['POST'])){
   unset($_SESSION['POST']);
 }?>
+
+<script type="text/javascript">
+    var previewImage = document.getElementById("preview"),
+        uploadingText = document.getElementById("uploading-text")
+
+    function submitForm(event) {
+        // prevent default form submission
+        event.preventDefault();
+        uploadImage();
+    }
+    function uploadImage() {
+        var imageSelecter = document.getElementById("image-selecter"),
+            file = imageSelecter.files[0];
+
+        if (!file)
+            return alert("Merci de sélectionner un fichier.");
+
+        // clear the previous image
+        previewImage.removeAttribute("src");
+        // show uploading text
+        uploadingText.style.display = "block";
+
+        // create form data and append the file
+        var	formData = new FormData();
+        formData.append("image", file);
+
+        // do the ajax part
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                console.log(this.responseText);
+                var json = JSON.parse(this.responseText);
+                if (!json || json.status !== true)
+                    return uploadError(json.error);
+
+                showImage(json.url);
+            }
+        }
+        ajax.open("POST", "https://flixadvisor.fr/upload.php", true);
+        ajax.send(formData); // send the form data
+    }
+    function uploadError(error) {
+        // called on error
+        alert(error || 'Une erreur a eu lieu.');
+    }
+    function showImage(url) {
+        previewImage.src = url;
+        uploadingText.style.display = "none";
+    }
+</script>
+
 </body>
 
 </html>

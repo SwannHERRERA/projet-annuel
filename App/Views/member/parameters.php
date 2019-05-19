@@ -10,9 +10,21 @@
         </div>
     <?php endif; ?>
 
-    <form method="POST" class='mt-50 mb-65'>
-        <h1>Paramètres</h1>
+    <h1>Paramètres</h1>
 
+    <form method="POST" class='mt-50 mb-65' onsubmit="submitForm(event);">
+        <div class="form-row mt-5">
+            <div class="form-group col-md-6" style="text-align: center;">
+                <img id="preview" height="200" src="<?= $current_param['photo'] ?>">
+            </div>
+            <div class="form-group col-md-6">
+                <p><b>Changer ma photo de profil :</b><br>
+                Formats autorisés : JPEG, PNG et GIF <br>
+                Poids maximum : TBD</p>
+                <div id="uploading-text" style="display:none;">Téléchargement en cours...</div>
+                <input type="file" name="image" id="image-selecter" accept="image/*">
+            </div>
+        </div>
         <div class="form-row mt-5">
             <div class="form-group col-md-6">
                 <label for="email">E-mail</label>
@@ -58,7 +70,7 @@
         </div>
 
         <p class="text-center">
-            <button type='submit' class="btn btn-yellow">Enregistrer</button>
+            <button type='submit' name="submit" class="btn btn-yellow">Enregistrer</button>
         </p>
     </form>
 
@@ -66,7 +78,6 @@
         Modifier mon mot de passe
     </button>
 </div>
-
 
 <!-- Modal -->
 <div class="modal fade" id="passwordChange" tabindex="-1" role="dialog" aria-labelledby="modalPassWordChangeTitle" aria-hidden="true">
