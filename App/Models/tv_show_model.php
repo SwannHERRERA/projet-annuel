@@ -515,4 +515,83 @@ class Tv_show_model extends My_model
         return $queryPrepared->fetchAll();
     }
 
+    /**
+     * @param $nameShow string (nom de la série, recherche flexible : game => game of thrones, no game,... , laisser "" ou null pour ne pas prendre en compte)
+     * @param $minimumRating string (note minimum de la série, laisser "" ou null pour ne pas prendre en compte)
+     * @param $status string (status de la série : Continuing, Ended, laisser "" ou null pour ne pas prendre en compte)
+     * @param $idNetworks array[id1,id2,id3,...] (réseaux de diffusion voulus, laisser "",[] ou null pour ne pas prendre en compte)
+     * @param $firstAiredYears array[year1,year2,year3,...] (années de diffusion de la série, laisser "",[] ou null pour ne pas prendre en compte)
+     * @param $runtimes array[time1,time2,time3,...] (durées moyennes de la série, laisser "",[] ou null pour ne pas prendre en compte)
+     * @param $idGenres array[id1,id2,id3,...] (genres voulus de la série, laisser "",[] ou null pour ne pas prendre en compte)
+     * @param $idActors array[id1,id2,id3,...] (acteurs voulus de la série, laisser "",[] ou null pour ne pas prendre en compte)
+     * @return array[array[id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated, score, followers],...]
+     */
+    function searchTVShowAdvanced($nameShow, $minimumRating, $status, $idNetworks, $firstAiredYears, $runtimes, $idGenres, $idActors)
+    {
+        $parameters = [];
+        $query = "select " .
+            "id_show, " .
+            "name_show, " .
+            "production_status, " .
+            "runtime_show, " .
+            "first_aired_show, " .
+            "image_show, " .
+            "summary_show, " .
+            "last_updated, " .
+            "(SELECT CAST(AVG(mark_followed_show) AS DECIMAL(10,2)) " .
+            "FROM flixadvisor.FOLLOWED_SHOW WHERE FOLLOWED_SHOW.tv_show = id_show) as score, " .
+            "(SELECT count(*) " .
+            "FROM FOLLOWED_SHOW where FOLLOWED_SHOW.tv_show = id_show) as followers " .
+            "from flixadvisor.TV_SHOW ";
+        $join = "";
+        $condition = "where 1=1 ";
+        if ($nameShow != null && sizeof($nameShow) > 0) {
+            $condition .= "AND instr(name_show, :name) >0 ";
+            $parameters = array_merge($parameters, [":name" => $nameShow]);
+        }
+        if ($minimumRating != null && sizeof($minimumRating) > 0) {
+            $condition .= "AND " .
+                "(SELECT CAST(AVG(mark_followed_show) AS DECIMAL(10,2)) " .
+                "FROM flixadvisor.FOLLOWED_SHOW " .
+                "WHERE tv_show = id_show) " .
+                ">= :mark ";
+            $parameters = array_merge($parameters, [":mark" => $minimumRating]);
+        }
+        if ($status != null && sizeof($status) > 0) {
+            $condition .= "AND production_status = :status ";
+            $parameters = array_merge($parameters, [":status" => $status]);
+        }
+        if ($idNetworks != null and sizeof($idNetworks) > 0) {
+            $join .= "left join BROADCAST ON flixadvisor.TV_SHOW.id_show = tv_show " .
+                "left join NETWORK N on BROADCAST.network = N.id_network ";
+            $condition .= "AND N.id_network IN (:network) ";
+            $parameters = array_merge($parameters, [":network" => $idNetworks]);
+        }
+        if ($firstAiredYears != null && sizeof($firstAiredYears) > 0) {
+            $condition .= "AND YEAR(first_aired_show) IN (:airedYear) ";
+            $parameters = array_merge($parameters, ["airedYear" => $firstAiredYears]);
+        }
+        if ($runtimes != null && sizeof($runtimes) > 0) {
+            $condition .= "AND runtime_show IN (:runtime) ";
+            $parameters = array_merge($parameters, [":runtime" => $runtimes]);
+        }
+        if ($idGenres != null && sizeof($idGenres) > 0) {
+            $join .= "left join CATEGORIZED_SHOW CS on TV_SHOW.id_show = CS.tv_show " .
+                "left join CATEGORY C on CS.category = C.id_category ";
+            $condition .= "AND C.id_category IN (:genres) ";
+            $parameters = array_merge($parameters, [":genres" => $idGenres]);
+        }
+        if ($idActors != null && sizeof($idActors) > 0) {
+            $join .= "left join CASTING C2 on TV_SHOW.id_show = C2.tv_show " .
+                "left join ACTOR A on C2.actor = A.id_actor ";
+            $condition .= "and A.id_actor IN (:actors) ";
+            $parameters = array_merge($parameters, [":actors" => $idActors]);
+        }
+
+        $condition .= "group by id_show order by name_show";
+
+        $queryPrepared = $this->pdo->prepare($query . $join . $condition);
+        $queryPrepared->execute($parameters);
+        return $queryPrepared->fetchAll();
+    }
 }

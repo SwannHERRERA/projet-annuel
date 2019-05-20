@@ -29,6 +29,9 @@ class Page extends Controller
         require self::VIEW_PATH . 'layout/footer.php';
     }
 
+    /**
+    * Methode qui renvoie le resutat de la recheche en AJAX
+    */
     public function recherche()
     {
         require self::MODEL_PATH . 'actor_model.php';
@@ -37,5 +40,16 @@ class Page extends Controller
         $result += $actor_model->searchActor($_POST['q']);
         $result += $this->member_model->searchMember($_POST['q']);
         echo json_encode($result);
+    }
+
+    /**
+    * Page de recherche complète
+    */
+    public function recherche_avancer()
+    {
+        $q = $_GET['search'];
+        require self::VIEW_PATH . 'layout/header.php';
+        require self::VIEW_PATH . 'page/recheche_avancer.php';
+        require self::VIEW_PATH . 'layout/footer.php';
     }
 }
