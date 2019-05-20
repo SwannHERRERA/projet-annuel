@@ -905,6 +905,32 @@ function get10MostFollowedShows()
     return $queryPrepared->fetchAll();
 }
 
+function getShowRank($idShow)
+{
+    $pdo = connectDB();
+    $query = "select ranking from (SELECT @rowNum := @rowNum + 1 as ranking, id_show, name_show, (select count(*) from flixadvisor.FOLLOWED_SHOW where tv_show = id_show) as followers from TV_SHOW, (select @rowNum := 0) as t order by followers desc) as shows where id_show = :id;";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":id" => $idShow]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation du rang de la série.");
+    }
+    return $queryPrepared->fetch()[0];
+}
+
+function getShowMarkMember($idShow, $email)
+{
+    $pdo = connectDB();
+    $query = "select mark_followed_show from FOLLOWED_SHOW where tv_show = :id and member =:email";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":id" => $idShow, ":email" => $email]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation du rang de la série.");
+    }
+    return $queryPrepared->fetch()[0];
+}
+
 /**
  * Retourne les 10 premieres series ayant sorti un episode recemment
  * @return array[array[id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated,last_episode],...]

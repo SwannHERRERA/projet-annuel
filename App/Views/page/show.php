@@ -18,7 +18,8 @@ $show = getTVShow($idShow);
             <h1 class="h2"><?= $show['name_show'] ?></h1>
         </div>
         <div class="col-md-9 align-self-baseline h3">
-            Rang : ## Score : <?= getShowScore($idShow) ?> Suivi par : <?= getTVShowFollowersNumber($idShow) ?>
+            Rang : <?= getShowRank($idShow) ?> Score : <?= getShowScore($idShow) ?> Suivi par
+            : <?= getTVShowFollowersNumber($idShow) ?>
             utilisateurs
         </div>
     </div>
@@ -38,20 +39,22 @@ $show = getTVShow($idShow);
         <div class="col-lg-3">
             <img alt="image show" class="img-fluid mx-auto d-block" src=<?= '"' . $show['image_show'] . '"' ?>>
             <div class="row pt-10">
-                <div class="col-12 text-center">
-                    <span class="fa fa-star " style="color: orange"></span>
-                    <span class="fa fa-star " style="color: orange"></span>
-                    <span class="fa fa-star " style="color: orange"></span>
-                    <span class="fa fa-star " style="color: orange"></span>
-                    <span class="fa fa-star " style="color: orange"></span>
-                    <span class="fa fa-star " style="color: orange"></span>
-                    <span class="fa fa-star " style="color: orange"></span>
-                    <span class="fa fa-star "></span>
-                    <span class="fa fa-star "></span>
-                    <span class="fa fa-star "></span>
-                    <span class="fa fa-star "></span>
-                </div>
                 <?php if ($this->member_model->isConnected()) { ?>
+                    <div class="col-12 text-center">
+                        <?php $mark = getShowMarkMember($idShow, $_SESSION['email']);
+                        $i = 1;
+                        if (empty($mark))
+                            for (; $i <= 10; $i++)
+                                echo '<span class="fa fa-star "></span>';
+                        else {
+
+                            for (; $i <= $mark; $i++)
+                                echo '<span class="fa fa-star" style="color: orange"></span>';
+                            for (; $i <= 10; $i++)
+                                echo '<span class="fa fa-star "></span>';
+                        }
+                        ?>
+                    </div>
                     <div class="col-12 mt-10 text-center">
                         <button type="button" class="btn btn-warning">Noter cette série</button>
                     </div>
