@@ -1,5 +1,5 @@
 <div class="col-md-9 col-lg-10 align-self">
-    <h1>TOTO</h1>
+    <h1>flixadvisor</h1>
     <h2>Les plus vues</h2>
     <div id="slider_most_viewed">
         <?php foreach ($most_followeds as $most_followed): ?>
