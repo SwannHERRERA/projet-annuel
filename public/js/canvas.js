@@ -8,8 +8,15 @@ var canvas, ctx, flag = false,
 var x = "black",
     y = 2;
 
+function test() {
+    var parent = document.getElementById('test');
+    console.log(parent);
+}
+
+
 function init() {
     canvas = document.getElementById('can');
+    console.log(canvas);
     ctx = canvas.getContext("2d");
     w = canvas.width;
     h = canvas.height;
@@ -68,7 +75,7 @@ function draw() {
 }
 
 function erase() {
-    var m = confirm("Êtes-vous sûr(e) de vouloir tout effacer ?");
+    var m = confirm("Want to clear");
     if (m) {
         ctx.clearRect(0, 0, w, h);
         document.getElementById("canvasimg").style.display = "none";

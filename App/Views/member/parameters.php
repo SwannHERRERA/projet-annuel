@@ -12,7 +12,7 @@
 
     <h1>Paramètres</h1>
 
-    <form method="POST" class='mt-50 mb-65' onsubmit="submitForm(event);">
+    <form method="POST" class='mt-50 mb-65' onchange="submitForm(event)" enctype='multipart/form-data'>
         <div class="form-row mt-5">
             <div class="form-group col-md-6" style="text-align: center;">
                 <img id="preview" height="200" src="<?= $current_param['photo'] ?>">
@@ -23,6 +23,11 @@
                 Poids maximum : TBD</p>
                 <div id="uploading-text" style="display:none;">Téléchargement en cours...</div>
                 <input type="file" name="image" id="image-selecter" accept="image/*">
+                <br><br>
+                <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#canvas" onclick="test();">
+                    Dessiner ma photo de profil !
+                </button>
+
             </div>
         </div>
         <div class="form-row mt-5">
@@ -79,7 +84,92 @@
     </button>
 </div>
 
-<!-- Modal -->
+<!-- Modal Canvas-->
+<div class="modal fade" id="canvas" tabindex="-1" role="dialog" aria-labelledby="modalCanvas" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCanvas">Dessiner ma photo !</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center;" id="test">
+                <form id="canvasImage" method="POST">
+                    <div class="row">
+                        <div class="col" style="text-align: center;">
+                            <canvas class="w-100" id="can" height="400" style="background-color: #ffffff; border:2px solid;"></canvas>
+                        </div>
+                    </div>
+                    <b>Choisissez une couleur :</b>
+                    <div class="row">
+                        <div class="col-3" style="text-align: right">
+                            Vert :
+                        </div>
+                        <div class="col-3">
+                            <div style="cursor: pointer;width:10px;height:10px;display: inline-block;background:green;" id="green" onclick="color(this)"></div>
+                        </div>
+                        <div class="col-3" style="text-align: right">
+                            Jaune :
+                        </div>
+                        <div class="col-3">
+                            <div style="cursor: pointer;width:10px;height:10px;display: inline-block;background:yellow;" id="yellow" onclick="color(this)"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" style="text-align: right">
+                            Bleu :
+                        </div>
+                        <div class="col">
+                            <div style="cursor: pointer;width:10px;height:10px;display: inline-block;background:blue;" id="blue" onclick="color(this)"></div>
+                        </div>
+                        <div class="col" style="text-align: right">
+                            Rouge :
+                        </div>
+                        <div class="col">
+                            <div style="cursor: pointer;width:10px;height:10px;display: inline-block;background:red;" id="red" onclick="color(this)"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" style="text-align: right">
+                            Orange :
+                        </div>
+                        <div class="col">
+                            <div style="cursor: pointer;width:10px;height:10px;display: inline-block;background:orange;" id="orange" onclick="color(this)"></div>
+                        </div>
+                        <div class="col" style="text-align: right">
+                            Noir :
+                        </div>
+                        <div class="col">
+                            <div style="cursor: pointer;width:10px;height:10px;display: inline-block;background:black;" id="black" onclick="color(this)"></div>
+                        </div>
+                    </div>
+                    <div class="row" style="text-align: center;">
+                        <div class="col-3">
+                            <div>Gomme :</div>
+                        </div>
+                        <div class="col-3">
+                            <div style="cursor: pointer;width:15px;height:15px;display: inline-block;background:white;border:2px solid;" id="white" onclick="color(this)"></div>
+                        </div>
+                        <div class="col-6">
+                           <input type="button" value="Tout effacer" id="clr" size="23" onclick="erase()">
+                        </div>
+
+                    </div>
+                    <img id="canvasimg" style="position:absolute;top:10%;left:52%;background-color: white" style="display:none;">
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btn" onclick="save()">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Password -->
 <div class="modal fade" id="passwordChange" tabindex="-1" role="dialog" aria-labelledby="modalPassWordChangeTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">

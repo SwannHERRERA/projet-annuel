@@ -68,8 +68,8 @@
 }?>
 
 <script type="text/javascript">
-    var previewImage = document.getElementById("preview"),
-        uploadingText = document.getElementById("uploading-text")
+    var previewImage = document.getElementById("preview");
+    var uploadingText = document.getElementById("uploading-text");
 
     function submitForm(event) {
         // prevent default form submission
@@ -79,9 +79,6 @@
     function uploadImage() {
         var imageSelecter = document.getElementById("image-selecter"),
             file = imageSelecter.files[0];
-
-        if (!file)
-            return alert("Merci de sélectionner un fichier.");
 
         // clear the previous image
         previewImage.removeAttribute("src");
@@ -96,7 +93,6 @@
         var ajax = new XMLHttpRequest();
         ajax.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
-                console.log(this.responseText);
                 var json = JSON.parse(this.responseText);
                 if (!json || json.status !== true)
                     return uploadError(json.error);
@@ -106,15 +102,18 @@
         }
         ajax.open("POST", "https://flixadvisor.fr/upload.php", true);
         ajax.send(formData); // send the form data
+
     }
     function uploadError(error) {
         // called on error
         alert(error || 'Une erreur a eu lieu.');
     }
+
     function showImage(url) {
         previewImage.src = url;
         uploadingText.style.display = "none";
     }
+
 </script>
 
 </body>
