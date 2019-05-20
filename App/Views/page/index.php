@@ -35,4 +35,4 @@
     </div>
 </div>
 
-<script src="<?= $site_url . '/js/slider_home.js'?>" async></script>
+<script src="<?= $site_url . '/js/slider_home.js'?>"></script>
