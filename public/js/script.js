@@ -27,7 +27,7 @@ function dropdown(id){
     }
 }
 
-function createActorList() {
+let createActorList = function() {
     ajax_result = document.getElementById('ajax_result');
     ajax_result.innerHTML = "";
     let ul = document.createElement('ul');
@@ -49,14 +49,14 @@ function createActorList() {
 }
 
 search_actor = docment.getElementById("search_actor");
-search_actor.addEventListener('keyup',makeRequest(search_actor.value, "https://flixadvisor.fr/actor/search", "createActorList"));
+search_actor.addEventListener('keyup',makeRequest(search_actor.value, "https://flixadvisor.fr/actor/search", createActorList));
 
 
 
 /* ------------------------------------------- */
 
 let search = document.getElementById('search');
-search.addEventListener('keyup', makeRequest(search.value, "https://flixadvisor.fr/recherche", "createListe"));
+search.addEventListener('keyup', makeRequest(search.value, "https://flixadvisor.fr/recherche", createList));
 /*search.addEventListener('focusout', function(){
     document.getElementById('result').innerHTML = "";
 });*/
@@ -80,7 +80,7 @@ function makeRequest(str, url, function) {
     httpRequest.send('q=' + encodeURIComponent(str));
 }
 
-function createListe(ajax){
+let createList = function(ajax){
     let parent = document.getElementById('result');
     parent.innerHTML = "";
     let ul = document.createElement('ul');
