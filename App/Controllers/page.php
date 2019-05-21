@@ -47,9 +47,11 @@ class Page extends Controller
     */
     public function recherche_avancer()
     {
-        $q = $_GET['search'];
+        if (!empty($_GET)){
+            $q = $_GET['search'];
+        }
         require self::VIEW_PATH . 'layout/header.php';
-        require self::VIEW_PATH . 'page/recheche_avancer.php';
+        require self::VIEW_PATH . 'page/recherche_avancer.php';
         require self::VIEW_PATH . 'layout/footer.php';
     }
 }
