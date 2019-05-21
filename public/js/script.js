@@ -48,7 +48,7 @@ let createActorList = function() {
     parent.appendChild(ul);
 }
 
-search_actor = docment.getElementById("search_actor");
+search_actor = document.getElementById("search_actor");
 search_actor.addEventListener('keyup',makeRequest(search_actor.value, "https://flixadvisor.fr/actor/search", createActorList));
 
 
