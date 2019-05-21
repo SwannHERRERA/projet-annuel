@@ -61,7 +61,7 @@ search.addEventListener('keyup', makeRequest(search.value, "https://flixadvisor.
     document.getElementById('result').innerHTML = "";
 });*/
 
-function makeRequest(str, url, function) {
+function makeRequest(str, url, func) {
     let httpRequest = false;
     httpRequest = new XMLHttpRequest();
     if (!httpRequest) {
@@ -73,7 +73,7 @@ function makeRequest(str, url, function) {
         if(this.readyState === 4) {
             let ajax = JSON.parse(httpRequest.responseText);
             console.log(ajax);
-            function(ajax);
+            func(ajax);
         }
     }
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
