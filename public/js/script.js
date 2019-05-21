@@ -48,15 +48,6 @@ let createActorList = function() {
     parent.appendChild(ul);
 }
 
-search_actor = document.getElementById("search_actor");
-search_actor.addEventListener('keyup',makeRequest(search_actor.value, "https://flixadvisor.fr/actor/search", createActorList));
-
-
-
-/* ------------------------------------------- */
-
-let search = document.getElementById('search');
-search.addEventListener('keyup', makeRequest(search.value, "https://flixadvisor.fr/recherche", createList));
 /*search.addEventListener('focusout', function(){
     document.getElementById('result').innerHTML = "";
 });*/
@@ -100,3 +91,14 @@ let createList = function(ajax){
     }
     parent.appendChild(ul);
 }
+
+
+search_actor = document.getElementById("search_actor");
+search_actor.addEventListener('keyup',makeRequest(search_actor.value, "https://flixadvisor.fr/actor/search", createActorList));
+
+
+
+/* ------------------------------------------- */
+
+let search = document.getElementById('search');
+search.addEventListener('keyup', makeRequest(search.value, "https://flixadvisor.fr/recherche", createList));
