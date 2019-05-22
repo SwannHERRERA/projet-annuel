@@ -706,7 +706,7 @@ function unwatchEpisode($email, $idEp)
 function watchEpisode($email, $idEp)
 {
     $pdo = connectDB();
-    $query = "INSERT INTO flixadvisor.WATCHED_EPISODES (member, episode, date_watched) VALUES (:email, :episode, curdate())";
+    $query = "INSERT IGNORE INTO flixadvisor.WATCHED_EPISODES (member, episode, date_watched) VALUES (:email, :episode, curdate())";
     $queryPrepared = $pdo->prepare($query);
     $queryPrepared->execute([
         ":email" => $email,
