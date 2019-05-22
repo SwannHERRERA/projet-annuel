@@ -87,10 +87,13 @@ const createList = function(ajax){
 
 
 search_actor = document.getElementById("search_actor");
-search_actor.addEventListener('keyup',makeRequest(search_actor.value, "https://flixadvisor.fr/actor/search", createActorList));
-
+if (search_actor != undefined){
+    search_actor.addEventListener('keyup',makeRequest(search_actor.value, "https://flixadvisor.fr/actor/search", createActorList));
+}
 
 /* ------------------------------------------- */
 
 const search = document.getElementById('search');
-search.addEventListener('keyup', makeRequest(search.value, "https://flixadvisor.fr/recherche", createList));
+if (search != undefined){
+    search.addEventListener('keyup', makeRequest(search.value, "https://flixadvisor.fr/recherche", createList));
+}
