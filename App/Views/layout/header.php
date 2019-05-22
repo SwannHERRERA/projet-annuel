@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="<?= $site_url . '/css/style.css' ?>">
-    <script src="<?= $site_url . "/js/canvas.js" ?>"></script>
+    <script src="<?= $site_url . "/js/canvas.js" ?>" defer></script>
     <title><?= $page_title ?? "Flix Advisor" ?></title>
 </head>
 

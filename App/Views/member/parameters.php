@@ -24,7 +24,7 @@
                 <div id="uploading-text" style="display:none;">Téléchargement en cours...</div>
                 <input type="file" name="image" id="image-selecter" accept="image/*">
                 <br><br>
-                <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#canvas" onclick="test();">
+                <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#canvas">
                     Dessiner ma photo de profil !
                 </button>
 
@@ -94,11 +94,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" style="text-align: center;" id="test">
+            <div class="modal-body" style="text-align: center;">
                 <form id="canvasImage" method="POST">
                     <div class="row">
                         <div class="col" style="text-align: center;">
-                            <canvas class="w-100" id="can" height="400" style="background-color: #ffffff; border:2px solid;"></canvas>
+                            <canvas width="400" id="can" height="400" style="background-color: #ffffff; border:2px solid;"></canvas>
                         </div>
                     </div>
                     <b>Choisissez une couleur :</b>

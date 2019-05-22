@@ -8,11 +8,9 @@ var canvas, ctx, flag = false,
 var x = "black",
     y = 2;
 
-function test() {
-    var parent = document.getElementById('test');
-    console.log(parent);
-}
-
+$('#canvas').on('shown.bs.modal', function (e) {
+    init();
+})
 
 function init() {
     canvas = document.getElementById('can');
@@ -82,12 +80,12 @@ function erase() {
     }
 }
 
-function save() {
-    document.getElementById("canvasimg").style.border = "2px solid";
-    var dataURL = canvas.toDataURL();
-    document.getElementById("canvasimg").src = dataURL;
-    document.getElementById("canvasimg").style.display = "inline";
-}
+/* function save() {
+     document.getElementById("canvasimg").style.border = "2px solid";
+     var dataURL = canvas.toDataURL();
+     document.getElementById("canvasimg").src = dataURL;
+     document.getElementById("canvasimg").style.display = "inline";
+ }*/
 
 function findxy(res, e) {
     if (res == 'down') {
@@ -113,6 +111,9 @@ function findxy(res, e) {
         if (flag) {
             prevX = currX;
             prevY = currY;
+
+            console.log(canvas.offsetLeft);
+            console.log(e.clientX);
             currX = e.clientX - canvas.offsetLeft;
             currY = e.clientY - canvas.offsetTop;
             draw();
