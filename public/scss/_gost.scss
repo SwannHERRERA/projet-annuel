@@ -1,11 +1,11 @@
 %titre {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 600;
   font-size: 30px;
   line-height: 35px;
   padding: 10px 0px;
   text-transform: capitalize;
-  &:after{
+  &:after {
     display: block;
     content: "";
     width: 70px;
@@ -15,7 +15,14 @@
   }
 }
 %ul_without_bullet {
-list-style: none;
-margin-left: 0;
-padding-left: 0;
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+%unselectable {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }

@@ -45,7 +45,7 @@ class Statistics extends Controller
         require self::MODEL_PATH . 'network_model.php';
         $network_model = new Network_model;
         require self::MODEL_PATH . 'category_model.php';
-        $category_model = new Categorie_model;
+        $category_model = new Category_model;
         $page_title = 'Statistiques';
         $sous_categories = ['Statistiques utilisateurs' => 'user', 'Statistiques des séries' => 'series'];
         $nb_series = $tv_show_model->get_columns(['count(*)']);

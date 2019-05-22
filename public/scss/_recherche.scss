@@ -1,0 +1,33 @@
+#ajax_result {
+  margin-top: 10px;
+  ul {
+    border: solid 5px $lite_blue;
+    @extend %ul_without_bullet;
+    margin: 0;
+    li {
+      padding: 10px 6px;
+      background-color: $light-dark;
+      color: $white;
+      overflow-x: hidden;
+      transition: background-color, color 0.3s linear;
+      @extend %unselectable;
+      &:hover {
+        background-color: $lite_blue;
+      }
+    }
+  }
+}
+
+#valid_result {
+  display: none;
+  border: solid 3px seagreen;
+  margin-bottom: 20px;
+  background-color: $gray-600;
+  div {
+    text-align: center;
+    border-bottom: solid 2px $light-dark;
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+}

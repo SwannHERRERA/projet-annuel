@@ -9,12 +9,12 @@ $(document).ready(function () {
   }
 })
 
-let items = document.getElementsByClassName(".dropdown-check-list");
+let items = document.getElementsByClassName("dropdown-check-list");
 for (let item of items){
     dropdown(item.id);
 }
 function dropdown(id){
-    let checkList = document.getElementById(id);
+    const checkList = document.getElementById(id);
     checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
         if (checkList.classList.contains('visible')) {
             checkList.classList.remove('visible');
@@ -22,46 +22,40 @@ function dropdown(id){
             checkList.classList.add('visible');
         }
     }
-    checkList.onblur = function(evt) {
-        checkList.classList.remove('visible');
-    }
 }
 
-let createActorList = function() {
-    ajax_result = document.getElementById('ajax_result');
+const createActorList = function(ajax) {
+    const ajax_result = document.getElementById('ajax_result');
+    const valid_result = document.getElementById('valid_result');
     ajax_result.innerHTML = "";
-    let ul = document.createElement('ul');
+    const ul = document.createElement('ul');
     for (let i = 0; i < ajax.length && i < 5; i++){
         let li = document.createElement('li');
-        let a =  document.createElement('a');
-        //a.innerHTML = ajax[]['name_actor'];
+        li.innerHTML = ajax[i]['name_actor'];
+        li.addEventListener('click', function() {
+            const valid_result_inputs = valid_result.querySelectorAll('input');
+            let exist = false;
+            for (valid_result_input of valid_result_inputs) {
+                if (valid_result_input.value == ajax[i]['id_actor']) {
+                    exist = true;
+                    break;
+                }
+            }
+            if (exist === false) {
+                const input = document.createElement('input');
+                input.setAttribute('type', 'hidden');
+                input.setAttribute('value', ajax[i]['id_actor']);
+                input.setAttribute('name', 'actor[]');
+                const div =  document.createElement('div');
+                div.innerHTML = ajax[i]['name_actor'];
+                valid_result.appendChild(input);
+                valid_result.appendChild(div);
+                valid_result.style.display = "block";
+            }
+        });
         ul.appendChild(li);
     }
-    parent.appendChild(ul);
-}
-
-/*search.addEventListener('focusout', function(){
-    document.getElementById('result').innerHTML = "";
-});*/
-
-function makeRequest(str, url, func) {
-    const httpRequest = new XMLHttpRequest();
-    if (!httpRequest) {
-        alert('Abandon :( Impossible de créer une connexion avec le serveur');
-        return false;
-    }
-    httpRequest.open('POST', url, true);
-    httpRequest.onreadystatechange = function() {
-        if(this.readyState === 4) {
-            if (httpRequest.status == 200){
-                let ajax = JSON.parse(httpRequest.responseText);
-                console.log(ajax);
-                func(ajax);
-            }
-        }
-    }
-    httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    httpRequest.send('q=' + encodeURIComponent(str));
+    ajax_result.appendChild(ul);
 }
 
 const createList = function(ajax){
@@ -85,15 +79,49 @@ const createList = function(ajax){
     parent.appendChild(ul);
 }
 
+/*search.addEventListener('focusout', function(){
+    document.getElementById('result').innerHTML = "";
+});*/
 
-search_actor = document.getElementById("search_actor");
+function makeRequest(str, url, func) {
+    const httpRequest = new XMLHttpRequest();
+    if (!httpRequest) {
+        alert('Abandon :( Impossible de créer une connexion avec le serveur');
+        return false;
+    }
+    httpRequest.open('POST', url, true);
+    httpRequest.onreadystatechange = function() {
+        if(this.readyState === 4) {
+            if (httpRequest.status == 200){
+                let ajax = JSON.parse(httpRequest.responseText);
+                func(ajax);
+            }
+        }
+    }
+    httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    httpRequest.send('q=' + encodeURIComponent(str));
+}
+
+const search_actor = document.getElementById("search_actor");
 if (search_actor != undefined){
-    search_actor.addEventListener('keyup',makeRequest(search_actor.value, "https://flixadvisor.fr/actor/search", createActorList));
+    search_actor.addEventListener('keyup', function() {
+        if (search_actor.value.length > 2) {
+            makeRequest(search_actor.value,"http://localhost/actor/search" /*"https://flixadvisor.fr/actor/search"*/, createActorList);
+        } else {
+            document.getElementById('ajax_result').innerHTML = "";
+        }
+    });
 }
 
 /* ------------------------------------------- */
 
 const search = document.getElementById('search');
-if (search != undefined){
-    search.addEventListener('keyup', makeRequest(search.value, "https://flixadvisor.fr/recherche", createList));
+if (search != undefined) {
+    search.addEventListener('keyup', function() {
+        if (search.value.length > 2) {
+            makeRequest(search.value, "http://localhost/recherche", createList);
+        } else {
+            document.getElementById('result').innerHTML = "";
+        }
+    });
 }

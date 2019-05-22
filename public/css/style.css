@@ -17195,10 +17195,17 @@ h3 {
   margin: 15px 0;
 }
 
-footer ul, aside ul {
+#ajax_result ul, footer ul, aside ul {
   list-style: none;
   margin-left: 0;
   padding-left: 0;
+}
+
+#ajax_result ul li {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .switch {
@@ -17261,7 +17268,9 @@ footer ul, aside ul {
   font-family: "Caveat";
   font-weight: 700;
 }
-.modal input:focus {
+.modal input[type=text]:focus,
+.modal input[type=email]:focus,
+.modal input[type=password]:focus {
   border-color: #fadb14;
   box-shadow: 0 0 0 0.3rem rgba(250, 219, 20, 0.5);
 }
@@ -17396,11 +17405,40 @@ footer .btn:hover {
 .dropdown-check-list ul.items li {
   list-style: none;
 }
-.dropdown-check-list.visible .anchor {
-  color: #0094ff;
-}
 .dropdown-check-list.visible .items {
   display: block;
+}
+
+#ajax_result {
+  margin-top: 10px;
+}
+#ajax_result ul {
+  border: solid 5px #afd7e8;
+  margin: 0;
+}
+#ajax_result ul li {
+  padding: 10px 6px;
+  background-color: #93959a;
+  color: #fff;
+  overflow-x: hidden;
+  transition: background-color, color 0.3s linear;
+}
+#ajax_result ul li:hover {
+  background-color: #afd7e8;
+}
+
+#valid_result {
+  display: none;
+  border: solid 3px seagreen;
+  margin-bottom: 20px;
+  background-color: #546e7a;
+}
+#valid_result div {
+  text-align: center;
+  border-bottom: solid 2px #93959a;
+}
+#valid_result div:last-child {
+  border-bottom: 0;
 }
 
 body {

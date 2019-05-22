@@ -47,9 +47,20 @@ class Page extends Controller
     */
     public function recherche_avancer()
     {
+        require self::MODEL_PATH . 'category_model.php';
+        $category_model = new Category_model;
+        require self::MODEL_PATH . 'network_model.php';
+        $network_model = new Network_model;
         if (!empty($_GET)){
             $q = $_GET['search'];
+            echo '<pre class="text-white">';
+            var_dump($_GET);
+            echo '</pre>';
         }
+        $genders = $category_model->getCategoryList();
+        $networks = $network_model->getNetworkList();
+
+
         require self::VIEW_PATH . 'layout/header.php';
         require self::VIEW_PATH . 'page/recherche_avancer.php';
         require self::VIEW_PATH . 'layout/footer.php';

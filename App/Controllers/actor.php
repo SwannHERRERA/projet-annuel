@@ -13,7 +13,7 @@ class Actor extends Controller
         parent::__construct(__CLASS__);
     }
 
-    public function seach(){
+    public function search(){
         $result = $this->actor_model->searchActor($_POST['q']);
         echo json_encode($result);
     }

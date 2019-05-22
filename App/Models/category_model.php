@@ -1,6 +1,6 @@
 <?php
 require_once BASEPATH . DIRECTORY_SEPARATOR . "Core" . DIRECTORY_SEPARATOR . "My_model.php";
-class Categorie_model extends My_model
+class Category_model extends My_model
 {
     protected $_table = 'CATEGORY';
     protected $table_primary_key = "id_category";

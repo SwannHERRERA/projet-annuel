@@ -1,7 +1,7 @@
 <div class="col-md-9 col-lg-10 align-self">
     <div class="row">
         <div class="col-12">
-            <form>
+            <form class="mt-30">
                 <div class="form-group">
                     <input type="text" name="search" class="form-control" value="">
                 </div>
@@ -10,13 +10,9 @@
                         <div id="network" class="dropdown-check-list" tabindex="100">
                             <span class="anchor">Network</span>
                             <ul class="items">
-                                <li><input type="checkbox" />&nbsp;Apple </li>
-                                <li><input type="checkbox" />&nbsp;Orange</li>
-                                <li><input type="checkbox" />&nbsp;Grapes </li>
-                                <li><input type="checkbox" />&nbsp;Berry </li>
-                                <li><input type="checkbox" />&nbsp;Mango </li>
-                                <li><input type="checkbox" />&nbsp;Banana </li>
-                                <li><input type="checkbox" />&nbsp;Tomato</li>
+                                <?php foreach ($networks as $network) : ?>
+                                    <li><input type="checkbox" value="<?= $network['id_network'] ?>" id="<?= $network['name_network'] ?>" name="network[]"/><label for="<?= $network['name_network'] ?>">&nbsp;<?= $network['name_network'] ?></label></li>
+                                <?php endforeach ?>
                             </ul>
                         </div>
                     </div>
@@ -24,43 +20,21 @@
                         <div id="list1" class="dropdown-check-list" tabindex="100">
                             <span class="anchor">Genre</span>
                             <ul class="items">
-                                <li><input type="checkbox"/>&nbsp;Apple </li>
-                                <li><input type="checkbox"/>&nbsp;Orange</li>
-                                <li><input type="checkbox"/>&nbsp;Grapes </li>
-                                <li><input type="checkbox"/>&nbsp;Berry </li>
-                                <li><input type="checkbox"/>&nbsp;Mango </li>
-                                <li><input type="checkbox"/>&nbsp;Banana </li>
-                                <li><input type="checkbox"/>&nbsp;Tomato</li>
+                                <?php foreach ($genders as $gender) : ?>
+                                    <li><input type="checkbox" value="<?= $gender['id_category'] ?>" id="<?= $gender['name_category'] ?>" name="gender[]"/><label for="<?= $gender['name_category'] ?>">&nbsp;<?= $gender['name_category'] ?></label></li>
+                                <?php endforeach ?>
                             </ul>
                         </div>
                     </div>
                     <div class="col-4">
-                        <div id="list1" class="dropdown-check-list" tabindex="100">
-                            <span class="anchor">actor</span>
-                            <ul class="items">
-                                <li><input type="checkbox" />&nbsp;Apple </li>
-                                <li><input type="checkbox" />&nbsp;Orange</li>
-                                <li><input type="checkbox" />&nbsp;Grapes </li>
-                                <li><input type="checkbox" />&nbsp;Berry </li>
-                                <li><input type="checkbox" />&nbsp;Mango </li>
-                                <li><input type="checkbox" />&nbsp;Banana </li>
-                                <li><input type="checkbox" />&nbsp;Tomato</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-8">
-                    </div>
-                    <div class="col-4">
-                        <input type="text" id="search_actor" class="form-control" value="">
-                        <div class="valid_result"></div>
+                        <div id="valid_result"></div>
+                        <input type="text" id="search_actor" class="form-control">
                         <div id="ajax_result"></div>
-                        <!--
-                         Je veux un truc en AJAX qui fais une requête dans les acteurs qui m'affiche les 5 premiers resultats
-                        Lorsque l'on click sur le nom d'un acteur on l'ajoute a un tableau(graphique composer de input styliser)
-                        -->
                     </div>
+                    <div class="col-12">
+                        <p class="text-center">
+                            <button type="submit" class="btn btn-primary" name="">Submit</button>
+                        </p>
                 </div>
             </form>
         </div>
