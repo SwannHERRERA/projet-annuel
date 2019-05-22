@@ -239,7 +239,21 @@ $show = getTVShow($idShow);
                     </p>
                 </div>
                 <div class="tab-pane mt-10" id="episodes" role="tabpanel" aria-labelledby="episodes-tab">
-                    <h1 class="h3">Episodes</h1>
+                    <div class="row">
+                        <div class="col-md-3 text-left align-baseline">
+                            <h1 class="h3">Episodes</h1>
+                        </div>
+                        <div class="col-md-8 text-right align-baseline">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a onclick="watchAll(<?=$idShow?>)"> Tout marquer comme vu</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a onclick="unwatchAll(<?=$idShow?>)"> Tout marquer comme non vu</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <hr>
                     <div class="accordion">
                         <?php
@@ -256,10 +270,16 @@ $show = getTVShow($idShow);
                                             <?php echo $episode['nb_season'] . 'x' . $episode['nb_episode'] . ' - ' . $episode['name_episode']; ?>
                                         </button>
                                         <?php if (isFollowing($_SESSION['email'], $idShow)) {
-                                            if (isWatchedEpisode($_SESSION['email'], $episode['id_episode']))
-                                                echo '<i class="fas fa-eye-slash align-self-end"></i>';
-                                            else
-                                                echo '<i class="fas fa-eye align-self-end"></i>';
+                                            if (isWatchedEpisode($_SESSION['email'], $episode['id_episode'])) { ?>
+                                                <i id="<?= $episode['id_episode'] ?>"
+                                                   class="fas fa-eye-slash"
+                                                   onclick="checkEp(<?= $episode['id_episode'] ?>)"></i>
+                                            <?php } else { ?>
+                                                <i id="<?= $episode['id_episode'] ?>"
+                                                   class="fas fa-eye"
+                                                   onclick="checkEp(<?= $episode['id_episode'] ?>)"></i>
+                                                <?php
+                                            }
                                         }
                                         ?>
                                     </h5>
@@ -304,5 +324,5 @@ $show = getTVShow($idShow);
 
         </div>
     </div>
-
 </div>
+<script src="<?= $site_url . '/js/show.js' ?>"></script>

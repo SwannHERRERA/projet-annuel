@@ -28,7 +28,7 @@ class show extends Controller
     {
         if (!isset($_POST['show']) || !isset($_POST['status']) || !isset($_POST['mark']) || !isset($_POST['notification']) || !$this->member_model->isConnected())
             header('Location: /');
-        addOrRemoveMemberTVShowToFollowingShow($_SESSION['email'], $_POST['show'],$_POST['status'],$_POST['notification'] == 'o' ? 'o': 'n',$_POST['mark']);
+        addOrRemoveMemberTVShowToFollowingShow($_SESSION['email'], $_POST['show'], $_POST['status'], $_POST['notification'] == 'o' ? 'o' : 'n', $_POST['mark']);
         if ($_POST['status'] == 'termine')
             watchAllEpisodes($_SESSION['email'], $_POST['show']);
         header('Location: /show?show=' . $_POST['show']);
@@ -45,11 +45,29 @@ class show extends Controller
 
     public function watchAll()
     {
-
+        if (!isset($_GET['show']) || !$this->member_model->isConnected())
+            header('Location: /');
+        watchAllEpisodes($_SESSION['email'], $_GET['show']);
     }
 
     public function unwatchAll()
     {
+        if (!isset($_GET['show']) || !$this->member_model->isConnected())
+            header('Location: /');
+        unwatchAllEpisodes($_SESSION['email'], $_GET['show']);
+    }
 
+    public function watchEpisode()
+    {
+        if (!isset($_GET['ep']) || !$this->member_model->isConnected())
+            header('Location: /');
+        watchEpisode($_SESSION['email'], $_GET['ep']);
+    }
+
+    public function unwatchEpisode()
+    {
+        if (!isset($_GET['ep']) || !$this->member_model->isConnected())
+            header('Location: /');
+        unwatchEpisode($_SESSION['email'], $_GET['ep']);
     }
 }

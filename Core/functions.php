@@ -674,13 +674,47 @@ function watchAllEpisodes($email, $idShow)
     $queryPrepared = $pdo->prepare($query);
     $queryPrepared->execute([":show" => $idShow]);
     $episodes = $queryPrepared->fetchAll();
-    $query = "insert into flixadvisor.WATCHED_EPISODES (member, episode, date_watched) VALUES (:email, :episode, curdate())";
+    $query = "insert ignore into flixadvisor.WATCHED_EPISODES (member, episode, date_watched) VALUES (:email, :episode, curdate())";
     foreach ($episodes as $episode) {
         $queryPrepared = $pdo->prepare($query);
         $queryPrepared->execute([
             ":email" => $email,
             ":episode" => $episode['id_episode']
         ]);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de l'insertion / suppression d'un episode regarde.");
+        }
+    }
+}
+
+function unwatchEpisode($email, $idEp)
+{
+    $pdo = connectDB();
+    $query = "DELETE FROM flixadvisor.WATCHED_EPISODES where member = :email and episode = :episode";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":email" => $email,
+        ":episode" => $idEp
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de l'insertion / suppression d'un episode regarde.");
+    }
+}
+
+function watchEpisode($email, $idEp)
+{
+    $pdo = connectDB();
+    $query = "INSERT INTO flixadvisor.WATCHED_EPISODES (member, episode, date_watched) VALUES (:email, :episode, curdate())";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":email" => $email,
+        ":episode" => $idEp
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de l'insertion / suppression d'un episode regarde.");
     }
 }
 
@@ -698,6 +732,10 @@ function unwatchAllEpisodes($email, $idShow)
             ":email" => $email,
             ":episode" => $episode['id_episode']
         ]);
+        if ($queryPrepared->errorCode() != '00000') {
+            var_dump($queryPrepared->errorInfo());
+            die("Une erreur est survenue lors de l'insertion / suppression d'un episode regarde.");
+        }
     }
 }
 
