@@ -471,7 +471,7 @@ function getShowCategories($idShow)
 function getShowEpisodes($idShow)
 {
     $pdo = connectDB();
-    $query = "SELECT nb_season, nb_episode, name_episode, first_aired_episode, director_episode, author_episode, summary_episode FROM flixadvisor.EPISODE, flixadvisor.SEASON WHERE season = id_season AND tv_show = :id ORDER BY nb_season, nb_episode ASC";
+    $query = "SELECT nb_season, nb_episode, name_episode, first_aired_episode, director_episode, author_episode, summary_episode, id_episode FROM flixadvisor.EPISODE, flixadvisor.SEASON WHERE season = id_season AND tv_show = :id ORDER BY nb_season, nb_episode ASC";
     $queryPrepared = $pdo->prepare($query);
     $queryPrepared->execute([":id" => $idShow]);
     if ($queryPrepared->errorCode() != '00000') {
@@ -655,6 +655,53 @@ function getTVYearStatusStat()
     return $queryPrepared->fetchAll();
 }
 
+function isWatchedEpisode($email, $idEpisode)
+{
+    $pdo = connectDB();
+    $query = "select member,episode from flixadvisor.WATCHED_EPISODES WHERE episode = :episode AND member = :email;";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":episode" => $idEpisode,
+        ":email" => $email
+    ]);
+    return sizeof($queryPrepared->fetchAll()) == 0 ? false : true;
+}
+
+function watchAllEpisodes($email, $idShow)
+{
+    $pdo = connectDB();
+    $query = "select id_episode from flixadvisor.EPISODE left join SEASON S on EPISODE.season = S.id_season left join TV_SHOW TS on S.tv_show = TS.id_show where TS.id_show = :show;";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":show" => $idShow]);
+    $episodes = $queryPrepared->fetchAll();
+    $query = "insert into flixadvisor.WATCHED_EPISODES (member, episode, date_watched) VALUES (:email, :episode, curdate())";
+    foreach ($episodes as $episode) {
+        $queryPrepared = $pdo->prepare($query);
+        $queryPrepared->execute([
+            ":email" => $email,
+            ":episode" => $episode['id_episode']
+        ]);
+    }
+}
+
+function unwatchAllEpisodes($email, $idShow)
+{
+    $pdo = connectDB();
+    $query = "select id_episode from flixadvisor.EPISODE left join SEASON S on EPISODE.season = S.id_season left join TV_SHOW TS on S.tv_show = TS.id_show where TS.id_show = :show;";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":show" => $idShow]);
+    $episodes = $queryPrepared->fetchAll();
+    $query = "delete from flixadvisor.WATCHED_EPISODES where episode =:episode and member = :email";
+    foreach ($episodes as $episode) {
+        $queryPrepared = $pdo->prepare($query);
+        $queryPrepared->execute([
+            ":email" => $email,
+            ":episode" => $episode['id_episode']
+        ]);
+    }
+}
+
+
 function addOrRemoveMemberWatchedEpisode($email, $idEpisode)
 {
     $pdo = connectDB();
@@ -679,6 +726,18 @@ function addOrRemoveMemberWatchedEpisode($email, $idEpisode)
     }
 }
 
+function isFollowing($email, $idShow)
+{
+    $pdo = connectDB();
+    $query = "select count(*) from FOLLOWED_SHOW where tv_show = :idShow and member =:email";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":email" => $email,
+        ":idShow" => $idShow
+    ]);
+    return $queryPrepared->fetch()[0];
+}
+
 function addOrRemoveMemberTVShowToFollowingShow($email, $idShow, $status, $notification, $mark)
 {
     $pdo = connectDB();
@@ -688,18 +747,24 @@ function addOrRemoveMemberTVShowToFollowingShow($email, $idShow, $status, $notif
         ":idShow" => $idShow,
         ":email" => $email
     ]);
-    if (sizeof($queryPrepared->fetchAll()) == 0)
+    if (sizeof($queryPrepared->fetchAll()) == 0) {
         $query = "insert ignore into flixadvisor.FOLLOWED_SHOW (member, tv_show, status_followed_show, notification_followed_show, date_followed_show, mark_followed_show) VALUES (:email, :idShow,:status,:notification, curdate(),:mark);";
-    else
+        $parameters = [
+            ":idShow" => $idShow,
+            ":email" => $email,
+            ":status" => $status,
+            ":notification" => $notification,
+            ":mark" => $mark
+        ];
+    } else {
         $query = "delete from flixadvisor.FOLLOWED_SHOW WHERE tv_show = :idShow AND member = :email;";
+        $parameters = [
+            ":idShow" => $idShow,
+            ":email" => $email
+        ];
+    }
     $queryPrepared = $pdo->prepare($query);
-    $queryPrepared->execute([
-        ":idShow" => $idShow,
-        ":email" => $email,
-        ":status" => $status,
-        ":notification" => $notification,
-        ":mark" => $mark
-    ]);
+    $queryPrepared->execute($parameters);
     if ($queryPrepared->errorCode() != '00000') {
         var_dump($queryPrepared->errorInfo());
         die("Une erreur est survenue lors de l'insertion / suppression d'une serie en suivie.");

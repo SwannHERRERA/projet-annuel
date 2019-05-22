@@ -7,7 +7,7 @@
  */
 require_once BASEPATH . '/Core/functions.php';
 if (!getTVShow($idShow)) {
-    header("Location:https://flixadvisor.fr/");
+    header("Location:/");
 }
 $show = getTVShow($idShow);
 ?>
@@ -58,10 +58,119 @@ $show = getTVShow($idShow);
                     <div class="col-12 mt-10 text-center">
                         <button type="button" class="btn btn-warning">Noter cette série</button>
                     </div>
-                    <div class="col-12 mt-10 text-center">
-                        <button type="button" class="btn btn-success pt-10 pb-10">Ajouter à ma liste</button>
-                    </div>
-                <?php } ?>
+                    <?php if (isFollowing($_SESSION['email'], $idShow)) { ?>
+                        <div class="col-12 mt-10 mb-10 text-center">
+                            <a href="/show/unfollow?show=<?= $idShow ?>" class="btn btn-success pt-10 pb-10">Retirer de
+                                ma liste</a>
+                        </div>
+                    <?php } else { ?>
+                        <div class="col-12 mt-10 mb-10 text-center">
+                            <button type="button" class="btn btn-success pt-10 pb-10" data-toggle="modal"
+                                    data-target="#addShowList" aria-hidden="true">Ajouter à ma liste
+                            </button>
+                            <div class="modal fade" id="addShowList" tabindex="-1" role="dialog"
+                                 aria-labelledby="addShowList" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="h3 modal-title">Suivre cette série</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-3 text-center">
+                                                    <img alt="image show" class="img-fluid mx-auto d-block"
+                                                         src=<?= '"' . $show['image_show'] . '"' ?>>
+                                                    <hr>
+                                                    <?= $show['name_show'] ?><br>
+                                                    <?= $show['first_aired_show'] ?>
+                                                </div>
+                                                <div class="col-9">
+                                                    <form action="/show/follow" method="post">
+                                                        <input type="hidden" name="show" value="<?= $idShow ?>">
+                                                        <div class="form-group row">
+                                                            <label class="col-12 text-left">Avancement :</label>
+                                                            <div class="col-md-4 text-left">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio"
+                                                                           name="status" id="status1" value="termine"
+                                                                           checked>
+                                                                    <label class="form-check-label" for="status1">Completé</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4 text-left">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio"
+                                                                           name="status" id="status2" value="en cours">
+                                                                    <label class="form-check-label" for="status2">En
+                                                                        cours</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4 text-left">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="radio"
+                                                                           name="status" id="status3" value="a voir">
+                                                                    <label class="form-check-label" for="status3">À
+                                                                        voir</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group row">
+                                                                    <label class="col-12 text-left" for="mark">Noter
+                                                                        cette série :</label>
+                                                                    <div class="col-md-8">
+                                                                        <select class="form-control" id="mark"
+                                                                                name="mark">
+                                                                            <option></option>
+                                                                            <option>0</option>
+                                                                            <option>1</option>
+                                                                            <option>2</option>
+                                                                            <option>3</option>
+                                                                            <option>4</option>
+                                                                            <option>5</option>
+                                                                            <option>6</option>
+                                                                            <option>7</option>
+                                                                            <option>8</option>
+                                                                            <option>9</option>
+                                                                            <option>10</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-check row">
+                                                                    <div class="col-12 text-left">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                               value="o" name="notification"
+                                                                               id="notification">
+                                                                        <label class="form-check-label"
+                                                                               for="notification">S'abonner aux
+                                                                            notifications</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-10">
+                                                            <div class="col-12 text-left">
+                                                                <button type="submit" class="btn btn-primary">
+                                                                    Confirmer
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php }
+                } ?>
             </div>
         </div>
         <div class="col-lg-3 col-xl-2 pt-10 pb-10 border">
@@ -146,6 +255,13 @@ $show = getTVShow($idShow);
                                                 data-target=<?php echo '"#collapse' . $episode['nb_season'] . $episode['nb_episode'] . '"'; ?>>
                                             <?php echo $episode['nb_season'] . 'x' . $episode['nb_episode'] . ' - ' . $episode['name_episode']; ?>
                                         </button>
+                                        <?php if (isFollowing($_SESSION['email'], $idShow)) {
+                                            if (isWatchedEpisode($_SESSION['email'], $episode['id_episode']))
+                                                echo '<i class="fas fa-eye-slash align-self-end"></i>';
+                                            else
+                                                echo '<i class="fas fa-eye align-self-end"></i>';
+                                        }
+                                        ?>
                                     </h5>
                                 </div>
                                 <div id=<?php echo '"collapse' . $episode['nb_season'] . $episode['nb_episode'] . '"'; ?>
