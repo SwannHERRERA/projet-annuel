@@ -42,14 +42,14 @@ $show = getTVShow($idShow);
                 <?php if ($this->member_model->isConnected()) {
                     if (isFollowing($_SESSION['email'], $idShow)) {
                         $mark = getShowMarkMember($idShow, $_SESSION['email']);
-                        $status = getShowStatusMember($idShow,$_SESSION['email'])?>
+                        $status = getShowStatusMember($idShow, $_SESSION['email']) ?>
                         <div id="userRating" class="col-12 text-center"
                              onmouseout="rating(<?= empty($mark) ? 0 : $mark ?>,<?= $idShow ?>)">
                             <script type="text/javascript">rating(<?= empty($mark) ? 0 : $mark ?>,<?=$idShow?>);</script>
                         </div>
                         <div class="col-3"></div>
                         <div id="userStatus" class="col-6">
-                            <script type="text/javascript">statusShow(<?='"'.$status.'",'.$idShow?>)</script>
+                            <script type="text/javascript">statusShow(<?='"' . $status . '",' . $idShow?>)</script>
                         </div>
                         <div class="col-12 mt-10 mb-10 text-center">
                             <a href="/show/unfollow?show=<?= $idShow ?>" class="btn btn-success pt-10 pb-10">Retirer de
@@ -327,6 +327,56 @@ $show = getTVShow($idShow);
                 <div class="tab-pane mt-10" id="comments" role="tabpanel" aria-labelledby="comments-tab">
                     <h1 class="h3">Commentaires</h1>
                     <hr>
+                    <div class="col-12" id="comments">
+                        <div class="row mb-10">
+                            <div class="col-sm-2">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
+                                     class="img-thumbnail">
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>username</strong> <span class="text-muted">commenté le 12/05/2019</span>
+                                    </div>
+                                    <div class="card-body">
+                                        Commentaire
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-10">
+                            <div class="col-sm-2">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
+                                     class="img-thumbnail">
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>username</strong> <span class="text-muted">commenté le 12/05/2019</span>
+                                    </div>
+                                    <div class="card-body">
+                                        Commentaire
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-10">
+                            <div class="col-sm-2">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
+                                     class="img-thumbnail">
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>username</strong> <span class="text-muted">commenté le 12/05/2019</span>
+                                    </div>
+                                    <div class="card-body">
+                                        Commentaire
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
