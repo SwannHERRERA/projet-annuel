@@ -1,9 +1,10 @@
-var canvas, ctx, flag = false,
+let canvas, ctx, flag = false,
     prevX = 0,
     currX = 0,
     prevY = 0,
     currY = 0,
     dot_flag = false;
+let canvasOffset;
 
 var x = "black",
     y = 2;
@@ -14,7 +15,7 @@ $('#canvas').on('shown.bs.modal', function (e) {
 
 function init() {
     canvas = document.getElementById('can');
-    console.log(canvas);
+    canvasOffset = canvas.getBoundingClientRect();
     ctx = canvas.getContext("2d");
     w = canvas.width;
     h = canvas.height;
@@ -91,8 +92,8 @@ function findxy(res, e) {
     if (res == 'down') {
         prevX = currX;
         prevY = currY;
-        currX = e.clientX - canvas.offsetLeft;
-        currY = e.clientY - canvas.offsetTop;
+        currX = e.clientX - canvasOffset.left;
+        currY = e.clientY - canvasOffset.top;
 
         flag = true;
         dot_flag = true;
@@ -111,11 +112,8 @@ function findxy(res, e) {
         if (flag) {
             prevX = currX;
             prevY = currY;
-
-            console.log(canvas.offsetLeft);
-            console.log(e.clientX);
-            currX = e.clientX - canvas.offsetLeft;
-            currY = e.clientY - canvas.offsetTop;
+            currX = e.clientX - canvasOffset.left;
+            currY = e.clientY - canvasOffset.top;
             draw();
         }
     }
