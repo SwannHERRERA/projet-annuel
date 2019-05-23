@@ -65,6 +65,7 @@ function disableNotification(id) {
 
 function checkNotification(id) {
     const element = document.getElementById("notificationCheck");
+
     if (element.className === "far fa-bell") {
         enableNotification(id);
     } else {
@@ -128,6 +129,40 @@ function rateShow(rate, show) {
             if (request.status === 200) {
                 const element = document.getElementById("userRating");
                 element.setAttribute("onmouseout", "rating(" + rate + "," + show + ")");
+            }
+        }
+    };
+    request.send();
+}
+
+function statusShow(status, show) {
+    const element = document.getElementById("userStatus");
+    let values = ['a voir', 'en cours', 'termine'];
+    let valuesName = ['À voir', 'En cours', 'Terminé'];
+    let content = '<select onchange="changeStatus('+show+')" class="form-control" id="userStatusSelect">';
+    for (let i = 0; i < 3; i++) {
+        content += '<option value="' + values[i] + '" ';
+        if (status === values[i]) {
+            content += 'selected';
+        }
+        content += '>' + valuesName[i] + '</option>';
+    }
+    content += '</select>';
+    element.innerHTML = content;
+}
+
+function changeStatus(show) {
+    let element = document.getElementById("userStatusSelect");
+    const request = new XMLHttpRequest();
+    request.open('GET', '/show/updateStatus?show=' + show + '&status=' + element.value);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                if (element.value === 'termine') {
+                    watchAll(show);
+                }else if (element.value === 'a voir') {
+                    unwatchAll(show);
+                }
             }
         }
     };
