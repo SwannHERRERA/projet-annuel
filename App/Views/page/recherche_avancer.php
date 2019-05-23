@@ -96,11 +96,12 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-6">
-                                        <img src="<?= $tv_show['image_show'] ?>" alt="banniere serie <?= $tv_show['name_show'] ?>">
-
+                                    <div class="col-md-6">
+                                        <div class="text-center">
+                                            <img src="<?= $tv_show['image_show'] ?>" class="img-fluid" alt="banniere serie <?= $tv_show['name_show'] ?>">
+                                        </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-md-6">
                                         <p class="card-text"><?= $tv_show['summary_show'] ?></p>
                                     </div>
                                 </div>
