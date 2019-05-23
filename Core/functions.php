@@ -776,6 +776,18 @@ function isFollowing($email, $idShow)
     return $queryPrepared->fetch()[0];
 }
 
+function isNotified($email, $idShow)
+{
+    $pdo = connectDB();
+    $query = "select notification_followed_show from FOLLOWED_SHOW where tv_show = :idShow and member =:email";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":email" => $email,
+        ":idShow" => $idShow
+    ]);
+    return $queryPrepared->fetch()[0];
+}
+
 function addOrRemoveMemberTVShowToFollowingShow($email, $idShow, $status, $notification, $mark)
 {
     $pdo = connectDB();

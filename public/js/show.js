@@ -35,6 +35,43 @@ function checkEp(id) {
     }
 }
 
+function enableNotification(id) {
+    const element = document.getElementById("notificationCheck");
+    const request = new XMLHttpRequest();
+    request.open('GET', '/show/enableNotification?show=' + id);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                element.className = "fas fa-bell-slash";
+            }
+        }
+    };
+    request.send();
+}
+
+function disableNotification(id) {
+    const element = document.getElementById("notificationCheck");
+    const request = new XMLHttpRequest();
+    request.open('GET', '/show/disableNotification?show=' + id);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                element.className = "far fa-bell";
+            }
+        }
+    };
+    request.send();
+}
+
+function checkNotification(id) {
+    const element = document.getElementById("notificationCheck");
+    if (element.className === "far fa-bell") {
+        enableNotification(id);
+    } else {
+        disableNotification(id);
+    }
+}
+
 function watchAll(id) {
     const elements = document.getElementsByClassName("accordion")[0].getElementsByTagName("i");
     const request = new XMLHttpRequest();
@@ -87,11 +124,8 @@ function rateShow(rate, show) {
     const request = new XMLHttpRequest();
     request.open('GET', '/show/updateRating?show=' + show + '&rate=' + rate);
     request.onreadystatechange = function () {
-        console.log(request.readyState);
-        console.log(request.status);
         if (request.readyState === 4) {
             if (request.status === 200) {
-                console.log("OK");
                 const element = document.getElementById("userRating");
                 element.setAttribute("onmouseout", "rating(" + rate + "," + show + ")");
             }

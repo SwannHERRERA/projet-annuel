@@ -79,4 +79,18 @@ class show extends Controller
         }
         updateMarkMemberTVShowList($_SESSION['email'], $_GET['show'], $_GET['rate']);
     }
+
+    public function enableNotification()
+    {
+        if (!isset($_GET['show']) || !$this->member_model->isConnected())
+            header('Location: /');
+        updateNotificationMemberTVShowList($_SESSION['email'], $_GET['show'], 'o');
+    }
+
+    public function disableNotification()
+    {
+        if (!isset($_GET['show']) || !$this->member_model->isConnected())
+            header('Location: /');
+        updateNotificationMemberTVShowList($_SESSION['email'], $_GET['show'], 'n');
+    }
 }

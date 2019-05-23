@@ -49,6 +49,15 @@ $show = getTVShow($idShow);
                         <div class="col-12 mt-10 mb-10 text-center">
                             <a href="/show/unfollow?show=<?= $idShow ?>" class="btn btn-success pt-10 pb-10">Retirer de
                                 ma liste</a>
+                            <?php if (isNotified($_SESSION['email'], $idShow) == "o") { ?>
+                                <button onclick="checkNotification(<?= $idShow ?>)" class="btn btn-info"><i
+                                            id="notificationCheck" class="fas fa-bell-slash"></i>
+                                </button>
+                            <?php } else { ?>
+                                <button onclick="checkNotification(<?= $idShow ?>)" class="btn btn-info"><i
+                                            id="notificationCheck" class="far fa-bell"></i>
+                                </button>
+                            <?php } ?>
                         </div>
                     <?php } else { ?>
                         <div class="col-12 mt-10 mb-10 text-center">
