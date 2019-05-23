@@ -93,4 +93,12 @@ class show extends Controller
             header('Location: /');
         updateNotificationMemberTVShowList($_SESSION['email'], $_GET['show'], 'n');
     }
+
+    public function updateStatus()
+    {
+        if (!isset($_GET['show']) || !isset($_GET['status']) || !$this->member_model->isConnected()) {
+            header('Location: /');
+        }
+        updateStatusMemberTVShowList($_SESSION['email'], $_GET['show'], $_GET['status']);
+    }
 }

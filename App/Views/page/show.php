@@ -41,10 +41,15 @@ $show = getTVShow($idShow);
             <div class="row pt-10">
                 <?php if ($this->member_model->isConnected()) {
                     if (isFollowing($_SESSION['email'], $idShow)) {
-                        $mark = getShowMarkMember($idShow, $_SESSION['email']) ?>
+                        $mark = getShowMarkMember($idShow, $_SESSION['email']);
+                        $status = getShowStatusMember($idShow,$_SESSION['email'])?>
                         <div id="userRating" class="col-12 text-center"
                              onmouseout="rating(<?= empty($mark) ? 0 : $mark ?>,<?= $idShow ?>)">
                             <script type="text/javascript">rating(<?= empty($mark) ? 0 : $mark ?>,<?=$idShow?>);</script>
+                        </div>
+                        <div class="col-3"></div>
+                        <div id="userStatus" class="col-6">
+                            <script type="text/javascript">statusShow(<?='"'.$status.'",'.$idShow?>)</script>
                         </div>
                         <div class="col-12 mt-10 mb-10 text-center">
                             <a href="/show/unfollow?show=<?= $idShow ?>" class="btn btn-success pt-10 pb-10">Retirer de

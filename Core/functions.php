@@ -1041,7 +1041,20 @@ function getShowMarkMember($idShow, $email)
     $queryPrepared->execute([":id" => $idShow, ":email" => $email]);
     if ($queryPrepared->errorCode() != '00000') {
         var_dump($queryPrepared->errorInfo());
-        die("Une erreur est survenue lors de la recuperation du rang de la série.");
+        die("Une erreur est survenue lors de la recuperation dde la note utilisateur.");
+    }
+    return $queryPrepared->fetch()[0];
+}
+
+function getShowStatusMember($idShow, $email)
+{
+    $pdo = connectDB();
+    $query = "select status_followed_show from FOLLOWED_SHOW where tv_show = :id and member =:email";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":id" => $idShow, ":email" => $email]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation du status utilisateur.");
     }
     return $queryPrepared->fetch()[0];
 }
