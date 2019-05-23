@@ -53,9 +53,16 @@ class Page extends Controller
         $network_model = new Network_model;
         if (!empty($_GET)){
             $q = $_GET['search'];
-            echo '<pre class="text-white">';
-            var_dump($_GET);
-            echo '</pre>';
+            $tv_shows = $this->tv_show_model->searchTVShowAdvanced(
+                $_GET['search'] ?? '',
+                $_GET['minimum_rating'] ?? '',
+                $_GET['status'] ?? '',
+                $_GET['network[]'] ?? '',
+                $_GET['first_aired_years'] ?? '',
+                $_GET['runtime'] ?? '',
+                $_GET['gender[]'] ?? '',
+                $_GET['actor[]'] ?? ''
+            );
         }
         $genders = $category_model->getCategoryList();
         $networks = $network_model->getNetworkList();

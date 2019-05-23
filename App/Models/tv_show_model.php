@@ -545,11 +545,11 @@ class Tv_show_model extends My_model
             "from flixadvisor.TV_SHOW ";
         $join = "";
         $condition = "where 1=1 ";
-        if ($nameShow != null && sizeof($nameShow) > 0) {
+        if (!empty($nameShow)) {
             $condition .= "AND instr(name_show, :name) >0 ";
             $parameters = array_merge($parameters, [":name" => $nameShow]);
         }
-        if ($minimumRating != null && sizeof($minimumRating) > 0) {
+        if (!empty($minimumRating)) {
             $condition .= "AND " .
                 "(SELECT CAST(AVG(mark_followed_show) AS DECIMAL(10,2)) " .
                 "FROM flixadvisor.FOLLOWED_SHOW " .
@@ -557,31 +557,31 @@ class Tv_show_model extends My_model
                 ">= :mark ";
             $parameters = array_merge($parameters, [":mark" => $minimumRating]);
         }
-        if ($status != null && sizeof($status) > 0) {
+        if (!empty($status)) {
             $condition .= "AND production_status = :status ";
             $parameters = array_merge($parameters, [":status" => $status]);
         }
-        if ($idNetworks != null and sizeof($idNetworks) > 0) {
+        if (!empty($idNetworks)) {
             $join .= "left join BROADCAST ON flixadvisor.TV_SHOW.id_show = tv_show " .
                 "left join NETWORK N on BROADCAST.network = N.id_network ";
             $condition .= "AND N.id_network IN (:network) ";
             $parameters = array_merge($parameters, [":network" => $idNetworks]);
         }
-        if ($firstAiredYears != null && sizeof($firstAiredYears) > 0) {
+        if (!empty($firstAiredYears)) {
             $condition .= "AND YEAR(first_aired_show) IN (:airedYear) ";
             $parameters = array_merge($parameters, ["airedYear" => $firstAiredYears]);
         }
-        if ($runtimes != null && sizeof($runtimes) > 0) {
+        if (!empty($runtimes)) {
             $condition .= "AND runtime_show IN (:runtime) ";
             $parameters = array_merge($parameters, [":runtime" => $runtimes]);
         }
-        if ($idGenres != null && sizeof($idGenres) > 0) {
+        if (!empty($idGenres)) {
             $join .= "left join CATEGORIZED_SHOW CS on TV_SHOW.id_show = CS.tv_show " .
                 "left join CATEGORY C on CS.category = C.id_category ";
             $condition .= "AND C.id_category IN (:genres) ";
             $parameters = array_merge($parameters, [":genres" => $idGenres]);
         }
-        if ($idActors != null && sizeof($idActors) > 0) {
+        if (!empty($idActors)) {
             $join .= "left join CASTING C2 on TV_SHOW.id_show = C2.tv_show " .
                 "left join ACTOR A on C2.actor = A.id_actor ";
             $condition .= "and A.id_actor IN (:actors) ";

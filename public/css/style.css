@@ -4457,7 +4457,7 @@ input[type=button].btn-block {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #282c35;
+  background-color: #93959a;
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
@@ -5272,7 +5272,7 @@ a.badge-teal:focus, a.badge-teal.focus {
   display: block;
   padding: 0.75rem 1.25rem;
   margin-bottom: -1px;
-  background-color: #fff;
+  background-color: #93959a;
   border: 1px solid rgba(0, 0, 0, 0.125);
 }
 .list-group-item:first-child {
@@ -5287,7 +5287,7 @@ a.badge-teal:focus, a.badge-teal.focus {
 .list-group-item.disabled, .list-group-item:disabled {
   color: #546e7a;
   pointer-events: none;
-  background-color: #fff;
+  background-color: #93959a;
 }
 .list-group-item.active {
   z-index: 2;
@@ -17369,10 +17369,12 @@ footer .btn:hover {
   display: inline-block;
   background-color: #93959a;
   border-radius: 5px;
+  width: 100%;
 }
 .dropdown-check-list .anchor {
   position: relative;
   cursor: pointer;
+  width: 100%;
   display: inline-block;
   padding: 5px 50px 5px 10px;
   /* - fait un < tourner vers le bas - */
@@ -17396,7 +17398,7 @@ footer .btn:hover {
   top: 21%;
 }
 .dropdown-check-list ul.items {
-  padding: 2px;
+  padding: 5px;
   display: none;
   margin: 0;
   border: 1px solid #ccc;
@@ -17404,6 +17406,9 @@ footer .btn:hover {
 }
 .dropdown-check-list ul.items li {
   list-style: none;
+}
+.dropdown-check-list.visible {
+  margin-bottom: 20px;
 }
 .dropdown-check-list.visible .items {
   display: block;

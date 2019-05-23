@@ -2,9 +2,11 @@
   display: inline-block;
   background-color: $light-dark;
   border-radius: 5px;
+  width: 100%;
   .anchor {
     position: relative;
     cursor: pointer;
+    width: 100%;
     display: inline-block;
     padding: 5px 50px 5px 10px;
     /* - fait un < tourner vers le bas - */
@@ -28,7 +30,7 @@
     }
   }
   ul.items {
-    padding: 2px;
+    padding: 5px;
     display: none;
     margin: 0;
     border: 1px solid #ccc;
@@ -41,5 +43,6 @@
     .items {
       display: block;
     }
+    margin-bottom: 20px;
   }
 }
