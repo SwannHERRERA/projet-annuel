@@ -11,7 +11,7 @@ if (!getTVShow($idShow)) {
 }
 $show = getTVShow($idShow);
 ?>
-
+<script src="<?= $site_url . '/js/show.js' ?>"></script>
 <div class="col-md-9 col-lg-10">
     <div class="row mt-20 ml-20">
         <div class="col-md-3 align-self-baseline">
@@ -39,26 +39,13 @@ $show = getTVShow($idShow);
         <div class="col-lg-3">
             <img alt="image show" class="img-fluid mx-auto d-block" src=<?= '"' . $show['image_show'] . '"' ?>>
             <div class="row pt-10">
-                <?php if ($this->member_model->isConnected()) { ?>
-                    <div class="col-12 text-center">
-                        <?php $mark = getShowMarkMember($idShow, $_SESSION['email']);
-                        $i = 1;
-                        if (empty($mark))
-                            for (; $i <= 10; $i++)
-                                echo '<span class="fa fa-star "></span>';
-                        else {
-
-                            for (; $i <= $mark; $i++)
-                                echo '<span class="fa fa-star" style="color: orange"></span>';
-                            for (; $i <= 10; $i++)
-                                echo '<span class="fa fa-star "></span>';
-                        }
-                        ?>
-                    </div>
-                    <div class="col-12 mt-10 text-center">
-                        <button type="button" class="btn btn-warning">Noter cette série</button>
-                    </div>
-                    <?php if (isFollowing($_SESSION['email'], $idShow)) { ?>
+                <?php if ($this->member_model->isConnected()) {
+                    if (isFollowing($_SESSION['email'], $idShow)) {
+                        $mark = getShowMarkMember($idShow, $_SESSION['email']) ?>
+                        <div id="userRating" class="col-12 text-center"
+                             onmouseout="rating(<?= empty($mark) ? 0 : $mark ?>,<?= $idShow ?>)">
+                            <script type="text/javascript">rating(<?= empty($mark) ? 0 : $mark ?>,<?=$idShow?>);</script>
+                        </div>
                         <div class="col-12 mt-10 mb-10 text-center">
                             <a href="/show/unfollow?show=<?= $idShow ?>" class="btn btn-success pt-10 pb-10">Retirer de
                                 ma liste</a>
@@ -243,13 +230,15 @@ $show = getTVShow($idShow);
                         <div class="col-md-3 text-left align-baseline">
                             <h1 class="h3">Episodes</h1>
                         </div>
-                        <div class="col-md-8 text-right align-baseline">
+                        <div class="col-md-9 text-right align-baseline">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <a onclick="watchAll(<?=$idShow?>)"> Tout marquer comme vu</a>
+                                <div class="col-md-6 text-md-right">
+                                    <a class="btn btn-success" onclick="watchAll(<?= $idShow ?>)"> Tout marquer comme
+                                        vu</a>
                                 </div>
-                                <div class="col-md-6">
-                                    <a onclick="unwatchAll(<?=$idShow?>)"> Tout marquer comme non vu</a>
+                                <div class="col-md-6 text-md-left">
+                                    <a class="btn btn-danger" onclick="unwatchAll(<?= $idShow ?>)"> Tout marquer comme
+                                        non vu</a>
                                 </div>
                             </div>
                         </div>
@@ -271,13 +260,18 @@ $show = getTVShow($idShow);
                                         </button>
                                         <?php if (isFollowing($_SESSION['email'], $idShow)) {
                                             if (isWatchedEpisode($_SESSION['email'], $episode['id_episode'])) { ?>
-                                                <i id="<?= $episode['id_episode'] ?>"
-                                                   class="fas fa-eye-slash"
-                                                   onclick="checkEp(<?= $episode['id_episode'] ?>)"></i>
+                                                <a class="btn btn-info" href="#"
+                                                   onclick="checkEp(<?= $episode['id_episode'] ?>)">
+                                                    <i id="<?= $episode['id_episode'] ?>"
+                                                       class="fas fa-eye-slash"></i>
+                                                </a>
                                             <?php } else { ?>
-                                                <i id="<?= $episode['id_episode'] ?>"
-                                                   class="fas fa-eye"
-                                                   onclick="checkEp(<?= $episode['id_episode'] ?>)"></i>
+                                                <a class="btn btn-info" href="#"
+                                                   onclick="checkEp(<?= $episode['id_episode'] ?>)">
+                                                    <i id="<?= $episode['id_episode'] ?>"
+                                                       class="fas fa-eye">
+                                                    </i>
+                                                </a>
                                                 <?php
                                             }
                                         }
@@ -325,4 +319,3 @@ $show = getTVShow($idShow);
         </div>
     </div>
 </div>
-<script src="<?= $site_url . '/js/show.js' ?>"></script>

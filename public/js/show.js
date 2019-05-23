@@ -66,3 +66,36 @@ function unwatchAll(id) {
     };
     request.send();
 }
+
+function rating(rate, show) {
+    const element = document.getElementById("userRating");
+    let i = 1;
+    element.innerHTML = "";
+    for (; i < rate; i++) {
+        element.innerHTML += '<span onmouseover="rating(' + i + ',' + show + ')" id="star' + i + '" class="fa fa-star" style="color: orange"></span>';
+    }
+    if (i === rate) {
+        element.innerHTML += '<span onclick="rateShow(' + i + ',' + show + ')" id="star' + i + '" class="fa fa-star" style="color: orange"></span>';
+        i++;
+    }
+    for (; i <= 10; i++) {
+        element.innerHTML += '<span onmouseover="rating(' + i + ',' + show + ')" id="star' + i + '" class="fa fa-star "></span>';
+    }
+}
+
+function rateShow(rate, show) {
+    const request = new XMLHttpRequest();
+    request.open('GET', '/show/updateRating?show=' + show + '&rate=' + rate);
+    request.onreadystatechange = function () {
+        console.log(request.readyState);
+        console.log(request.status);
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                console.log("OK");
+                const element = document.getElementById("userRating");
+                element.setAttribute("onmouseout", "rating(" + rate + "," + show + ")");
+            }
+        }
+    };
+    request.send();
+}
