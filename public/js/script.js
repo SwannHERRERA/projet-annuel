@@ -162,7 +162,7 @@ function uploadImage() {
             showImage(json.url);
         }
     }
-    ajax.open("POST", "http://localhost/upload.php", true);
+    ajax.open("POST", "https://flixadvisor/upload.php", true);
     ajax.send(formData); // send the form data
 
 }
