@@ -15,7 +15,7 @@
     <form method="POST" class='mt-50 mb-65' onchange="submitForm(event)" enctype='multipart/form-data'>
         <div class="form-row mt-5">
             <div class="form-group col-md-6" style="text-align: center;">
-                <img id="preview" height="200" src="<?= $current_param['photo'] ?>">
+                <img id="preview" class="img-fluid"  src="<?= $current_param['photo'] ?>">
             </div>
             <div class="form-group col-md-6">
                 <p><b>Changer ma photo de profil :</b><br>
@@ -79,7 +79,7 @@
         </p>
     </form>
 
-    <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#passwordChange">
+    <button type="button" class="btn btn-info btn-block mb-30" data-toggle="modal" data-target="#passwordChange">
         Modifier mon mot de passe
     </button>
 </div>

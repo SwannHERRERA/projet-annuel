@@ -64,7 +64,7 @@ try {
 
     if (move_uploaded_file($image['tmp_name'], $destination)) {
         // Création de l'URL finale de l'image
-        $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
+        $protocol = $_SERVER['HTTPS'] ? 'https://' : 'http://';
         $domain = $protocol . $_SERVER['SERVER_NAME'];
         $url = $domain.$path;
 

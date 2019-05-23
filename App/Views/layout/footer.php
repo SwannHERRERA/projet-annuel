@@ -63,60 +63,10 @@
   integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
   integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="<?= $site_url . "/js/script.js"?>"></script>
 
 <?php if (isset($_SESSION['POST'])){
   unset($_SESSION['POST']);
 }?>
-
-<script type="text/javascript">
-    var previewImage = document.getElementById("preview");
-    var uploadingText = document.getElementById("uploading-text");
-
-    function submitForm(event) {
-        // prevent default form submission
-        event.preventDefault();
-        uploadImage();
-    }
-    function uploadImage() {
-        var imageSelecter = document.getElementById("image-selecter"),
-            file = imageSelecter.files[0];
-
-        // clear the previous image
-        previewImage.removeAttribute("src");
-        // show uploading text
-        uploadingText.style.display = "block";
-
-        // create form data and append the file
-        var	formData = new FormData();
-        formData.append("image", file);
-
-        // do the ajax part
-        var ajax = new XMLHttpRequest();
-        ajax.onreadystatechange = function() {
-            if (this.readyState === 4 && this.status === 200) {
-                var json = JSON.parse(this.responseText);
-                if (!json || json.status !== true)
-                    return uploadError(json.error);
-
-                showImage(json.url);
-            }
-        }
-        ajax.open("POST", "https://flixadvisor.fr/upload.php", true);
-        ajax.send(formData); // send the form data
-
-    }
-    function uploadError(error) {
-        // called on error
-        alert(error || 'Une erreur a eu lieu.');
-    }
-
-    function showImage(url) {
-        previewImage.src = url;
-        uploadingText.style.display = "none";
-    }
-
-</script>
 
 </body>
 

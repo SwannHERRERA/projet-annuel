@@ -68,6 +68,9 @@ class Member extends Controller
     }
 
     public function parameters() {
+        if (!$this->member_model->isConnected()) {
+            header('Location: /');
+        }
         if (!empty($_POST)) {
             $this->member_model->update_parameters($_SESSION['email']);
         }
