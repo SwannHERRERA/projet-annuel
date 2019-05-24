@@ -358,7 +358,7 @@ $show = getTVShow($idShow);
                                             <img src="<?= $comment['photo'] ?>"
                                                  class="img-thumbnail" alt="photo profile">
                                         </div>
-                                        <?php if ($comment['pseudo'] == $user['pseudo']) { ?>
+                                        <?php if (!empty($_SESSION['email']) && $comment['pseudo'] == $user['pseudo']) { ?>
                                             <div class="col-12 mt-5 text-center">
                                                 <button class="btn btn-warning"
                                                         onclick="deleteComment(<?= $comment['id_comment'] ?>)"><i
