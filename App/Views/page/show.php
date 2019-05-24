@@ -276,7 +276,7 @@ $show = getTVShow($idShow);
                                                 data-target=<?php echo '"#collapse' . $episode['nb_season'] . $episode['nb_episode'] . '"'; ?>>
                                             <?php echo $episode['nb_season'] . 'x' . $episode['nb_episode'] . ' - ' . $episode['name_episode']; ?>
                                         </button>
-                                        <?php if (isFollowing($_SESSION['email'], $idShow)) {
+                                        <?php if (!empty($_SESSION['email']) && isFollowing($_SESSION['email'], $idShow)) {
                                             if (isWatchedEpisode($_SESSION['email'], $episode['id_episode'])) { ?>
                                                 <a class="btn btn-info" href="#"
                                                    onclick="checkEp(<?= $episode['id_episode'] ?>)">
