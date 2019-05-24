@@ -245,7 +245,7 @@ $show = getTVShow($idShow);
                             <h1 class="h3">Episodes</h1>
                         </div>
                         <div class="col-md-9 text-right align-baseline">
-                            <?php if (isFollowing($_SESSION['email'], $idShow)) { ?>
+                            <?php if (!empty($_SESSION['email']) && isFollowing($_SESSION['email'], $idShow)) { ?>
                                 <div class="row">
                                     <div class="col-md-6 text-md-right">
                                         <a class="btn btn-success" onclick="watchAll(<?= $idShow ?>)"> Tout marquer
