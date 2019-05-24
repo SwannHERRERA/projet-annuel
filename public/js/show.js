@@ -139,7 +139,7 @@ function statusShow(status, show) {
     const element = document.getElementById("userStatus");
     let values = ['a voir', 'en cours', 'termine'];
     let valuesName = ['À voir', 'En cours', 'Terminé'];
-    let content = '<select onchange="changeStatus('+show+')" class="form-control" id="userStatusSelect">';
+    let content = '<select onchange="changeStatus(' + show + ')" class="form-control" id="userStatusSelect">';
     for (let i = 0; i < 3; i++) {
         content += '<option value="' + values[i] + '" ';
         if (status === values[i]) {
@@ -160,7 +160,7 @@ function changeStatus(show) {
             if (request.status === 200) {
                 if (element.value === 'termine') {
                     watchAll(show);
-                }else if (element.value === 'a voir') {
+                } else if (element.value === 'a voir') {
                     unwatchAll(show);
                 }
             }
@@ -168,3 +168,41 @@ function changeStatus(show) {
     };
     request.send();
 }
+
+function submitComment(idShow, userPhoto, username) {
+    const comment = document.getElementById("commentWrite");
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                const comments = document.getElementById("userComments");
+                let newComment = '<div class="row mb-10"><div class="col-sm-2"><img src="' + userPhoto + '"' +
+                    ' class="img-thumbnail" alt="photo profile"></div><div class="col-sm-9"><div class="card"><div class="card-header">' +
+                    '<strong>' + username + '</strong> <span class="text-muted">commenté le ' + new Date().getDate() + '</span>' +
+                    '</div><div class="card-body">' + comment.value + '</div></div></div></div>';
+                comments.innerHTML = newComment + comments.innerHTML;
+            }
+        }
+    };
+    request.open('POST', '/show/submitComment');
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+    request.send(
+        'show=' + idShow +
+        '&comment=' + comment.value
+    );
+}
+
+function deleteComment(id) {
+    let element = document.getElementById(id);
+    const request = new XMLHttpRequest();
+    request.open('GET', '/show/deleteComment?comment=' + id);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                element.remove();
+            }
+        }
+    };
+    request.send();
+}
+

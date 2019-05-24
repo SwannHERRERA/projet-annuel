@@ -245,16 +245,20 @@ $show = getTVShow($idShow);
                             <h1 class="h3">Episodes</h1>
                         </div>
                         <div class="col-md-9 text-right align-baseline">
-                            <div class="row">
-                                <div class="col-md-6 text-md-right">
-                                    <a class="btn btn-success" onclick="watchAll(<?= $idShow ?>)"> Tout marquer comme
-                                        vu</a>
+                            <?php if (isFollowing($_SESSION['email'], $idShow)) { ?>
+                                <div class="row">
+                                    <div class="col-md-6 text-md-right">
+                                        <a class="btn btn-success" onclick="watchAll(<?= $idShow ?>)"> Tout marquer
+                                            comme
+                                            vu</a>
+                                    </div>
+                                    <div class="col-md-6 text-md-left">
+                                        <a class="btn btn-danger" onclick="unwatchAll(<?= $idShow ?>)"> Tout marquer
+                                            comme
+                                            non vu</a>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 text-md-left">
-                                    <a class="btn btn-danger" onclick="unwatchAll(<?= $idShow ?>)"> Tout marquer comme
-                                        non vu</a>
-                                </div>
-                            </div>
+                            <?php } ?>
                         </div>
                     </div>
                     <hr>
@@ -327,55 +331,54 @@ $show = getTVShow($idShow);
                 <div class="tab-pane mt-10" id="comments" role="tabpanel" aria-labelledby="comments-tab">
                     <h1 class="h3">Commentaires</h1>
                     <hr>
-                    <div class="col-12" id="comments">
-                        <div class="row mb-10">
-                            <div class="col-sm-2">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
-                                     class="img-thumbnail">
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <strong>username</strong> <span class="text-muted">commenté le 12/05/2019</span>
-                                    </div>
-                                    <div class="card-body">
-                                        Commentaire
-                                    </div>
+                    <?php $comments = getTVShowComments($idShow);
+                    if ($this->member_model->isConnected()) {
+                        ?>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-8 form-group">
+                                    <label for="commentWrite">Ecrire un commentaire</label>
+                                    <textarea class="form-control" id="commentWrite" rows="2"></textarea>
+                                </div>
+                                <div class="col-2 align-self-center">
+                                    <button class="btn btn-success"
+                                            onclick="submitComment(<?= $idShow; ?>,'<?= $user['photo']; ?>','<?= $user['pseudo']; ?>')">
+                                        Envoyer
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-10">
-                            <div class="col-sm-2">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
-                                     class="img-thumbnail">
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <strong>username</strong> <span class="text-muted">commenté le 12/05/2019</span>
+                    <?php } ?>
+                    <div class="col-12" id="userComments">
+                        <?php foreach ($comments as $comment) { ?>
+                            <div id="<?= $comment['id_comment'] ?>" class="row mb-10">
+                                <div class="col-sm-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <img src="<?= $comment['photo'] ?>"
+                                                 class="img-thumbnail" alt="photo profile">
+                                        </div>
+                                        <?php if ($comment['pseudo'] == $user['pseudo']) { ?>
+                                            <div class="col-12 mt-5 text-center">
+                                                <button class="btn btn-warning"
+                                                        onclick="deleteComment(<?= $comment['id_comment'] ?>)"><i
+                                                            class="fas fa-trash"></i></button>
+                                            </div>
+                                        <?php } ?>
                                     </div>
-                                    <div class="card-body">
-                                        Commentaire
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <strong><?= $comment['pseudo'] ?></strong> <span class="text-muted">commenté le <?= $comment['date_comment'] ?></span>
+                                        </div>
+                                        <div class="card-body">
+                                            <?= $comment['text_comment'] ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-10">
-                            <div class="col-sm-2">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
-                                     class="img-thumbnail">
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <strong>username</strong> <span class="text-muted">commenté le 12/05/2019</span>
-                                    </div>
-                                    <div class="card-body">
-                                        Commentaire
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

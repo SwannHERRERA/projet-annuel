@@ -388,12 +388,12 @@ function getTVShowFollowersNumber($idShow)
 /**
  * Récupère la liste des commentaires d'une série par ordre de like dans un tableau à 2 dimensions
  * @param $idShow
- * @return array [0 => [id_comment, text_comment, date_comment, is_modified_comment, member, tv_show, nbLikes], 1 => ...]
+ * @return array [0 => [id_comment, text_comment, date_comment, is_modified_comment, member, tv_show, photo, pseudo, nbLikes], 1 => ...]
  */
 function getTVShowComments($idShow)
 {
     $pdo = connectDB();
-    $query = "SELECT id_comment, text_comment, date_comment, is_modified_comment, member, tv_show, (SELECT count(*) FROM flixadvisor.LIKED_COMMENT WHERE comment = id_comment) AS nbLikes FROM flixadvisor.COMMENT WHERE tv_show = :id ORDER BY nbLikes DESC";
+    $query = "SELECT id_comment, text_comment, date_comment, is_modified_comment, member, tv_show, photo, pseudo, (SELECT count(*) FROM flixadvisor.LIKED_COMMENT WHERE comment = id_comment) AS nbLikes FROM flixadvisor.COMMENT, flixadvisor.MEMBER WHERE tv_show = :id AND member = email ORDER BY nbLikes, date_comment, id_comment DESC";
     $queryPrepared = $pdo->prepare($query);
     $queryPrepared->execute([":id" => $idShow]);
     if ($queryPrepared->errorCode() != '00000') {
@@ -403,6 +403,40 @@ function getTVShowComments($idShow)
 
     return $queryPrepared->fetchAll();
 }
+
+
+function addTVShowComments($idShow, $email, $textComment)
+{
+    $pdo = connectDB();
+    $query = "INSERT INTO flixadvisor.COMMENT (text_comment, date_comment, is_modified_comment, member, tv_show) VALUES (:comment, curdate(), 'n', :email, :show)";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":show" => $idShow,
+        ":email" => $email,
+        ":comment" => $textComment
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation des commentaires de la serie.");
+    }
+}
+
+function removeTVShowComment($idComment, $email)
+{
+    $pdo = connectDB();
+    $query = "DELETE FROM COMMENT where id_comment = :id and member = :email";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":email" => $email,
+        ":id" => $idComment
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la suppression du commentaire.");
+    }
+
+}
+
 
 /**
  * Récupère la liste des réponses à un commentaire par ordre d'anciennetée dans un tableau à 2 dimensions
@@ -629,6 +663,19 @@ function getMembersInscriptionStat()
         die("Une erreur est survenue lors de la récupération des stats des date d'inscription des membres.");
     }
     return $queryPrepared->fetchAll();
+}
+
+function getMember($email)
+{
+    $pdo = connectDB();
+    $query = "select email, pseudo, photo, account_role, date_inscription FROM flixadvisor.MEMBER where email = :email";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":email" => $email]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la récupération du membre.");
+    }
+    return $queryPrepared->fetch();
 }
 
 function getCategoriesStats()

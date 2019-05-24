@@ -19,6 +19,9 @@ class show extends Controller
             header('Location: /');
         }
         $idShow = $_GET['show'];
+        if ($this->member_model->isConnected()) {
+            $user = getMember($_SESSION['email']);
+        }
         require self::VIEW_PATH . 'layout/header.php';
         require self::VIEW_PATH . 'page/show.php';
         require self::VIEW_PATH . 'layout/footer.php';
@@ -100,5 +103,21 @@ class show extends Controller
             header('Location: /');
         }
         updateStatusMemberTVShowList($_SESSION['email'], $_GET['show'], $_GET['status']);
+    }
+
+    public function submitComment()
+    {
+        if (!isset($_POST['show']) || !isset($_POST['comment']) || !$this->member_model->isConnected()) {
+            header('Location: /');
+        }
+        addTVShowComments($_POST['show'], $_SESSION['email'], $_POST['comment']);
+    }
+
+    public function deleteComment()
+    {
+        if (!isset($_GET['comment']) || !$this->member_model->isConnected()) {
+            header('Location: /');
+        }
+        removeTVShowComment($_GET['comment'], $_SESSION['email']);
     }
 }
