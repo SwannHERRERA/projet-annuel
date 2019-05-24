@@ -12,8 +12,7 @@
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="<?= $site_url . '/css/style.css' ?>">
     <title><?= $page_title ?? "Flix Advisor" ?></title>
-
-    <script src="<?= $site_url . "/js/canvas.js" ?>" defer></script>
+    
     <script src="<?= $site_url . "/js/script.js"?>" defer></script>
 </head>
 

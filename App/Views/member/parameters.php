@@ -1,4 +1,7 @@
 <div class="col-md-9 col-lg-10 align-self">
+    
+    <script src="<?= $site_url . "/js/canvas.js" ?>" defer></script>
+
     <?php if (isset($_SESSION['update_param'])): ?>
         <div class="mt-30 alert alert-danger">
             <ul class='mb-0'>
