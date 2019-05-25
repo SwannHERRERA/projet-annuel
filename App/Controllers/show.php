@@ -136,4 +136,36 @@ class show extends Controller
         }
         unlikeComment($_GET['comment'], $_SESSION['email']);
     }
+
+    public function createList()
+    {
+        if (!isset($_POST['name']) || !isset($_POST['description']) || !isset($_POST['visibility']) || !$this->member_model->isConnected()) {
+            header('Location: /');
+        }
+        echo addMemberList($_SESSION['email'], $_POST['name'], $_POST['visibility'], $_POST['description']);
+    }
+
+    public function deleteList()
+    {
+        if (!isset($_GET['list']) || !$this->member_model->isConnected()) {
+            header('Location: /');
+        }
+        deleteMemberList($_GET['list']);
+    }
+
+    public function addShowList()
+    {
+        if (!isset($_GET['list']) || !isset($_GET['show']) || !$this->member_model->isConnected()) {
+            header('Location: /');
+        }
+        addShowToList($_GET['show'], $_GET['list']);
+    }
+
+    public function removeShowList()
+    {
+        if (!isset($_GET['list']) || !isset($_GET['show']) || !$this->member_model->isConnected()) {
+            header('Location: /');
+        }
+        removeShowFromList($_GET['show'], $_GET['list']);
+    }
 }

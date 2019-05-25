@@ -249,3 +249,86 @@ function unlikeComment(idComment) {
     request.send();
 }
 
+function addList(idShow) {
+    const name = document.getElementById("nameListNew");
+    const description = document.getElementById("descriptionListNew");
+    const visibility = document.getElementById("visibilityNewList");
+    if (name.value.length > 0 && description.value.length > 0) {
+        const request = new XMLHttpRequest();
+        request.onreadystatechange = function () {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+                    const element = document.getElementById("lists");
+                    let list = '<tr id="list' + request.responseText + '"><th scope="row">' + name.value + '</th>' +
+                        '<td>' + description.value.substr(0, 20) + (description.value.length > 20 ? '...' : '') + '</td>' +
+                        '<td>' + visibility.value + '</td><td><button onclick="checkList(' + idShow + ',' + request.responseText + ')" class="btn btn-success">' +
+                        '<i id="checkList' + request.responseText + '" class="fas fa-plus"></i></button>' +
+                        '<button onclick="removeList(' + request.responseText + ')" class="btn btn-warning"><i class="fas fa-trash"></i></button></td></tr>';
+                    element.innerHTML += list;
+                }
+            }
+        };
+        request.open('POST', '/show/createList');
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+        request.send(
+            'name=' + name.value +
+            '&description=' + description.value +
+            '&visibility=' + visibility.value
+        );
+    }
+}
+
+function removeList(idList) {
+    const request = new XMLHttpRequest();
+    request.open('GET', '/show/deleteList?list=' + idList);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                const list = document.getElementById("list" + idList);
+                list.remove();
+            }
+        }
+    };
+    request.send();
+}
+
+function addShowToList(idShow, idList) {
+    const request = new XMLHttpRequest();
+    request.open('GET', '/show/addShowList?list=' + idList + '&show=' + idShow);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                let element = document.getElementById("checkList" + idList);
+                element.className = "fas fa-check";
+            }
+        }
+    };
+    request.send();
+}
+
+function removeShowList(idShow, idList) {
+    let element = document.getElementById("checkList" + idList);
+    element.className = "fas fa-plus";
+    const request = new XMLHttpRequest();
+    request.open('GET', '/show/removeShowList?list=' + idList + '&show=' + idShow);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                let element = document.getElementById("checkList" + idList);
+                element.className = "fas fa-plus";
+            }
+        }
+    };
+    request.send();
+}
+
+function checkList(idShow, idList) {
+    let element = document.getElementById("checkList" + idList);
+    if (element.className === "fas fa-check") {
+        removeShowList(idShow, idList);
+    } else {
+        addShowToList(idShow, idList)
+    }
+}
+
+

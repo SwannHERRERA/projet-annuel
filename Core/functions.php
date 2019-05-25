@@ -470,6 +470,14 @@ function addTVShowComments($idShow, $email, $textComment)
 function removeTVShowComment($idComment)
 {
     $pdo = connectDB();
+    $query = "DELETE FROM LIKED_COMMENT where comment = :id";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":id" => $idComment]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la suppression du commentaire.");
+    }
+    $pdo = connectDB();
     $query = "DELETE FROM COMMENT where id_comment = :id";
     $queryPrepared = $pdo->prepare($query);
     $queryPrepared->execute([":id" => $idComment]);
@@ -496,18 +504,102 @@ function getMemberLists($email)
 function addMemberList($email, $name, $visibility, $description)
 {
     $pdo = connectDB();
-    $query = "INSERT INTO flixadvisor.LIST (name_list, visibility_list, description_list, date_list, member) values (:name,:visibility,:descritpion,curdate(),:email)";
+    $query = "INSERT INTO flixadvisor.LIST (name_list, visibility_list, description_list, date_list, member) values (:name,:visibility,:description,curdate(),:email)";
     $queryPrepared = $pdo->prepare($query);
     $queryPrepared->execute([
-        ":email" => $email,
+        ":name" => $name,
+        ":visibility" => $visibility,
+        ":description" => $description,
+        ":email" => $email
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la création d'une liste.");
+    }
+    return $pdo->lastInsertId();
+}
+
+function updateMemberList($id, $name, $visibility, $description)
+{
+    $pdo = connectDB();
+    $query = "UPDATE flixadvisor.LIST SET name_list = :name, visibility_list = :visibility, description_list = :description where id_list = :id";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":id" => $id,
         ":name" => $name,
         ":visibility" => $visibility,
         ":description" => $description
     ]);
     if ($queryPrepared->errorCode() != '00000') {
         var_dump($queryPrepared->errorInfo());
-        die("Une erreur est survenue lors de la création d'une liste.");
+        die("Une erreur est survenue lors de la maj d'une liste.");
     }
+}
+
+function deleteMemberList($id)
+{
+    $pdo = connectDB();
+    $query = "DELETE FROM flixadvisor.IN_LIST where list = :id";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":id" => $id]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la supressison d'une liste.");
+    }
+    $query = "DELETE FROM flixadvisor.LIST where id_list = :id";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":id" => $id]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la supressison d'une liste.");
+    }
+}
+
+function isInList($idShow, $idList)
+{
+    $pdo = connectDB();
+    $query = "select * from flixadvisor.IN_LIST where tv_show = :idS and list = :idL";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":idL" => $idList,
+        ":idS" => $idShow
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la récuperation d'un element liste.");
+    }
+    return sizeof($queryPrepared->fetchAll()) > 0;
+}
+
+function addShowToList($idShow, $idList)
+{
+    $pdo = connectDB();
+    $query = "insert ignore into flixadvisor.IN_LIST (list, tv_show) VALUES (:idL,:idS)";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":idL" => $idList,
+        ":idS" => $idShow
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de l'ajout d'un element liste.");
+    }
+}
+
+function removeShowFromList($idShow, $idList)
+{
+    $pdo = connectDB();
+    $query = "delete from flixadvisor.IN_LIST where tv_show = :idS and list = :idL";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":idL" => $idList,
+        ":idS" => $idShow
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la supression d'un element liste.");
+    }
+    return $queryPrepared->fetchAll() > 0;
 }
 
 

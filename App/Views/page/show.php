@@ -39,8 +39,8 @@ $show = getTVShow($idShow);
         <div class="col-lg-3">
             <img alt="image show" class="img-fluid mx-auto d-block" src=<?= '"' . $show['image_show'] . '"' ?>>
             <div class="row pt-10">
-                <?php if ($this->member_model->isConnected()) {
-                    if (isFollowing($_SESSION['email'], $idShow)) {
+                <?php if ($this->member_model->isConnected()) { ?>
+                    <?php if (isFollowing($_SESSION['email'], $idShow)) {
                         $mark = getShowMarkMember($idShow, $_SESSION['email']);
                         $status = getShowStatusMember($idShow, $_SESSION['email']) ?>
                         <div id="userRating" class="col-12 text-center"
@@ -52,8 +52,8 @@ $show = getTVShow($idShow);
                             <script type="text/javascript">statusShow(<?='"' . $status . '",' . $idShow?>)</script>
                         </div>
                         <div class="col-12 mt-10 mb-10 text-center">
-                            <a href="/show/unfollow?show=<?= $idShow ?>" class="btn btn-success pt-10 pb-10">Retirer de
-                                ma liste</a>
+                            <a href="/show/unfollow?show=<?= $idShow ?>" class="btn btn-success pt-10 pb-10">Ne plus
+                                suivre</a>
                             <?php if (isNotified($_SESSION['email'], $idShow) == "o") { ?>
                                 <button onclick="checkNotification(<?= $idShow ?>)" class="btn btn-info"><i
                                             id="notificationCheck" class="fas fa-bell-slash"></i>
@@ -67,7 +67,7 @@ $show = getTVShow($idShow);
                     <?php } else { ?>
                         <div class="col-12 mt-10 mb-10 text-center">
                             <button type="button" class="btn btn-success pt-10 pb-10" data-toggle="modal"
-                                    data-target="#addShowList" aria-hidden="true">Ajouter à ma liste
+                                    data-target="#addShowList" aria-hidden="true">Suivre cette série
                             </button>
                             <div class="modal fade" id="addShowList" tabindex="-1" role="dialog"
                                  aria-labelledby="addShowList" aria-hidden="true">
@@ -170,8 +170,114 @@ $show = getTVShow($idShow);
                                 </div>
                             </div>
                         </div>
-                    <?php }
-                } ?>
+                    <?php } ?>
+                    <div class="col-12 mt-10 mb-10 text-center">
+                        <button type="button" class="btn btn-success pt-10 pb-10" data-toggle="modal"
+                                data-target="#addUserShowList" aria-hidden="true">Ajouter à une liste
+                        </button>
+                        <div class="modal fade" id="addUserShowList" tabindex="-1" role="dialog"
+                             aria-labelledby="addUserShowList" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="h3 modal-title">Ajouter à une liste</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-sm-3 text-center">
+                                                <img alt="image show" class="img-fluid mx-auto d-block"
+                                                     src=<?= '"' . $show['image_show'] . '"' ?>>
+                                                <hr>
+                                                <?= $show['name_show'] ?><br>
+                                                <?= $show['first_aired_show'] ?>
+                                            </div>
+                                            <div class="col-sm-9 text-left">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h5 class="h4">Vos listes :</h5>
+                                                        <table class="table table-striped table-dark align-self-center">
+                                                            <thead>
+                                                            <tr>
+                                                                <th scope="col">Nom</th>
+                                                                <th scope="col">Description</th>
+                                                                <th scope="col">Visibilité</th>
+                                                                <th scope="col">Options</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody id="lists">
+                                                            <?php foreach (getMemberLists($_SESSION['email']) as $list) { ?>
+                                                                <tr id="list<?= $list['id_list'] ?>">
+                                                                    <th scope="row"><?= $list['name_list'] ?></th>
+                                                                    <td><?= substr($list['description_list'], 0, 20) . (strlen($list['description_list']) > 20 ? '...' : '') ?></td>
+                                                                    <td><?= $list['visibility_list'] ?></td>
+                                                                    <td>
+                                                                        <?php if (isInList($idShow, $list['id_list'])) { ?>
+                                                                            <button onclick="checkList(<?= $idShow ?>,<?= $list['id_list'] ?>)"
+                                                                                    class="btn btn-success"><i
+                                                                                        id="checkList<?= $list['id_list'] ?>"
+                                                                                        class="fas fa-check"></i>
+                                                                            </button>
+                                                                        <?php } else { ?>
+                                                                            <button onclick="checkList(<?= $idShow ?>,<?= $list['id_list'] ?>)"
+                                                                                    class="btn btn-success"><i
+                                                                                        id="checkList<?= $list['id_list'] ?>"
+                                                                                        class="fas fa-plus"></i>
+                                                                            </button>
+                                                                        <? } ?>
+                                                                        <button onclick="removeList(<?= $list['id_list'] ?>)"
+                                                                                class="btn btn-warning"><i
+                                                                                    class="fas fa-trash"></i>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            <?php } ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div id="newList" class="col-12 align-self-center">
+                                                        <h5 class="h4">Créer une liste</h5>
+                                                        <div class="row align-items-end">
+                                                            <div class="col-sm-3">
+                                                                <label for="nameListNew">Nom de la liste</label>
+                                                                <input type="text" class="form-control" id="nameListNew"
+                                                                       placeholder="Nom">
+                                                            </div>
+                                                            <div class="col-sm-4">
+                                                                <label for="descriptionListNew">Description de la
+                                                                    liste</label>
+                                                                <input type="text" class="form-control"
+                                                                       id="descriptionListNew"
+                                                                       placeholder="Description">
+
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <label for="visibilityNewList">Visibilité</label>
+                                                                <select class="form-control" id="visibilityNewList">
+                                                                    <option value="public">Publique</option>
+                                                                    <option value="private">Privée</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-1">
+                                                                <button onclick="addList(<?= $idShow ?>)"
+                                                                        class="btn btn-primary">
+                                                                    Ajouter
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
         </div>
         <div class="col-lg-3 col-xl-2 pt-10 pb-10 border">
