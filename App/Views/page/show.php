@@ -245,7 +245,7 @@ $show = getTVShow($idShow);
                             <h1 class="h3">Episodes</h1>
                         </div>
                         <div class="col-md-9 text-right align-baseline">
-                            <?php if (!empty($_SESSION['email']) && isFollowing($_SESSION['email'], $idShow)) { ?>
+                            <?php if (!$this->member_model->isConnected() && isFollowing($_SESSION['email'], $idShow)) { ?>
                                 <div class="row">
                                     <div class="col-md-6 text-md-right">
                                         <a class="btn btn-success" onclick="watchAll(<?= $idShow ?>)"> Tout marquer
@@ -276,7 +276,7 @@ $show = getTVShow($idShow);
                                                 data-target=<?php echo '"#collapse' . $episode['nb_season'] . $episode['nb_episode'] . '"'; ?>>
                                             <?php echo $episode['nb_season'] . 'x' . $episode['nb_episode'] . ' - ' . $episode['name_episode']; ?>
                                         </button>
-                                        <?php if (!empty($_SESSION['email']) && isFollowing($_SESSION['email'], $idShow)) {
+                                        <?php if (!$this->member_model->isConnected() && isFollowing($_SESSION['email'], $idShow)) {
                                             if (isWatchedEpisode($_SESSION['email'], $episode['id_episode'])) { ?>
                                                 <a class="btn btn-info" href="#"
                                                    onclick="checkEp(<?= $episode['id_episode'] ?>)">
@@ -352,13 +352,13 @@ $show = getTVShow($idShow);
                     <div class="col-12" id="userComments">
                         <?php foreach ($comments as $comment) { ?>
                             <div id="<?= $comment['id_comment'] ?>" class="row mb-10">
-                                <div class="col-sm-2">
+                                <div class="col-2">
                                     <div class="row">
                                         <div class="col-12">
                                             <img src="<?= $comment['photo'] ?>"
                                                  class="img-thumbnail" alt="photo profile">
                                         </div>
-                                        <?php if (!empty($_SESSION['email']) && $comment['pseudo'] == $user['pseudo']) { ?>
+                                        <?php if (!$this->member_model->isConnected() && ($comment['pseudo'] == $user['pseudo'] || $user['account_role'] == 'admin')) { ?>
                                             <div class="col-12 mt-5 text-center">
                                                 <button class="btn btn-warning"
                                                         onclick="deleteComment(<?= $comment['id_comment'] ?>)"><i
@@ -367,7 +367,7 @@ $show = getTVShow($idShow);
                                         <?php } ?>
                                     </div>
                                 </div>
-                                <div class="col-sm-9">
+                                <div class="col-8">
                                     <div class="card">
                                         <div class="card-header">
                                             <strong><?= $comment['pseudo'] ?></strong> <span class="text-muted">commenté le <?= $comment['date_comment'] ?></span>
@@ -375,6 +375,42 @@ $show = getTVShow($idShow);
                                         <div class="card-body">
                                             <?= $comment['text_comment'] ?>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-1 align-self-center">
+                                    <div class="row">
+                                        <?php if ($this->member_model->isConnected()) {
+                                            if (isLikedComment($comment['id_comment'], $_SESSION['email'])) { ?>
+                                                <div class="col-12 text-center">
+                                                    <button onclick="checkLike(<?= $comment['id_comment'] ?>)"
+                                                            class="btn btn-primary">
+                                                        <i id="thumb<?= $comment['id_comment'] ?>"
+                                                           class="fas fa-thumbs-up"></i>
+                                                        <span id="nblikes<?= $comment['id_comment'] ?>"><?= $comment['nbLikes'] ?> </span>
+                                                    </button>
+                                                </div>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <div class="col-12 text-center">
+                                                    <button onclick="checkLike(<?= $comment['id_comment'] ?>)"
+                                                            class="btn btn-primary">
+                                                        <i id="thumb<?= $comment['id_comment'] ?>"
+                                                           class="far fa-thumbs-up"></i>
+                                                        <span id="nblikes<?= $comment['id_comment'] ?>"><?= $comment['nbLikes'] ?> </span>
+                                                    </button>
+                                                </div>
+                                                <?php
+                                            }
+                                        } else { ?>
+                                            <div class="col-12 text-center">
+                                                <button class="btn btn-primary">
+                                                    <i id="thumb<?= $comment['id_comment'] ?>"
+                                                       class="fas fa-thumbs-up"></i>
+                                                    <span id="nblikes"><?= $comment['nbLikes'] ?> </span>
+                                                </button>
+                                            </div>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </div>

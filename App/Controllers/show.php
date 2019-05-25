@@ -118,6 +118,22 @@ class show extends Controller
         if (!isset($_GET['comment']) || !$this->member_model->isConnected()) {
             header('Location: /');
         }
-        removeTVShowComment($_GET['comment'], $_SESSION['email']);
+        removeTVShowComment($_GET['comment']);
+    }
+
+    public function likeComment()
+    {
+        if (!isset($_GET['comment']) || !$this->member_model->isConnected()) {
+            header('Location: /');
+        }
+        likeComment($_GET['comment'], $_SESSION['email']);
+    }
+
+    public function unlikeComment()
+    {
+        if (!isset($_GET['comment']) || !$this->member_model->isConnected()) {
+            header('Location: /');
+        }
+        unlikeComment($_GET['comment'], $_SESSION['email']);
     }
 }

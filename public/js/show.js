@@ -171,35 +171,78 @@ function changeStatus(show) {
 
 function submitComment(idShow, userPhoto, username) {
     const comment = document.getElementById("commentWrite");
-    const request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
-        if (request.readyState === 4) {
-            if (request.status === 200) {
-                const comments = document.getElementById("userComments");
-                let newComment = '<div class="row mb-10"><div class="col-sm-2"><img src="' + userPhoto + '"' +
-                    ' class="img-thumbnail" alt="photo profile"></div><div class="col-sm-9"><div class="card"><div class="card-header">' +
-                    '<strong>' + username + '</strong> <span class="text-muted">commenté le ' + new Date().getDate() + '</span>' +
-                    '</div><div class="card-body">' + comment.value + '</div></div></div></div>';
-                comments.innerHTML = newComment + comments.innerHTML;
+    if (comment.value.length > 0) {
+        const request = new XMLHttpRequest();
+        request.onreadystatechange = function () {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+                    const comments = document.getElementById("userComments");
+                    let newComment = '<div class="row mb-10"><div class="col-2"><img src="' + userPhoto + '"' +
+                        ' class="img-thumbnail" alt="photo profile"></div><div class="col-8"><div class="card"><div class="card-header">' +
+                        '<strong>' + username + '</strong> <span class="text-muted">commenté le ' + new Date().getDate() + '</span>' +
+                        '</div><div class="card-body">' + comment.value + '</div></div></div></div>';
+                    comments.innerHTML = newComment + comments.innerHTML;
+                }
             }
-        }
-    };
-    request.open('POST', '/show/submitComment');
-    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-    request.send(
-        'show=' + idShow +
-        '&comment=' + comment.value
-    );
+        };
+        request.open('POST', '/show/submitComment');
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+        request.send(
+            'show=' + idShow +
+            '&comment=' + comment.value
+        );
+    }
 }
 
 function deleteComment(id) {
-    let element = document.getElementById(id);
+    const element = document.getElementById(id);
     const request = new XMLHttpRequest();
     request.open('GET', '/show/deleteComment?comment=' + id);
     request.onreadystatechange = function () {
         if (request.readyState === 4) {
             if (request.status === 200) {
                 element.remove();
+            }
+        }
+    };
+    request.send();
+}
+
+function checkLike(idComment) {
+    const element = document.getElementById("thumb" + idComment);
+    if (element.className === "fas fa-thumbs-up") {
+        unlikeComment(idComment);
+    } else {
+        likeComment(idComment);
+    }
+}
+
+function likeComment(idComment) {
+    const request = new XMLHttpRequest();
+    request.open('GET', '/show/likeComment?comment=' + idComment);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                const element = document.getElementById("thumb" + idComment);
+                const likes = document.getElementById("nblikes" + idComment);
+                likes.innerHTML++;
+                element.className = "fas fa-thumbs-up";
+            }
+        }
+    };
+    request.send();
+}
+
+function unlikeComment(idComment) {
+    const request = new XMLHttpRequest();
+    request.open('GET', '/show/unlikeComment?comment=' + idComment);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                const element = document.getElementById("thumb" + idComment);
+                const likes = document.getElementById("nblikes" + idComment);
+                likes.innerHTML--;
+                element.className = "far fa-thumbs-up";
             }
         }
     };

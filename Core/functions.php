@@ -393,7 +393,7 @@ function getTVShowFollowersNumber($idShow)
 function getTVShowComments($idShow)
 {
     $pdo = connectDB();
-    $query = "SELECT id_comment, text_comment, date_comment, is_modified_comment, member, tv_show, photo, pseudo, (SELECT count(*) FROM flixadvisor.LIKED_COMMENT WHERE comment = id_comment) AS nbLikes FROM flixadvisor.COMMENT, flixadvisor.MEMBER WHERE tv_show = :id AND member = email ORDER BY nbLikes, date_comment, id_comment DESC";
+    $query = "SELECT id_comment, text_comment, date_comment, is_modified_comment, member, tv_show, photo, pseudo, (SELECT count(*) FROM flixadvisor.LIKED_COMMENT WHERE comment = id_comment) AS nbLikes FROM flixadvisor.COMMENT, flixadvisor.MEMBER WHERE tv_show = :id AND member = email ORDER BY field(nbLikes, 'core'), id_comment DESC";
     $queryPrepared = $pdo->prepare($query);
     $queryPrepared->execute([":id" => $idShow]);
     if ($queryPrepared->errorCode() != '00000') {
@@ -402,6 +402,52 @@ function getTVShowComments($idShow)
     }
 
     return $queryPrepared->fetchAll();
+}
+
+function isLikedComment($idComment, $email)
+{
+    $pdo = connectDB();
+    $query = "SELECT * FROM flixadvisor.LIKED_COMMENT where comment = :id and member = :email";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":id" => $idComment,
+        ":email" => $email
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation du like du commentaire.");
+    }
+    return sizeof($queryPrepared->fetchAll()) > 0;
+}
+
+function likeComment($idComment, $email)
+{
+    $pdo = connectDB();
+    $query = "INSERT IGNORE INTO flixadvisor.LIKED_COMMENT (member, comment) VALUES (:email,:id)";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":id" => $idComment,
+        ":email" => $email
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors du like du commentaire.");
+    }
+}
+
+function unlikeComment($idComment, $email)
+{
+    $pdo = connectDB();
+    $query = "DELETE FROM flixadvisor.LIKED_COMMENT WHERE member = :email AND comment = :id";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":id" => $idComment,
+        ":email" => $email
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors du unlike du commentaire.");
+    }
 }
 
 
@@ -421,20 +467,47 @@ function addTVShowComments($idShow, $email, $textComment)
     }
 }
 
-function removeTVShowComment($idComment, $email)
+function removeTVShowComment($idComment)
 {
     $pdo = connectDB();
-    $query = "DELETE FROM COMMENT where id_comment = :id and member = :email";
+    $query = "DELETE FROM COMMENT where id_comment = :id";
     $queryPrepared = $pdo->prepare($query);
-    $queryPrepared->execute([
-        ":email" => $email,
-        ":id" => $idComment
-    ]);
+    $queryPrepared->execute([":id" => $idComment]);
     if ($queryPrepared->errorCode() != '00000') {
         var_dump($queryPrepared->errorInfo());
         die("Une erreur est survenue lors de la suppression du commentaire.");
     }
 
+}
+
+function getMemberLists($email)
+{
+    $pdo = connectDB();
+    $query = "SELECT id_list, name_list, visibility_list, description_list, date_list, member FROM flixadvisor.LIST where member = :email";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":email" => $email]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la récupération des listes.");
+    }
+    return $queryPrepared->fetchAll();
+}
+
+function addMemberList($email, $name, $visibility, $description)
+{
+    $pdo = connectDB();
+    $query = "INSERT INTO flixadvisor.LIST (name_list, visibility_list, description_list, date_list, member) values (:name,:visibility,:descritpion,curdate(),:email)";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":email" => $email,
+        ":name" => $name,
+        ":visibility" => $visibility,
+        ":description" => $description
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la création d'une liste.");
+    }
 }
 
 
