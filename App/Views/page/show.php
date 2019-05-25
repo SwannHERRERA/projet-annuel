@@ -245,7 +245,7 @@ $show = getTVShow($idShow);
                             <h1 class="h3">Episodes</h1>
                         </div>
                         <div class="col-md-9 text-right align-baseline">
-                            <?php if (!$this->member_model->isConnected() && isFollowing($_SESSION['email'], $idShow)) { ?>
+                            <?php if ($this->member_model->isConnected() && isFollowing($_SESSION['email'], $idShow)) { ?>
                                 <div class="row">
                                     <div class="col-md-6 text-md-right">
                                         <a class="btn btn-success" onclick="watchAll(<?= $idShow ?>)"> Tout marquer
@@ -276,7 +276,7 @@ $show = getTVShow($idShow);
                                                 data-target=<?php echo '"#collapse' . $episode['nb_season'] . $episode['nb_episode'] . '"'; ?>>
                                             <?php echo $episode['nb_season'] . 'x' . $episode['nb_episode'] . ' - ' . $episode['name_episode']; ?>
                                         </button>
-                                        <?php if (!$this->member_model->isConnected() && isFollowing($_SESSION['email'], $idShow)) {
+                                        <?php if ($this->member_model->isConnected() && isFollowing($_SESSION['email'], $idShow)) {
                                             if (isWatchedEpisode($_SESSION['email'], $episode['id_episode'])) { ?>
                                                 <a class="btn btn-info" href="#"
                                                    onclick="checkEp(<?= $episode['id_episode'] ?>)">
@@ -358,7 +358,7 @@ $show = getTVShow($idShow);
                                             <img src="<?= $comment['photo'] ?>"
                                                  class="img-thumbnail" alt="photo profile">
                                         </div>
-                                        <?php if (!$this->member_model->isConnected() && ($comment['pseudo'] == $user['pseudo'] || $user['account_role'] == 'admin')) { ?>
+                                        <?php if ($this->member_model->isConnected() && ($comment['pseudo'] == $user['pseudo'] || $user['account_role'] == 'admin')) { ?>
                                             <div class="col-12 mt-5 text-center">
                                                 <button class="btn btn-warning"
                                                         onclick="deleteComment(<?= $comment['id_comment'] ?>)"><i
