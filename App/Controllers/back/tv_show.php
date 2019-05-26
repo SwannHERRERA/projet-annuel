@@ -2,6 +2,7 @@
 require_once BASEPATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Controller.php';
 require BASEPATH . '/vendor/autoload.php';
 require BASEPATH . '/TheTvdbApi.php';
+
 use RestAPI\TheTvdbApi;
 
 
@@ -17,6 +18,7 @@ class Tv_show extends Controller
     public function __construct()
     {
         require_once self::MODEL_PATH . 'tv_show_model.php';
+        require_once BASEPATH . '/Core/functions.php';
         $this->tv_show_model = new Tv_show_model;
         require self::MODEL_PATH . 'member_model.php';
         $this->member_model = new Member_model;
@@ -72,11 +74,12 @@ class Tv_show extends Controller
 
     public function detail()
     {
-        if (!empty($_POST)){
+        if (!empty($_POST)) {
             $this->api->authenticate();
             $serie = $this->api->series($_GET['idserie']);
 
             $result = $this->tv_show_model->insertTV($serie->id, $serie, $this->api, $this->imurl, true);
+            header("Location: " . $site_url . "/back/tv_show/add");
         } else {
             $page_title = 'Création d\'une serie';
             $sous_categories = ['Gestion des seriés' => 'gestion', 'Création d\'une serie' => 'add', 'Propositions de séries' => 'proposition'];
@@ -115,7 +118,7 @@ class Tv_show extends Controller
 
     public function edit()
     {
-        if (!empty($_POST)){
+        if (!empty($_POST)) {
             require BASEPATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Form_validation.php';
             $form_validation = new form_validation('');
             $form_validation->set_rules('id_show', 'l\id', ['require']);
@@ -130,5 +133,30 @@ class Tv_show extends Controller
         require self::VIEW_PATH . 'back/layout/header.php';
         require self::VIEW_PATH . 'back/tv_show/form.php';
         require self::VIEW_PATH . 'back/layout/footer.php';
+    }
+
+    public function updateShowsLight()
+    {
+        set_time_limit(600);
+        $shows = getTVShowList();
+        foreach ($shows as $show) {
+            echo $show['name_show'] . '<br>';
+            $serie = $this->api->series($show['id_show']);
+            $this->tv_show_model->insertTV($serie->id, $serie, $this->api, $this->imurl, false);
+        }
+        header('Location: /back/tv_show/gestion');
+
+    }
+
+    public function updateShowsHard()
+    {
+        set_time_limit(600);
+        $shows = getTVShowList();
+        foreach ($shows as $show) {
+            $serie = $this->api->series($show['id_show']);
+            $this->tv_show_model->insertTV($serie->id, $serie, $this->api, $this->imurl, true);
+        }
+        header('Location: /back/tv_show/gestion');
+
     }
 }

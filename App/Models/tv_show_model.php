@@ -53,6 +53,7 @@ class Tv_show_model extends My_model
                 }
             }
             if ($new || ($lastUpdated->diff($APIUpdated)->days < 30 && $lastUpdated->diff($APIUpdated)->days != 0)) {
+                echo "BEGIN<br>";
                 //print_r($lastUpdated->diff($APIUpdated)->days);
                 //var_dump("Ajout update");
                 /***************************************************************************************************************
@@ -283,18 +284,19 @@ class Tv_show_model extends My_model
                     if ($queryPrepared->errorCode() != '00000')
                         die("UNE ERREUR EST SURVENUE PENDANT L'INSERTION D'UN HODOR");
                 }
+                echo "SUCCESS<br>";
             }
-            header("Location: " . $site_url . "/back/tv_show/add");
         } else
             die('L\'id est incorrect');
     }
 
     /**
-    * UPDATE without apikey
-    */
-    public function update() {
+     * UPDATE without apikey
+     */
+    public function update()
+    {
         $query = "UPDATE " . $this->_table .
-        " SET name_show = :name_show, id_show = :id_show, production_status = :production_status,
+            " SET name_show = :name_show, id_show = :id_show, production_status = :production_status,
          first_aired_show = :first_aired_show, image_show = :image_show, runtime_show = :runtime_show,
           summary_show = :summary_show WHERE id_show = :id_show;";
         $queryPrepared = $this->pdo->prepare($query);
