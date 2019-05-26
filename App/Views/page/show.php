@@ -226,7 +226,7 @@ $show = getTVShow($idShow);
                                                                                         id="checkList<?= $list['id_list'] ?>"
                                                                                         class="fas fa-plus"></i>
                                                                             </button>
-                                                                        <? } ?>
+                                                                        <?php } ?>
                                                                         <button onclick="removeList(<?= $list['id_list'] ?>)"
                                                                                 class="btn btn-warning"><i
                                                                                     class="fas fa-trash"></i>
