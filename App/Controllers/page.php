@@ -51,25 +51,37 @@ class Page extends Controller
         $category_model = new Category_model;
         require self::MODEL_PATH . 'network_model.php';
         $network_model = new Network_model;
-        if (!empty($_GET)){
-            $q = $_GET['search'];
-            $tv_shows = $this->tv_show_model->searchTVShowAdvanced(
-                $_GET['search'] ?? '',
-                $_GET['minimum_rating'] ?? '',
-                $_GET['status'] ?? '',
-                $_GET['network[]'] ?? '',
-                $_GET['first_aired_years'] ?? '',
-                $_GET['runtime'] ?? '',
-                $_GET['gender[]'] ?? '',
-                $_GET['actor[]'] ?? ''
-            );
+        if (!empty($_GET['search']) ||
+            !empty($_GET['minimum_rating']) ||
+            !empty($_GET['status']) ||
+            !empty($_GET['network[]']) ||
+            !empty($_GET['first_aired_years']) ||
+            !empty($_GET['runtime']) ||
+            !empty($_GET['gender[]']) ||
+            !empty($_GET['actor[]'])) {
+            if (isset($_SESSION["token_csrf"])) {
+                if ($_SESSION["token_csrf"] == $_GET['token_csrf']) {
+                    $tv_shows = $this->tv_show_model->searchTVShowAdvanced(
+                        $_GET['search'] ?? '',
+                        $_GET['minimum_rating'] ?? '',
+                        $_GET['status'] ?? '',
+                        $_GET['network[]'] ?? '',
+                        $_GET['first_aired_years'] ?? '',
+                        $_GET['runtime'] ?? '',
+                        $_GET['gender[]'] ?? '',
+                        $_GET['actor[]'] ?? ''
+                    );
+                }
+            }
         }
+        $token = substr(sha1(uniqid() . 'riejrozjeioj'), 0, 10);
+        $_SESSION["token_csrf"] = $token;
         $genders = $category_model->getCategoryList();
         $networks = $network_model->getNetworkList();
 
 
         require self::VIEW_PATH . 'layout/header.php';
-        require self::VIEW_PATH . 'page/recherche_avancer.php';
+        require self::VIEW_PATH . 'page/recherche_avancée.php';
         require self::VIEW_PATH . 'layout/footer.php';
     }
 }

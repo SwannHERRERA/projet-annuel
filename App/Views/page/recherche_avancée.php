@@ -2,6 +2,7 @@
     <div class="row">
         <div class="col-12">
             <form class="mt-30">
+                <input type="hidden" name="token_csrf" value="<?= $token ?>">
                 <div class="form-group">
                     <label for="advanced_search">Séries</label>
                     <input type="text" name="search" id="advanced_search" class="form-control" value="">

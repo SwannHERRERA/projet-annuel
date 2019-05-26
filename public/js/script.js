@@ -48,7 +48,11 @@ const createActorList = function(ajax) {
                 input.setAttribute('name', 'actor[]');
                 const div =  document.createElement('div');
                 div.innerHTML = ajax[i]['name_actor'];
-                valid_result.appendChild(input);
+                div.addEventListener('click', function(e){
+                    console.log('remove');
+                    div.parentElement.removeChild(div);
+                });
+                div.appendChild(input);
                 valid_result.appendChild(div);
                 valid_result.style.display = "block";
             }
