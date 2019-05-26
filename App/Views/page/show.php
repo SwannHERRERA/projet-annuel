@@ -12,7 +12,7 @@ if (!getTVShow($idShow)) {
 $show = getTVShow($idShow);
 ?>
 <script src="<?= $site_url . '/js/show.js' ?>"></script>
-<div class="col-md-9 col-lg-10">
+<div class="col-md-9 col-lg-10 align-self">
     <div class="row mt-20 ml-20">
         <div class="col-md-3 align-self-baseline">
             <h1 class="h2"><?= $show['name_show'] ?></h1>
@@ -327,10 +327,10 @@ $show = getTVShow($idShow);
                         Casting
                     </a>
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                     <a class="nav-link" id="recommendations-tab" data-toggle="tab" href="#recommendations" role="tab"
                        aria-controls="recommendations" aria-selected="false">Recommendations</a>
-                </li>
+                </li>-->
                 <li class="nav-item">
                     <a class="nav-link" id="comments-tab" data-toggle="tab" href="#comments" role="tab"
                        aria-controls="comments" aria-selected="false">Commentaires</a>

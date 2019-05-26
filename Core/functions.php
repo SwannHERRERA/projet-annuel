@@ -843,6 +843,20 @@ function getMember($email)
     return $queryPrepared->fetch();
 }
 
+function getMemberByPseudo($pseudo)
+{
+    $pdo = connectDB();
+    $query = "select email, pseudo, photo, account_role, date_inscription FROM flixadvisor.MEMBER where pseudo = :pseudo";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":pseudo" => $pseudo]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la récupération du membre.");
+    }
+    return $queryPrepared->fetch();
+
+}
+
 function getCategoriesStats()
 {
     $pdo = connectDB();
