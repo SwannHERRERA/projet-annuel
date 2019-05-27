@@ -1,4 +1,6 @@
 <div class="mt-20 col-12">
+    <a href="<?=$site_url.'/back/tv_show/updateShowsLight'?>" class="btn btn-primary mb-10">Update</a>
+    <a href="<?=$site_url.'/back/tv_show/updateShowsHard'?>" class="btn btn-primary mb-10">Update hard</a>
   <table class="table table-bordered table-striped mb-20">
     <thead>
       <tr>

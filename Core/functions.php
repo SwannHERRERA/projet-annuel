@@ -843,6 +843,20 @@ function getMember($email)
     return $queryPrepared->fetch();
 }
 
+function getMemberByPseudo($pseudo)
+{
+    $pdo = connectDB();
+    $query = "select email, pseudo, photo, account_role, date_inscription FROM flixadvisor.MEMBER where pseudo = :pseudo";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":pseudo" => $pseudo]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la récupération du membre.");
+    }
+    return $queryPrepared->fetch();
+
+}
+
 function getCategoriesStats()
 {
     $pdo = connectDB();
@@ -1185,28 +1199,68 @@ function searchTVShowAdvanced($nameShow, $minimumRating, $status, $idNetworks, $
     if ($idNetworks != null and sizeof($idNetworks) > 0) {
         $join .= "left join BROADCAST ON flixadvisor.TV_SHOW.id_show = tv_show " .
             "left join NETWORK N on BROADCAST.network = N.id_network ";
-        $condition .= "AND N.id_network IN (:network) ";
-        $parameters = array_merge($parameters, [":network" => $idNetworks]);
+        $networks = "";
+        $in_params = [];
+        foreach ($idNetworks as $i => $network) {
+            $key = ":idn" . $i;
+            $networks .= "$key,";
+            $in_params[$key] = $network;
+        }
+        $networks = rtrim($networks, ",");
+        $condition .= "AND N.id_network IN ($networks) ";
+        $parameters = array_merge($parameters, $in_params);
     }
     if ($firstAiredYears != null && sizeof($firstAiredYears) > 0) {
-        $condition .= "AND YEAR(first_aired_show) IN (:airedYear) ";
-        $parameters = array_merge($parameters, ["airedYear" => $firstAiredYears]);
+        $years = "";
+        $in_params = [];
+        foreach ($firstAiredYears as $i => $year) {
+            $key = ":idy" . $i;
+            $years .= "$key,";
+            $in_params[$key] = $year;
+        }
+        $years = rtrim($years, ",");
+        $condition .= "AND YEAR(first_aired_show) IN ($years) ";
+        $parameters = array_merge($parameters, $in_params);
     }
     if ($runtimes != null && sizeof($runtimes) > 0) {
-        $condition .= "AND runtime_show IN (:runtime) ";
-        $parameters = array_merge($parameters, [":runtime" => $runtimes]);
+        $runs = "";
+        $in_params = [];
+        foreach ($runtimes as $i => $runtime) {
+            $key = ":idr" . $i;
+            $runs .= "$runtime,";
+            $in_params[$key] = $runtime;
+        }
+        $runs = rtrim($runs, ",");
+        $condition .= "AND runtime_show IN ($runs) ";
+        $parameters = array_merge($parameters, $in_params);
     }
     if ($idGenres != null && sizeof($idGenres) > 0) {
         $join .= "left join CATEGORIZED_SHOW CS on TV_SHOW.id_show = CS.tv_show " .
             "left join CATEGORY C on CS.category = C.id_category ";
-        $condition .= "AND C.id_category IN (:genres) ";
-        $parameters = array_merge($parameters, [":genres" => $idGenres]);
+        $genres = "";
+        $in_params = [];
+        foreach ($idGenres as $i => $genre) {
+            $key = ":idg" . $i;
+            $genres .= "$key,";
+            $in_params[$key] = $genre;
+        }
+        $genres = rtrim($genres, ",");
+        $condition .= "AND C.id_category IN ($genres) ";
+        $parameters = array_merge($parameters, $in_params);
     }
     if ($idActors != null && sizeof($idActors) > 0) {
         $join .= "left join CASTING C2 on TV_SHOW.id_show = C2.tv_show " .
             "left join ACTOR A on C2.actor = A.id_actor ";
-        $condition .= "and A.id_actor IN (:actors) ";
-        $parameters = array_merge($parameters, [":actors" => $idActors]);
+        $actors = "";
+        $in_params = [];
+        foreach ($idActors as $i => $actor) {
+            $key = ":ida" . $i;
+            $actors .= "$key,";
+            $in_params[$key] = $actor;
+        }
+        $actors = rtrim($actors, ",");
+        $condition .= "and A.id_actor IN ($actors) ";
+        $parameters = array_merge($parameters, $in_params);
     }
 
     $condition .= "group by id_show order by name_show";

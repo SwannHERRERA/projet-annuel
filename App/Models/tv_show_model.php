@@ -53,6 +53,7 @@ class Tv_show_model extends My_model
                 }
             }
             if ($new || ($lastUpdated->diff($APIUpdated)->days < 30 && $lastUpdated->diff($APIUpdated)->days != 0)) {
+                echo "BEGIN<br>";
                 //print_r($lastUpdated->diff($APIUpdated)->days);
                 //var_dump("Ajout update");
                 /***************************************************************************************************************
@@ -283,18 +284,19 @@ class Tv_show_model extends My_model
                     if ($queryPrepared->errorCode() != '00000')
                         die("UNE ERREUR EST SURVENUE PENDANT L'INSERTION D'UN HODOR");
                 }
+                echo "SUCCESS<br>";
             }
-            header("Location: " . $site_url . "/back/tv_show/add");
         } else
             die('L\'id est incorrect');
     }
 
     /**
-    * UPDATE without apikey
-    */
-    public function update() {
+     * UPDATE without apikey
+     */
+    public function update()
+    {
         $query = "UPDATE " . $this->_table .
-        " SET name_show = :name_show, id_show = :id_show, production_status = :production_status,
+            " SET name_show = :name_show, id_show = :id_show, production_status = :production_status,
          first_aired_show = :first_aired_show, image_show = :image_show, runtime_show = :runtime_show,
           summary_show = :summary_show WHERE id_show = :id_show;";
         $queryPrepared = $this->pdo->prepare($query);
@@ -564,6 +566,7 @@ class Tv_show_model extends My_model
         if (!empty($idNetworks)) {
             $join .= "left join BROADCAST ON flixadvisor.TV_SHOW.id_show = tv_show " .
                 "left join NETWORK N on BROADCAST.network = N.id_network ";
+<<<<<<< HEAD
             $condition .= "AND N.id_network IN (:network) ";
             $parameters = array_merge($parameters, [":network" => implode(",",$idNetworks)]);
         }
@@ -574,19 +577,81 @@ class Tv_show_model extends My_model
         if (!empty($runtimes)) {
             $condition .= "AND runtime_show IN (:runtime) ";
             $parameters = array_merge($parameters, [":runtime" => implode(",",$runtimes)]);
+=======
+            $networks = "";
+            $in_params = [];
+            foreach ($idNetworks as $i => $network) {
+                $key = ":idn" . $i;
+                $networks .= "$key,";
+                $in_params[$key] = $network;
+            }
+            $networks = rtrim($networks, ",");
+            $condition .= "AND N.id_network IN ($networks) ";
+            $parameters = array_merge($parameters, $in_params);
+        }
+        if (!empty($firstAiredYears)) {
+            $years = "";
+            $in_params = [];
+            foreach ($firstAiredYears as $i => $year) {
+                $key = ":idy" . $i;
+                $years .= "$key,";
+                $in_params[$key] = $year;
+            }
+            $years = rtrim($years, ",");
+            $condition .= "AND YEAR(first_aired_show) IN ($years) ";
+            $parameters = array_merge($parameters, $in_params);
+        }
+        if (!empty($runtimes)) {
+            $runs = "";
+            $in_params = [];
+            foreach ($runtimes as $i => $runtime) {
+                $key = ":idr" . $i;
+                $runs .= "$runtime,";
+                $in_params[$key] = $runtime;
+            }
+            $runs = rtrim($runs, ",");
+            $condition .= "AND runtime_show IN ($runs) ";
+            $parameters = array_merge($parameters, $in_params);
+>>>>>>> fc1d2d0bdce16d6d19236e18903f2996dd442988
         }
         if (!empty($idGenres)) {
             $join .= "left join CATEGORIZED_SHOW CS on TV_SHOW.id_show = CS.tv_show " .
                 "left join CATEGORY C on CS.category = C.id_category ";
+<<<<<<< HEAD
             $condition .= "AND C.id_category IN (:genres) ";
             $parameters = array_merge($parameters, [":genres" => implode(',',$idGenres)]);
+=======
+            $genres = "";
+            $in_params = [];
+            foreach ($idGenres as $i => $genre) {
+                $key = ":idg" . $i;
+                $genres .= "$key,";
+                $in_params[$key] = $genre;
+            }
+            $genres = rtrim($genres, ",");
+            $condition .= "AND C.id_category IN ($genres) ";
+            $parameters = array_merge($parameters, $in_params);
+>>>>>>> fc1d2d0bdce16d6d19236e18903f2996dd442988
         }
         if (!empty($idActors)) {
             $join .= "left join CASTING C2 on TV_SHOW.id_show = C2.tv_show " .
                 "left join ACTOR A on C2.actor = A.id_actor ";
+<<<<<<< HEAD
             $condition .= "and A.id_actor IN (:actors) ";
             $inQuery = implode(',', array_fill(0, count($idActors), '?'));
             $parameters = array_merge($parameters, [":actors" => implode(",",$idActors)]);
+=======
+            $actors = "";
+            $in_params = [];
+            foreach ($idActors as $i => $actor) {
+                $key = ":ida" . $i;
+                $actors .= "$key,";
+                $in_params[$key] = $actor;
+            }
+            $actors = rtrim($actors, ",");
+            $condition .= "and A.id_actor IN ($actors) ";
+            $parameters = array_merge($parameters, $in_params);
+>>>>>>> fc1d2d0bdce16d6d19236e18903f2996dd442988
         }
 
         $condition .= "group by id_show order by name_show";
