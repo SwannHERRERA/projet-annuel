@@ -26,14 +26,23 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="">Durée (en min)</label>
-                            <input type="number" min="0" max="180" step="5" id="runtime" class="form-control" name="runtime" value="" />
+                            <button type="button" id="runtime" class="btn btn-block btn-primary">Durée (en min)</button>
+                            <div id="time_pickers" style="display: none;">
+                                <? for ($i = 0; $i <= 120; $i += 5): ?>
+                                <input type="checkbox" id="runtime<?= $i ?>" value="<?= $i ?>" name="runtimes[]" style="display: none;">
+                                <label for="runtime<?= $i ?>">
+                                    <div>
+                                        <?= $i ?>
+                                    </div>
+                                </label>
+                                <? endfor ?>
+                            </div>
                         </div>
                         <div id="network" class="dropdown-check-list" tabindex="100">
                             <span class="anchor">Network</span>
                             <ul class="items">
                                 <?php foreach ($networks as $network) : ?>
-                                    <li><input type="checkbox" value="<?= $network['id_network'] ?>" id="<?= $network['name_network'] ?>" name="network[]"/><label for="<?= $network['name_network'] ?>">&nbsp;<?= $network['name_network'] ?></label></li>
+                                    <li><input type="checkbox" value="<?= $network['id_network'] ?>" id="<?= $network['name_network'] ?>" name="networks[]"/><label for="<?= $network['name_network'] ?>">&nbsp;<?= $network['name_network'] ?></label></li>
                                 <?php endforeach ?>
                             </ul>
                         </div>
@@ -70,10 +79,17 @@
                         </div>
                     </div>
                     <div class="col-4">
-                        <div class="form-group">
-                            <label for="first_aired_years">Date de premère diffusion</label>
-                            <input type="number" min="1900" max="2099" step="1" id="first_aired_years" class="form-control" name="first_aired_years" value="" />
-                        </div>
+                            <button type="button" id="first_aired_years" class="btn btn-block btn-primary">Date de premère diffusion</button>
+                            <div id="years_pickers" style="display: none;">
+                                <? for ($i = 1999; $i < 2019; $i++): ?>
+                                <input type="checkbox" id="year<?= $i ?>" value="<?= $i ?>" name="years[]" style="display: none;">
+                                <label for="year<?= $i ?>">
+                                    <div>
+                                        <?= $i ?>
+                                    </div>
+                                </label>
+                                <? endfor ?>
+                            </div>
                         <div id="valid_result"></div>
                         <label for="search_actor">Acteur</label>
                         <input type="text" id="search_actor" class="form-control">
@@ -89,17 +105,18 @@
         <div class="row">
             <div class="col-12">
                 <?php if (!empty($tv_shows)): ?>
+                    <?php var_dump($tv_shows) ?>
                 <?php foreach ($tv_shows as $tv_show) : ?>
                     <div class="card mb-30">
                         <div class="card-content">
                             <div class="card-header">
-                                <h5 class="card-title"><?= $tv_show['name_show'] ?></h5>
+                                <a href="<?= $site_url . '/show?' . $tv_show['id_show']?>"><h5 class="card-title"><?= $tv_show['name_show'] ?></h5></a>
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="text-center">
-                                            <img src="<?= $tv_show['image_show'] ?>" class="img-fluid" alt="banniere serie <?= $tv_show['name_show'] ?>">
+                                            <a href="<?= $site_url . '/show?show=' . $tv_show['id_show']?>"><img src="<?= $tv_show['image_show'] ?>" class="img-fluid" alt="banniere serie <?= $tv_show['name_show'] ?>"></a>
                                         </div>
                                     </div>
                                     <div class="col-md-6">

@@ -15,6 +15,11 @@ body {
   font-weight: 400;
   min-height: 100vh;
 }
+
+a:hover {
+  text-decoration: none;
+}
+
 h1 {
   @extend %titre;
   font-family: "caveat";
@@ -46,6 +51,11 @@ h2,
     background-color: $red;
     width: 40px;
   }
+}
+
+h5,
+.h5 {
+  color: $white;
 }
 
 hr {

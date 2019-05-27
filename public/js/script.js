@@ -4,7 +4,8 @@ $(document).ready(function () {
   let id = tab[1];
   if (id == 'modal'){
     $('#modal').modal('show')
-  }if (id == 'valid_email'){
+  }
+  if (id == 'valid_email'){
     $('#valid_email').modal('show')
   }
 })
@@ -15,13 +16,27 @@ for (let item of items){
 }
 function dropdown(id){
     const checkList = document.getElementById(id);
-    checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
+    checkList.getElementsByClassName('anchor')[0].addEventListener('click', function(evt) {
         if (checkList.classList.contains('visible')) {
             checkList.classList.remove('visible');
         } else {
             checkList.classList.add('visible');
         }
-    }
+    });
+}
+let first_aired_years = document.getElementById('first_aired_years');
+if (first_aired_years != undefined){
+    first_aired_years.addEventListener('click', function(){
+        const years_pickers = document.getElementById('years_pickers');
+        years_pickers.style.display = years_pickers.style.display === 'none' ? '' : 'none';
+    });
+}
+let runtime = document.getElementById('runtime');
+if (runtime !=  undefined){
+    runtime.addEventListener('click', function(){
+        const time_pickers = document.getElementById('time_pickers');
+        time_pickers.style.display = time_pickers.style.display === 'none' ? '' : 'none';
+    });
 }
 
 const createActorList = function(ajax) {

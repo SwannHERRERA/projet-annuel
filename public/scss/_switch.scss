@@ -2,10 +2,7 @@
   display: block;
   margin: 20px auto;
   width: 90px;
-  -webkit-user-select:none;
-  -moz-user-select:none;
-  -ms-user-select: none;
-  user-select: none;
+  @extend %unselectable;
   input {
     display: none;
   }
@@ -13,7 +10,8 @@
     display: block;
     overflow: hidden;
     cursor: pointer;
-    border: 2px solid $gray-800; border-radius: 5px;
+    border: 2px solid $gray-800;
+    border-radius: 5px;
   }
   .switch-inner {
     display: block;
@@ -21,17 +19,20 @@
     margin-left: -100%;
     transition: margin 0.3s ease-in 0s;
   }
+
+  /* -100% --(orange)-- 0% --(gris)-- 100*/
   input:checked + label .switch-inner {
     margin-left: 0;
   }
-  .switch-inner:before, .switch-inner:after {
+  .switch-inner:before,
+  .switch-inner:after {
     display: inline-block;
-    width: 50%;//50% de 200% = 100%
+    width: 50%; //50% de 200% = 100%
     height: 30px;
     line-height: 30px;
     font-size: 16px;
     color: $white;
-    font-family: 'Caveat', sans-serif;
+    font-family: "Caveat", sans-serif;
     font-weight: 700;
     box-sizing: border-box;
   }
@@ -44,7 +45,7 @@
   .switch-inner:after {
     content: "Night";
     text-align: right;
-    background-color: $dark; 
+    background-color: $dark;
     color: $white;
     padding-right: 10px;
   }

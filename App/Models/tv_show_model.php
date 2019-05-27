@@ -565,33 +565,37 @@ class Tv_show_model extends My_model
             $join .= "left join BROADCAST ON flixadvisor.TV_SHOW.id_show = tv_show " .
                 "left join NETWORK N on BROADCAST.network = N.id_network ";
             $condition .= "AND N.id_network IN (:network) ";
-            $parameters = array_merge($parameters, [":network" => $idNetworks]);
+            $parameters = array_merge($parameters, [":network" => implode(",",$idNetworks)]);
         }
         if (!empty($firstAiredYears)) {
             $condition .= "AND YEAR(first_aired_show) IN (:airedYear) ";
-            $parameters = array_merge($parameters, ["airedYear" => $firstAiredYears]);
+            $parameters = array_merge($parameters, ["airedYear" => implode(",",$firstAiredYears)]);
         }
         if (!empty($runtimes)) {
             $condition .= "AND runtime_show IN (:runtime) ";
-            $parameters = array_merge($parameters, [":runtime" => $runtimes]);
+            $parameters = array_merge($parameters, [":runtime" => implode(",",$runtimes)]);
         }
         if (!empty($idGenres)) {
             $join .= "left join CATEGORIZED_SHOW CS on TV_SHOW.id_show = CS.tv_show " .
                 "left join CATEGORY C on CS.category = C.id_category ";
             $condition .= "AND C.id_category IN (:genres) ";
-            $parameters = array_merge($parameters, [":genres" => $idGenres]);
+            $parameters = array_merge($parameters, [":genres" => implode(',',$idGenres)]);
         }
         if (!empty($idActors)) {
             $join .= "left join CASTING C2 on TV_SHOW.id_show = C2.tv_show " .
                 "left join ACTOR A on C2.actor = A.id_actor ";
             $condition .= "and A.id_actor IN (:actors) ";
-            $parameters = array_merge($parameters, [":actors" => $idActors]);
+            $inQuery = implode(',', array_fill(0, count($idActors), '?'));
+            $parameters = array_merge($parameters, [":actors" => implode(",",$idActors)]);
         }
 
         $condition .= "group by id_show order by name_show";
 
         $queryPrepared = $this->pdo->prepare($query . $join . $condition);
+        print_r($parameters);
+        //var_dump($condition);
         $queryPrepared->execute($parameters);
+        //var_dump($queryPrepared->fetchAll());
         return $queryPrepared->fetchAll();
     }
 }

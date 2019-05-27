@@ -15,10 +15,11 @@ $('#canvas').on('shown.bs.modal', function (e) {
 
 function init() {
     canvas = document.getElementById('can');
-    canvasOffset = canvas.getBoundingClientRect();
+    updateCanvasOffset();
     ctx = canvas.getContext("2d");
     w = canvas.width;
     h = canvas.height;
+    window.onresize = updateCanvasOffset;
 
     canvas.addEventListener("mousemove", function (e) {
         findxy('move', e)
@@ -33,6 +34,14 @@ function init() {
         findxy('out', e)
     }, false);
 }
+
+function updateCanvasOffset() {
+    canvasOffset = canvas.getBoundingClientRect();
+    console.log(canvasOffset);
+    console.log('-----');
+}
+//canvasOffset = canvas.getBoundingClientRect();
+// Crée une fonction pour redefinir canvasOffset
 
 function color(obj) {
     switch (obj.id) {
