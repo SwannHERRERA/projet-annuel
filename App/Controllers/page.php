@@ -45,7 +45,7 @@ class Page extends Controller
     /**
     * Page de recherche complète
     */
-    public function recherche_avancer()
+    public function recherche_avancee()
     {
         require self::MODEL_PATH . 'category_model.php';
         $category_model = new Category_model;
@@ -54,22 +54,22 @@ class Page extends Controller
         if (!empty($_GET['search']) ||
             !empty($_GET['minimum_rating']) ||
             !empty($_GET['status']) ||
-            !empty($_GET['network[]']) ||
-            !empty($_GET['first_aired_years']) ||
-            !empty($_GET['runtime']) ||
-            !empty($_GET['gender[]']) ||
-            !empty($_GET['actor[]'])) {
+            !empty($_GET['networks']) ||
+            !empty($_GET['years']) ||
+            !empty($_GET['runtimes']) ||
+            !empty($_GET['gender']) ||
+            !empty($_GET['actor'])) {
             if (isset($_SESSION["token_csrf"])) {
                 if ($_SESSION["token_csrf"] == $_GET['token_csrf']) {
                     $tv_shows = $this->tv_show_model->searchTVShowAdvanced(
                         $_GET['search'] ?? '',
                         $_GET['minimum_rating'] ?? '',
                         $_GET['status'] ?? '',
-                        $_GET['network[]'] ?? '',
-                        $_GET['first_aired_years'] ?? '',
-                        $_GET['runtime'] ?? '',
-                        $_GET['gender[]'] ?? '',
-                        $_GET['actor[]'] ?? ''
+                        $_GET['networks'] ?? '',
+                        $_GET['years'] ?? '',
+                        $_GET['runtimes'] ?? '',
+                        $_GET['gender'] ?? '',
+                        $_GET['actor'] ?? ''
                     );
                 }
             }
@@ -81,7 +81,7 @@ class Page extends Controller
 
 
         require self::VIEW_PATH . 'layout/header.php';
-        require self::VIEW_PATH . 'page/recherche_avancée.php';
+        require self::VIEW_PATH . 'page/recherche_avancee.php';
         require self::VIEW_PATH . 'layout/footer.php';
     }
 }

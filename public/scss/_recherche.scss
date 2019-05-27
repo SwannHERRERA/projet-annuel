@@ -31,3 +31,34 @@
     }
   }
 }
+#first_aired_years,
+#runtime {
+  margin: 5px 0;
+}
+#years_pickers,
+#time_pickers {
+  overflow-y: scroll;
+  border: solid 5px $lite_blue;
+  height: 200px;
+  margin: 20px 0px 20px;
+  @extend %ul_without_bullet;
+  margin: 0;
+  padding: 0;
+  label {
+    display: block;
+    padding: 10px 6px;
+    text-align: center;
+    border-bottom: solid 2px $light-dark;
+    @extend %unselectable;
+    margin: 0;
+    &:hover {
+      background-color: $lite_blue;
+    }
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+  input:checked + label {
+    background-color: #bada55;
+  }
+}

@@ -242,11 +242,8 @@ class Member_model extends My_model
     {
         if (isset($_SESSION['email'])) {
             $role = $this->get_columns_where(['account_role'], ['email' => $_SESSION['email']]);
-            if ($role[0]['account_role'] === 'admin') {
-                return true;
-            }
+                return $role[0]['account_role'] === 'admin';
         }
-        return false;
     }
 
     /**

@@ -633,7 +633,10 @@ class Tv_show_model extends My_model
         $condition .= "group by id_show order by name_show";
 
         $queryPrepared = $this->pdo->prepare($query . $join . $condition);
+        print_r($parameters);
+        //var_dump($condition);
         $queryPrepared->execute($parameters);
+        //var_dump($queryPrepared->fetchAll());
         return $queryPrepared->fetchAll();
     }
 }

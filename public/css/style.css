@@ -17195,13 +17195,15 @@ h3 {
   margin: 15px 0;
 }
 
-#ajax_result ul, footer ul, aside ul {
+#years_pickers,
+#time_pickers, #ajax_result ul, footer ul, aside ul {
   list-style: none;
   margin-left: 0;
   padding-left: 0;
 }
 
-#ajax_result ul li {
+#years_pickers label,
+#time_pickers label, #ajax_result ul li, .switch {
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -17212,10 +17214,7 @@ h3 {
   display: block;
   margin: 20px auto;
   width: 90px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  /* -100% --(orange)-- 0% --(gris)-- 100*/
 }
 .switch input {
   display: none;
@@ -17236,7 +17235,8 @@ h3 {
 .switch input:checked + label .switch-inner {
   margin-left: 0;
 }
-.switch .switch-inner:before, .switch .switch-inner:after {
+.switch .switch-inner:before,
+.switch .switch-inner:after {
   display: inline-block;
   width: 50%;
   height: 30px;
@@ -17446,10 +17446,49 @@ footer .btn:hover {
   border-bottom: 0;
 }
 
+#first_aired_years,
+#runtime {
+  margin: 5px 0;
+}
+
+#years_pickers,
+#time_pickers {
+  overflow-y: scroll;
+  border: solid 5px #afd7e8;
+  height: 200px;
+  margin: 20px 0px 20px;
+  margin: 0;
+  padding: 0;
+}
+#years_pickers label,
+#time_pickers label {
+  display: block;
+  padding: 10px 6px;
+  text-align: center;
+  border-bottom: solid 2px #93959a;
+  margin: 0;
+}
+#years_pickers label:hover,
+#time_pickers label:hover {
+  background-color: #afd7e8;
+}
+#years_pickers label:last-child,
+#time_pickers label:last-child {
+  border-bottom: 0;
+}
+#years_pickers input:checked + label,
+#time_pickers input:checked + label {
+  background-color: #bada55;
+}
+
 body {
   font-family: "lato";
   font-weight: 400;
   min-height: 100vh;
+}
+
+a:hover {
+  text-decoration: none;
 }
 
 h1 {
@@ -17484,6 +17523,11 @@ h1 {
   height: 2px;
   background-color: #d4380d;
   width: 40px;
+}
+
+h5,
+.h5 {
+  color: #fff;
 }
 
 hr {
