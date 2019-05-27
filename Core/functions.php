@@ -1356,3 +1356,17 @@ function get10BestShows()
     }
     return $queryPrepared->fetchAll();
 }
+
+function searchUser($user)
+{
+    $pdo = connectDB();
+    $query = "select * from flixadvisor.MEMBER where instr(pseudo, :user) >0 or instr(email, :user) > 0 group by email order by email";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":user" => $user]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recherche utilisateur.");
+    }
+    return $queryPrepared->fetchAll();
+
+}
