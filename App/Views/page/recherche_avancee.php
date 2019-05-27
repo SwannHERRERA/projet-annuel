@@ -105,7 +105,6 @@
         <div class="row">
             <div class="col-12">
                 <?php if (!empty($tv_shows)): ?>
-                    <?php var_dump($tv_shows) ?>
                 <?php foreach ($tv_shows as $tv_show) : ?>
                     <div class="card mb-30">
                         <div class="card-content">
