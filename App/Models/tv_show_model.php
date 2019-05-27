@@ -566,18 +566,6 @@ class Tv_show_model extends My_model
         if (!empty($idNetworks)) {
             $join .= "left join BROADCAST ON flixadvisor.TV_SHOW.id_show = tv_show " .
                 "left join NETWORK N on BROADCAST.network = N.id_network ";
-<<<<<<< HEAD
-            $condition .= "AND N.id_network IN (:network) ";
-            $parameters = array_merge($parameters, [":network" => implode(",",$idNetworks)]);
-        }
-        if (!empty($firstAiredYears)) {
-            $condition .= "AND YEAR(first_aired_show) IN (:airedYear) ";
-            $parameters = array_merge($parameters, ["airedYear" => implode(",",$firstAiredYears)]);
-        }
-        if (!empty($runtimes)) {
-            $condition .= "AND runtime_show IN (:runtime) ";
-            $parameters = array_merge($parameters, [":runtime" => implode(",",$runtimes)]);
-=======
             $networks = "";
             $in_params = [];
             foreach ($idNetworks as $i => $network) {
@@ -612,15 +600,10 @@ class Tv_show_model extends My_model
             $runs = rtrim($runs, ",");
             $condition .= "AND runtime_show IN ($runs) ";
             $parameters = array_merge($parameters, $in_params);
->>>>>>> fc1d2d0bdce16d6d19236e18903f2996dd442988
         }
         if (!empty($idGenres)) {
             $join .= "left join CATEGORIZED_SHOW CS on TV_SHOW.id_show = CS.tv_show " .
                 "left join CATEGORY C on CS.category = C.id_category ";
-<<<<<<< HEAD
-            $condition .= "AND C.id_category IN (:genres) ";
-            $parameters = array_merge($parameters, [":genres" => implode(',',$idGenres)]);
-=======
             $genres = "";
             $in_params = [];
             foreach ($idGenres as $i => $genre) {
@@ -631,16 +614,10 @@ class Tv_show_model extends My_model
             $genres = rtrim($genres, ",");
             $condition .= "AND C.id_category IN ($genres) ";
             $parameters = array_merge($parameters, $in_params);
->>>>>>> fc1d2d0bdce16d6d19236e18903f2996dd442988
         }
         if (!empty($idActors)) {
             $join .= "left join CASTING C2 on TV_SHOW.id_show = C2.tv_show " .
                 "left join ACTOR A on C2.actor = A.id_actor ";
-<<<<<<< HEAD
-            $condition .= "and A.id_actor IN (:actors) ";
-            $inQuery = implode(',', array_fill(0, count($idActors), '?'));
-            $parameters = array_merge($parameters, [":actors" => implode(",",$idActors)]);
-=======
             $actors = "";
             $in_params = [];
             foreach ($idActors as $i => $actor) {
@@ -651,7 +628,6 @@ class Tv_show_model extends My_model
             $actors = rtrim($actors, ",");
             $condition .= "and A.id_actor IN ($actors) ";
             $parameters = array_merge($parameters, $in_params);
->>>>>>> fc1d2d0bdce16d6d19236e18903f2996dd442988
         }
 
         $condition .= "group by id_show order by name_show";
