@@ -61,6 +61,7 @@ class Page extends Controller
             !empty($_GET['actor'])) {
             if (isset($_SESSION["token_csrf"])) {
                 if ($_SESSION["token_csrf"] == $_GET['token_csrf']) {
+                    unset($_SESSION["token_csrf"]);
                     $tv_shows = $this->tv_show_model->searchTVShowAdvanced(
                         $_GET['search'] ?? '',
                         $_GET['minimum_rating'] ?? '',

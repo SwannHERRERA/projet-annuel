@@ -594,7 +594,7 @@ class Tv_show_model extends My_model
             $in_params = [];
             foreach ($runtimes as $i => $runtime) {
                 $key = ":idr" . $i;
-                $runs .= "$runtime,";
+                $runs .= "$key,";
                 $in_params[$key] = $runtime;
             }
             $runs = rtrim($runs, ",");

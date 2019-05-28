@@ -50,7 +50,7 @@
                     Déconnexion</a>
             <?php endif;?>
             <ul class="mb-20 ">
-                <li><a href="#" class="link"><i class="fas fa-search"></i>&nbsp;Recherche avancée</a>
+                <li><a href="<?= $site_url . '/recherche_avancee' ?>" class="link"><i class="fas fa-search"></i>&nbsp;Recherche avancée</a>
                 <li><a href="#" class="link"><i class="fas fa-flask"></i>&nbsp;Surprenez-moi !</a>
                 <li><a href="#" class="link"><i class="fas fa-plus"></i>&nbsp;Proposer une série</a>
                 <li><a href="#" class="link"><i class="fas fa-address-book"></i>&nbsp;Contact</a>
