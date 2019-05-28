@@ -57,48 +57,55 @@ class Member_model extends My_model
                     ':date_inscription' => date("Y-m-d"),
                     ':verified_email' => $lien
                 ]);
-
-                require_once BASEPATH . DIRECTORY_SEPARATOR . "vendor/autoload.php";
-                $mail = new PHPMailer(true);
-
-                try {
-                    //Server settings
-                    $mail->SMTPDebug = 2;
-                    $mail->isSMTP();
-                    $mail->CharSet = 'UTF-8';
-                    $mail->Host = 'ssl0.ovh.net';
-                    $mail->SMTPAuth = true;
-                    $mail->Username = 'contact@flixadvisor.fr';
-                    $mail->Password = '42A2}-7Bq*tQNir';
-                    $mail->SMTPSecure = 'tls';
-                    $mail->Port = 587;
-
-                    //Recipients
-                    $mail->setFrom('contact@flixadvisor.fr', 'Flix Advisor');
-                    $mail->addAddress($_POST['email'], $_POST['pseudo']);
-
-                    // Content
-                    $mail->isHTML(true);
-                    $mail->Subject = 'Flix Advisor : confirmation d\'adresse e-mail';
-                    $mail->Body = "Bonjour " .  $_POST["pseudo"] .",
-                    Vous venez de créer un compte sur FlixAdvisor.fr : merci d'avoir rejoint notre communauté !<br>
-                    Terminez la création de votre compte et validez votre adresse e-mail<br>
-                    en cliquant sur le lien suivant : https://flixadvisor.fr/member/verify?link=" . $lien .
-                    "<br>A bientôt,<br>
-                    L'équipe Flix Advisor<br>
-                    https://flixadvisor.fr";
-                    //$mail->AltBody = 'non-HTML mail clients';
-
-                    $mail->send();
-                } catch (Exception $e) {
-                    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-                }
+                sendMail();
 
                 header("Location: /member/register/#valid_email");
             }
         }
     }
 
+    /**
+    *Fonction d'envoie d'email
+    */
+    public function sendMail()
+    {
+        require_once BASEPATH . DIRECTORY_SEPARATOR . "vendor/autoload.php";
+
+        $mail = new PHPMailer(true);
+
+        try {
+            //Server settings
+            $mail->SMTPDebug = 2;
+            $mail->isSMTP();
+            $mail->CharSet = 'UTF-8';
+            $mail->Host = 'ssl0.ovh.net';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'contact@flixadvisor.fr';
+            $mail->Password = '42A2}-7Bq*tQNir';
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = 587;
+
+            //Recipients
+            $mail->setFrom('contact@flixadvisor.fr', 'Flix Advisor');
+            $mail->addAddress($_POST['email'], $_POST['pseudo']);
+
+            // Content
+            $mail->isHTML(true);
+            $mail->Subject = 'Flix Advisor : confirmation d\'adresse e-mail';
+            $mail->Body = "Bonjour " .  $_POST["pseudo"] .",
+                        Vous venez de créer un compte sur FlixAdvisor.fr : merci d'avoir rejoint notre communauté !<br>
+                        Terminez la création de votre compte et validez votre adresse e-mail<br>
+                        en cliquant sur le lien suivant : https://flixadvisor.fr/member/verify?link=" . $lien .
+                        "<br>A bientôt,<br>
+                        L'équipe Flix Advisor<br>
+                        https://flixadvisor.fr";
+            //$mail->AltBody = 'non-HTML mail clients';
+
+            $mail->send();
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
+    }
     /**
     * Back INSERT /UPDATE User
     * @param STRING $member = pseudo
@@ -242,7 +249,7 @@ class Member_model extends My_model
     {
         if (isset($_SESSION['email'])) {
             $role = $this->get_columns_where(['account_role'], ['email' => $_SESSION['email']]);
-                return $role[0]['account_role'] === 'admin';
+            return $role[0]['account_role'] === 'admin';
         }
     }
 

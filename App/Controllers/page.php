@@ -85,4 +85,8 @@ class Page extends Controller
         require self::VIEW_PATH . 'page/recherche_avancee.php';
         require self::VIEW_PATH . 'layout/footer.php';
     }
+
+    public function test(){
+        $this->member_model->test();
+    }
 }
