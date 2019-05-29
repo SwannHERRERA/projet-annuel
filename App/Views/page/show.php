@@ -26,7 +26,7 @@ $show = getTVShow($idShow);
     <hr>
     <div class="row mt-20 ml-20">
         <p class="align-self-baseline h3">
-            Date de parution : <?= $show['first_aired_show'] ?> -
+            Date de parution : <?= date('d-m-Y', strtotime($show['first_aired_show'])) ?> -
             Producteurs : <?php foreach (getTVShowNetworks($idShow) as $network) echo $network['name_network'] . ' '; ?>
             -
             <?= getTVNumberSeasons($idShow) ?> saisons
@@ -86,7 +86,7 @@ $show = getTVShow($idShow);
                                                          src=<?= '"' . $show['image_show'] . '"' ?>>
                                                     <hr>
                                                     <?= $show['name_show'] ?><br>
-                                                    <?= $show['first_aired_show'] ?>
+                                                    <?= date('d-m-Y', strtotime($show['first_aired_show'])) ?>
                                                 </div>
                                                 <div class="col-9">
                                                     <form action="/show/follow" method="post">
@@ -192,7 +192,7 @@ $show = getTVShow($idShow);
                                                      src=<?= '"' . $show['image_show'] . '"' ?>>
                                                 <hr>
                                                 <?= $show['name_show'] ?><br>
-                                                <?= $show['first_aired_show'] ?>
+                                                <?= date('d-m-Y', strtotime($show['first_aired_show'])) ?>
                                             </div>
                                             <div class="col-sm-9 text-left">
                                                 <div class="row">
@@ -296,9 +296,9 @@ $show = getTVShow($idShow);
             <div class="row pl-10 pb-10">
                 Date de diffusion : <?php
                 if ($show['production_status'] == 'Continuing')
-                    echo $show['first_aired_show'];
+                    echo date('d-m-Y', strtotime($show['first_aired_show']));
                 else
-                    echo 'Du ' . $show['first_aired_show'] . ' au ' . getShowLastAiringDate($idShow);
+                    echo 'Du ' . date('d-m-Y', strtotime($show['first_aired_show'])) . ' au ' . date('d-m-Y', strtotime(getShowLastAiringDate($idShow)));
                 ?>
             </div>
             <div class="row pl-10 pb-10">
@@ -461,8 +461,10 @@ $show = getTVShow($idShow);
                                 <div class="col-2">
                                     <div class="row">
                                         <div class="col-12">
-                                            <img src="<?= $comment['photo'] ?>"
-                                                 class="img-thumbnail" alt="photo profile">
+                                            <a target="_blank"
+                                               href="<?= $site_url . '/profil?user=' . $comment['pseudo'] ?>"><img
+                                                        src="<?= $comment['photo'] ?>"
+                                                        class="img-thumbnail" alt="photo profile"></a>
                                         </div>
                                         <?php if ($this->member_model->isConnected() && ($comment['pseudo'] == $user['pseudo'] || $user['account_role'] == 'admin')) { ?>
                                             <div class="col-12 mt-5 text-center">
@@ -476,7 +478,9 @@ $show = getTVShow($idShow);
                                 <div class="col-8">
                                     <div class="card">
                                         <div class="card-header">
-                                            <strong><?= $comment['pseudo'] ?></strong> <span class="text-muted">commenté le <?= $comment['date_comment'] ?></span>
+                                            <a target="_blank"
+                                               href="<?= $site_url . '/profil?user=' . $comment['pseudo'] ?>"><strong><?= $comment['pseudo'] ?></strong></a>
+                                            <span class="text-muted">commenté le <?= date('d-m-Y', strtotime($comment['date_comment'])) ?></span>
                                         </div>
                                         <div class="card-body">
                                             <?= $comment['text_comment'] ?>
