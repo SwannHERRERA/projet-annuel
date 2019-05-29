@@ -1370,3 +1370,82 @@ function searchUser($user)
     return $queryPrepared->fetchAll();
 
 }
+
+function getMemberFollowedShow($pseudo)
+{
+    $pdo = connectDB();
+    $query = "select status_followed_show, date_followed_show, mark_followed_show,first_aired_show,image_show, id_show, name_show FROM FOLLOWED_SHOW, TV_SHOW where member = (SELECT email from MEMBER where pseudo = :pseudo) and tv_show = id_show group by id_show order by name_show asc;";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":pseudo" => $pseudo]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation des serie suivies.");
+    }
+    return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getMemberWatchingShow($pseudo)
+{
+    $pdo = connectDB();
+    $query = "select status_followed_show, date_followed_show, mark_followed_show,first_aired_show,image_show, id_show, name_show FROM FOLLOWED_SHOW, TV_SHOW where member = (SELECT email from MEMBER where pseudo = :pseudo) and tv_show = id_show and status_followed_show = 'en cours' group by id_show order by name_show asc;";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":pseudo" => $pseudo]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation des serie suivies.");
+    }
+    return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
+}
+function getMemberCompletedShow($pseudo)
+{
+    $pdo = connectDB();
+    $query = "select status_followed_show, date_followed_show, mark_followed_show,first_aired_show,image_show, id_show, name_show FROM FOLLOWED_SHOW, TV_SHOW where member = (SELECT email from MEMBER where pseudo = :pseudo) and tv_show = id_show and status_followed_show = 'termine' group by id_show order by name_show asc;";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":pseudo" => $pseudo]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation des serie suivies.");
+    }
+    return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getMemberPlanToWatchShow($pseudo)
+{
+    $pdo = connectDB();
+    $query = "select status_followed_show, date_followed_show, mark_followed_show,first_aired_show,image_show, id_show, name_show FROM FOLLOWED_SHOW, TV_SHOW where member = (SELECT email from MEMBER where pseudo = :pseudo) and tv_show = id_show and status_followed_show = 'a voir' group by id_show order by name_show asc;";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":pseudo" => $pseudo]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation des serie suivies.");
+    }
+    return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getMemberNumberWatchedEpisodesShow($email, $show)
+{
+    $pdo = connectDB();
+    $query = "SELECT count(*) FROM flixadvisor.WATCHED_EPISODES where member = :email and episode in (select id_episode from EPISODE where season in (select id_season from SEASON where tv_show = :show))";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":email" => $email,
+        ":show" => $show
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation du nombre d'episodes regardés.");
+    }
+    return $queryPrepared->fetch()[0];
+}
+function getMemberNumberWatchedEpisodes($email)
+{
+    $pdo = connectDB();
+    $query = "SELECT count(*) FROM flixadvisor.WATCHED_EPISODES where member = :email and episode in (select id_episode from EPISODE where season in (select id_season from SEASON where tv_show in (select tv_show from FOLLOWED_SHOW where FOLLOWED_SHOW.member = :email)))";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":email" => $email]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation du nombre d'episodes regardés.");
+    }
+    return $queryPrepared->fetch()[0];
+}
