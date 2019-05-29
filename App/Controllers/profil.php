@@ -33,7 +33,7 @@ class Profil extends Controller
             $shows = getMemberFollowedShow($_GET['pseudo']);
             foreach ($shows as $show) { ?>
                 <div id="<?= $show['name_show'] ?>" class="col-6 col-sm-3 col-md-4 col-lg-2 mt-20">
-                    <a href="<?= $site_url . '/show?show=' . $show['id_show'] ?>" target="_blank">
+                    <a href="<?='/show?show=' . $show['id_show'] ?>" target="_blank">
                         <div class="white-card">
                             <img class="card-img-top" src="<?= $show['image_show'] ?>" alt="<?= $show['name_show'] ?>">
                             <div class="card-body">
@@ -78,7 +78,7 @@ class Profil extends Controller
             $shows = getMemberWatchingShow($_GET['pseudo']);
             foreach ($shows as $show) { ?>
                 <div id="<?= $show['name_show'] ?>" class="col-6 col-sm-3 col-md-4 col-lg-2 mt-20">
-                    <a href="<?= $site_url . '/show?show=' . $show['id_show'] ?>" target="_blank">
+                    <a href="<?='/show?show=' . $show['id_show'] ?>" target="_blank">
                         <div class="white-card">
                             <img class="card-img-top" src="<?= $show['image_show'] ?>" alt="<?= $show['name_show'] ?>">
                             <div class="card-body">
@@ -123,7 +123,7 @@ class Profil extends Controller
             $shows = getMemberCompletedShow($_GET['pseudo']);
             foreach ($shows as $show) { ?>
                 <div id="<?= $show['name_show'] ?>" class="col-6 col-sm-3 col-md-4 col-lg-2 mt-20">
-                    <a href="<?= $site_url . '/show?show=' . $show['id_show'] ?>" target="_blank">
+                    <a href="<?='/show?show=' . $show['id_show'] ?>" target="_blank">
                         <div class="white-card">
                             <img class="card-img-top" src="<?= $show['image_show'] ?>" alt="<?= $show['name_show'] ?>">
                             <div class="card-body">
@@ -168,7 +168,7 @@ class Profil extends Controller
             $shows = getMemberPlanToWatchShow($_GET['pseudo']);
             foreach ($shows as $show) { ?>
                 <div id="<?= $show['name_show'] ?>" class="col-6 col-sm-3 col-md-4 col-lg-2 mt-20">
-                    <a href="<?= $site_url . '/show?show=' . $show['id_show'] ?>" target="_blank">
+                    <a href="<?='/show?show=' . $show['id_show'] ?>" target="_blank">
                         <div class="white-card">
                             <img class="card-img-top" src="<?= $show['image_show'] ?>" alt="<?= $show['name_show'] ?>">
                             <div class="card-body">
