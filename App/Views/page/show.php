@@ -198,13 +198,13 @@ $show = getTVShow($idShow);
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <h5 class="h4">Vos listes :</h5>
-                                                        <table class="table table-striped table-dark align-self-center">
+                                                        <table class="table table-striped table-dark table-responsive-sm">
                                                             <thead>
                                                             <tr>
-                                                                <th scope="col">Nom</th>
-                                                                <th scope="col">Description</th>
-                                                                <th scope="col">Visibilité</th>
-                                                                <th scope="col">Options</th>
+                                                                <th>Nom</th>
+                                                                <th>Description</th>
+                                                                <th>Visibilité</th>
+                                                                <th>Options</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody id="lists">
@@ -216,7 +216,7 @@ $show = getTVShow($idShow);
                                                                     <td>
                                                                         <?php if (isInList($idShow, $list['id_list'])) { ?>
                                                                             <button onclick="checkList(<?= $idShow ?>,<?= $list['id_list'] ?>)"
-                                                                                    class="btn btn-success"><i
+                                                                                    class="btn btn-success m-5"><i
                                                                                         id="checkList<?= $list['id_list'] ?>"
                                                                                         class="fas fa-check"></i>
                                                                             </button>
@@ -228,7 +228,7 @@ $show = getTVShow($idShow);
                                                                             </button>
                                                                         <?php } ?>
                                                                         <button onclick="removeList(<?= $list['id_list'] ?>)"
-                                                                                class="btn btn-warning"><i
+                                                                                class="btn btn-warning m-5"><i
                                                                                     class="fas fa-trash"></i>
                                                                         </button>
                                                                     </td>
@@ -237,36 +237,31 @@ $show = getTVShow($idShow);
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                    <div id="newList" class="col-12 align-self-center">
+                                                    <div id="newList" class="col-12">
                                                         <h5 class="h4">Créer une liste</h5>
-                                                        <div class="row align-items-end">
-                                                            <div class="col-sm-3">
-                                                                <label for="nameListNew">Nom de la liste</label>
-                                                                <input type="text" class="form-control" id="nameListNew"
-                                                                       placeholder="Nom">
-                                                            </div>
-                                                            <div class="col-sm-4">
-                                                                <label for="descriptionListNew">Description de la
-                                                                    liste</label>
-                                                                <input type="text" class="form-control"
-                                                                       id="descriptionListNew"
-                                                                       placeholder="Description">
 
+                                                        <div class="form-row form-inline align-items-end mb-20">
+                                                            <div class="col-auto">
+                                                                <label class="sr-only" for="nameListNew">Nom de la liste</label>
+                                                                <input type="text" class="form-control" id="nameListNew" placeholder="Nom">
                                                             </div>
-                                                            <div class="col-sm-3">
-                                                                <label for="visibilityNewList">Visibilité</label>
+                                                            <div class="col-auto">
+                                                                <label class="sr-only" for="descriptionListNew">Description de la liste</label>
+                                                                <input type="text" class="form-control" id="descriptionListNew" placeholder="Description">
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <label class="" for="visibilityNewList">Visibilité</label>
                                                                 <select class="form-control" id="visibilityNewList">
                                                                     <option value="public">Publique</option>
                                                                     <option value="private">Privée</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="col-sm-1">
-                                                                <button onclick="addList(<?= $idShow ?>)"
-                                                                        class="btn btn-primary">
-                                                                    Ajouter
-                                                                </button>
-                                                            </div>
                                                         </div>
+                                                            <p class="text-center"><button onclick="addList(<?= $idShow ?>)"
+                                                                class="btn btn-primary">
+                                                                Ajouter
+                                                            </button></p>
+
                                                     </div>
                                                 </div>
 
@@ -407,11 +402,11 @@ $show = getTVShow($idShow);
                 <div class="tab-pane mt-10" id="casting" role="tabpanel" aria-labelledby="casting-tab">
                     <h1 class="h3">Casting</h1>
                     <hr>
-                    <div class="row">
+                    <div class="row align-items-top">
                         <?php foreach (getTVShowActors($idShow) as $actor) {
                             ?>
                             <div class="col-xl-4 col-sm-6">
-                                <div class="card  mt-10">
+                                <div class="card  mb-20">
                                     <img class="card-img-top" alt="Actor photo"
                                         src=<?= '"' . $actor['photo_actor'] . '"'; ?>>
                                     <div class="card-body">
@@ -461,9 +456,7 @@ $show = getTVShow($idShow);
                                         </div>
                                         <?php if ($this->member_model->isConnected() && ($comment['pseudo'] == $memberProfil['pseudo'] || $memberProfil['account_role'] == 'admin')) { ?>
                                             <div class="col-12 mt-5 text-center">
-                                                <button class="btn btn-warning"
-                                                        onclick="deleteComment(<?= $comment['id_comment'] ?>)"><i
-                                                            class="fas fa-trash"></i></button>
+                                                <button class="btn btn-warning" onclick="deleteComment(<?= $comment['id_comment'] ?>)"><i class="fas fa-trash"></i></button>
                                             </div>
                                         <?php } ?>
                                     </div>

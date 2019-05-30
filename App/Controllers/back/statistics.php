@@ -29,11 +29,7 @@ class Statistics extends Controller
         $years_of_user = $this->member_model->getMembersAge();
 
         require self::VIEW_PATH . 'back/layout/header.php';
-        echo '<pre>';
-        var_dump($gender);
-        echo '</pre>';
-
-        require self::VIEW_PATH . 'back/statistics/series.php';
+        require self::VIEW_PATH . 'back/statistics/user.php';
         require self::VIEW_PATH . 'back/layout/footer.php';
     }
     public function series()

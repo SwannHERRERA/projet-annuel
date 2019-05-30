@@ -33,7 +33,7 @@
                                 class="fas fa-edit"></i></a>
                     <a onclick="confdel('<?= $site_url . '/back/member/delete?pseudo=' . $member['pseudo'] ?>')"
                        class="text-danger"><i class="fas fa-trash-alt"></i></a>
-                    <button class="open-modal text-danger" data-toggle="modal" id="<?= $member['pseudo'] ?>"
+                    <button class="open-modal text-danger btn p-0" data-toggle="modal" id="<?= $member['pseudo'] ?>"
                             data-target="#modal_ban"><i class="fas fa-ban"></i></button>
                 </td>
             </tr>
