@@ -74,3 +74,41 @@ function searchFollowing() {
         }
     }
 }
+
+function addList() {
+    const name = document.getElementById("nameListNew");
+    const description = document.getElementById("descriptionListNew");
+    const visibility = document.getElementById("visibilityNewList");
+    if (name.value.length > 0 && description.value.length > 0) {
+        const request = new XMLHttpRequest();
+        request.onreadystatechange = function () {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+                    const element = document.getElementById("lists");
+                    element.innerHTML += request.responseText;
+                }
+            }
+        };
+        request.open('POST', '/profil/createList');
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+        request.send(
+            'name=' + name.value +
+            '&description=' + description.value +
+            '&visibility=' + visibility.value
+        );
+    }
+}
+
+function removeList(idList) {
+    const request = new XMLHttpRequest();
+    request.open('GET', '/show/deleteList?list=' + idList);
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                const list = document.getElementById("list" + idList);
+                list.remove();
+            }
+        }
+    };
+    request.send();
+}

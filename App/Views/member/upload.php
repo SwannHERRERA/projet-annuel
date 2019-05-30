@@ -1,10 +1,10 @@
 <?php
 $host = '51.75.249.213';
-$user = 'root';
+$memberProfil = 'root';
 $password = 'fredo';
 $database = 'flixadvisor';
 
-$mysqli = new mysqli($host, $user, $password, $database);
+$mysqli = new mysqli($host, $memberProfil, $password, $database);
 
 try {
     if (empty($_FILES['image'])) {

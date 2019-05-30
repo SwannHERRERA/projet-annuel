@@ -2,16 +2,16 @@
 <div class="col-md-9 col-lg-10 align-self">
     <div class="row mt-20 ml-20">
         <div class="col-sm-3">
-            <!--<img class="img-fluid" src="<?= $user['photo'] ?>" alt="Photo de profil">-->
+            <!--<img class="img-fluid" src="<?= $memberProfil['photo'] ?>" alt="Photo de profil">-->
             <img class="img-fluid"
-                 src="<?= $user['photo'] ?>"
+                 src="<?= $memberProfil['photo'] ?>"
                  alt="Photo de profil">
         </div>
         <div class="col-9">
-            <h1 class="h2"><?= $user['pseudo'] ?></h1>
-            Membre depuis le <?= date('d-m-Y', strtotime($user['date_inscription'])) ?>
+            <h1 class="h2"><?= $memberProfil['pseudo'] ?></h1>
+            Membre depuis le <?= date('d-m-Y', strtotime($memberProfil['date_inscription'])) ?>
             <br><br>
-            Rôle : <?= $user['account_role'] == 'admin' ? 'Administrateur' : 'Utilisateur' ?>
+            Rôle : <?= $memberProfil['account_role'] == 'admin' ? 'Administrateur' : 'Utilisateur' ?>
         </div>
         <div class="col-12 mt-30">
             <hr>
@@ -55,7 +55,7 @@
                         <div class="col-12 mt-20">
                             <div id="followedShows" class="row">
                                 <?php
-                                $shows = getMemberFollowedShow($user['pseudo']);
+                                $shows = getMemberFollowedShow($memberProfil['pseudo']);
                                 foreach ($shows as $show) { ?>
                                     <div id="<?= $show['name_show'] ?>" class="col-6 col-sm-3 col-md-4 col-lg-2 mt-20">
                                         <a href="<?= '/show?show=' . $show['id_show'] ?>" target="_blank">
@@ -100,7 +100,81 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="list" role="tabpanel" aria-labelledby="list-tab">
-                    listes
+                    <div class="row mt-20">
+                        <div class="col-12">
+                            <h5 class="h4">Listes de <?= ucfirst($memberProfil['pseudo']) ?> :</h5>
+                            <table class="table table-striped table-dark align-self-center mt-20">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Nom</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Visibilité</th>
+                                    <th scope="col">Options</th>
+                                </tr>
+                                </thead>
+                                <tbody id="lists">
+                                <?php foreach (getMemberLists($memberProfil['email']) as $list) { ?>
+                                <tr id="list<?= $list['id_list'] ?>">
+                                    <th scope="row"><a
+                                                href="<?= $site_url . '/profil/profilList?list=' . $list['id_list'] ?>"><?= $list['name_list'] ?></a>
+                                    </th>
+                                    <td><?= substr($list['description_list'], 0, 20) . (strlen($list['description_list']) > 20 ? '...' : '') ?></td>
+                                    <td><?= $list['visibility_list'] == 'public' ? 'publique' : 'privée' ?></td>
+                                    <td>
+                                    <?php
+                                    if (isset($_SESSION['email'])) {
+                                        $user = getMember($_SESSION['email']);
+                                        if ($user['email'] === $memberProfil['email'] || $user['account_status'] == 'admin') {
+                                            ?>
+                                            <button onclick="removeList(<?= $list['id_list'] ?>)"
+                                                    class="btn btn-warning"><i
+                                                        class="fas fa-trash"></i>
+                                            </button>
+                                            </td>
+                                            </tr>
+                                        <?php }
+                                    }
+                                } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <?php if (isset($_SESSION['email'])) {
+                            if ($user['email'] === $memberProfil['email'] || $user['account_status'] == 'admin') {
+                                ?>
+                                <div id="newList" class="col-12 align-self-center mt-20">
+                                    <h5 class="h4">Créer une liste</h5>
+                                    <div class="row align-items-end">
+                                        <div class="col-sm-3">
+                                            <label for="nameListNew">Nom de la liste</label>
+                                            <input type="text" class="form-control" id="nameListNew"
+                                                   placeholder="Nom">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label for="descriptionListNew">Description de la
+                                                liste</label>
+                                            <input type="text" class="form-control"
+                                                   id="descriptionListNew"
+                                                   placeholder="Description">
+
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label for="visibilityNewList">Visibilité</label>
+                                            <select class="form-control" id="visibilityNewList">
+                                                <option value="public">Publique</option>
+                                                <option value="private">Privée</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <button onclick="addList(<?= $list['id_list'] ?>)"
+                                                    class="btn btn-primary">
+                                                Ajouter
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php }
+                        } ?>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab">
                     activités
