@@ -280,8 +280,8 @@ $show = getTVShow($idShow);
                 <?php } ?>
             </div>
         </div>
-        <div class="col-lg-3 col-xl-2">
-            <div class="card">
+        <div class="col-lg-3">
+            <div class="card mb-20">
                 <div class="card-header">
                     <h5 class="card-title">Information</h5>
                 </div>

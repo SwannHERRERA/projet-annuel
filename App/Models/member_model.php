@@ -1,4 +1,5 @@
 <?php
+!defined(BASEPATH) or exit();
 require_once BASEPATH . DIRECTORY_SEPARATOR . "Core" . DIRECTORY_SEPARATOR . "My_model.php";
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -75,7 +76,6 @@ class Member_model extends My_model
 
         try {
             //Server settings
-            $mail->SMTPDebug = 2;
             $mail->isSMTP();
             $mail->CharSet = 'UTF-8';
             $mail->Host = 'ssl0.ovh.net';

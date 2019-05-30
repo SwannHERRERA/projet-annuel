@@ -15,4 +15,32 @@
       box-shadow: 0 0 0 0.3rem rgba(250, 219, 20, 0.5);
     }
   }
+  .color-picker {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    margin: 0 10px;
+    display: inline-block;
+    &#green {
+      background: green;
+    }
+    &#yellow {
+      background: yellow;
+    }
+    &#blue {
+      background: blue;
+    }
+    &#red {
+      background: red;
+    }
+    &#orange {
+      background: orange;
+    }
+    &#black {
+      background: black;
+    }
+    &#white {
+      background: white;
+    }
+  }
 }

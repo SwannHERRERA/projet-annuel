@@ -1,5 +1,5 @@
 <div class="col-md-9 col-lg-10 align-self">
-    
+
     <script src="<?= $site_url . "/js/canvas.js" ?>" defer></script>
 
     <?php if (isset($_SESSION['update_param'])): ?>
@@ -27,7 +27,7 @@
                 <div id="uploading-text" style="display:none;">Téléchargement en cours...</div>
                 <input type="file" name="image" id="image-selecter" accept="image/*">
                 <br><br>
-                <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#canvas">
+                <button type="button" class="btn d-none d-md-block btn-info btn-block" data-toggle="modal" data-target="#canvas">
                     Dessiner ma photo de profil !
                 </button>
 
@@ -104,69 +104,20 @@
                             <canvas width="400" id="can" height="400" style="background-color: #ffffff; border:2px solid;"></canvas>
                         </div>
                     </div>
-                    <b>Choisissez une couleur :</b>
-                    <div class="row">
-                        <div class="col-3" style="text-align: right">
-                            Vert :
-                        </div>
-                        <div class="col-3">
-                            <div style="cursor: pointer;width:10px;height:10px;display: inline-block;background:green;" id="green" onclick="color(this)"></div>
-                        </div>
-                        <div class="col-3" style="text-align: right">
-                            Jaune :
-                        </div>
-                        <div class="col-3">
-                            <div style="cursor: pointer;width:10px;height:10px;display: inline-block;background:yellow;" id="yellow" onclick="color(this)"></div>
-                        </div>
+                        <div id="green" class="color-picker" onclick="color(this)"></div>
+                        <div id="yellow" class="color-picker" onclick="color(this)"></div>
+                        <div id="blue" class="color-picker" onclick="color(this)"></div>
+                        <div id="red" class="color-picker" onclick="color(this)"></div>
+                        <div id="orange" class="color-picker" onclick="color(this)"></div>
+                        <div id="black" class="color-picker" onclick="color(this)"></div>
+                        <div id="white" class="color-picker" onclick="color(this)"></div>
                     </div>
-                    <div class="row">
-                        <div class="col" style="text-align: right">
-                            Bleu :
-                        </div>
-                        <div class="col">
-                            <div style="cursor: pointer;width:10px;height:10px;display: inline-block;background:blue;" id="blue" onclick="color(this)"></div>
-                        </div>
-                        <div class="col" style="text-align: right">
-                            Rouge :
-                        </div>
-                        <div class="col">
-                            <div style="cursor: pointer;width:10px;height:10px;display: inline-block;background:red;" id="red" onclick="color(this)"></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col" style="text-align: right">
-                            Orange :
-                        </div>
-                        <div class="col">
-                            <div style="cursor: pointer;width:10px;height:10px;display: inline-block;background:orange;" id="orange" onclick="color(this)"></div>
-                        </div>
-                        <div class="col" style="text-align: right">
-                            Noir :
-                        </div>
-                        <div class="col">
-                            <div style="cursor: pointer;width:10px;height:10px;display: inline-block;background:black;" id="black" onclick="color(this)"></div>
-                        </div>
-                    </div>
-                    <div class="row" style="text-align: center;">
-                        <div class="col-3">
-                            <div>Gomme :</div>
-                        </div>
-                        <div class="col-3">
-                            <div style="cursor: pointer;width:15px;height:15px;display: inline-block;background:white;border:2px solid;" id="white" onclick="color(this)"></div>
-                        </div>
-                        <div class="col-6">
-                           <input type="button" value="Tout effacer" id="clr" size="23" onclick="erase()">
-                        </div>
-
-                    </div>
-                    <img id="canvasimg" style="position:absolute;top:10%;left:52%;background-color: white" style="display:none;">
-
-
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btn" onclick="save()">Sauvegarder</button>
-            </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <input type="button" class="btn btn-danger" value="Tout effacer" id="clr" size="23" onclick="erase()">
+                    <button type="button" class="btn btn-primary" id="btn" onclick="save()">Sauvegarder</button>
+                </div>
+        </div>
         </div>
     </div>
 </div>
