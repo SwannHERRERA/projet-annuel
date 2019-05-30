@@ -58,7 +58,8 @@ class Member_model extends My_model
                     ':date_inscription' => date("Y-m-d"),
                     ':verified_email' => $lien
                 ]);
-                $this->sendMail();
+
+                $this->sendMail($lien);
 
                 header("Location: /member/register/#valid_email");
             }
@@ -68,7 +69,7 @@ class Member_model extends My_model
     /**
     *Fonction d'envoie d'email
     */
-    public function sendMail()
+    public function sendMail($lien)
     {
         require_once BASEPATH . DIRECTORY_SEPARATOR . "vendor/autoload.php";
 
