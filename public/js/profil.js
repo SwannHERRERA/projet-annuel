@@ -1,77 +1,64 @@
-function getMemberFollowedShow(pseudo) {
+function getMemberFollowedShow() {
     const element = document.getElementById("followedShows");
-    const request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
-        if (request.readyState === 4) {
-            if (request.status === 200) {
-                element.innerHTML = request.responseText;
-            }
-        }
-    };
-    request.open('GET', '/profil/getMemberFollowedShow?pseudo=' + pseudo);
-    request.send();
+    const cards = element.getElementsByClassName("col-6 col-sm-3 col-md-4 col-lg-2 mt-20");
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].style.display = "";
+    }
 }
 
-function getMemberWatchingShow(pseudo) {
+function getMemberWatchingShow() {
     const element = document.getElementById("followedShows");
-    const request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
-        if (request.readyState === 4) {
-            if (request.status === 200) {
-                element.innerHTML = request.responseText;
-            }
+    const cards = element.getElementsByClassName("col-6 col-sm-3 col-md-4 col-lg-2 mt-20");
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].getElementsByTagName("h6")[0].innerHTML.indexOf("en cours") > -1) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
         }
-    };
-    request.open('GET', '/profil/getMemberWatchingShow?pseudo=' + pseudo);
-    request.send();
+    }
 }
 
-function getMemberCompletedShow(pseudo) {
+function getMemberCompletedShow() {
     const element = document.getElementById("followedShows");
-    const request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
-        if (request.readyState === 4) {
-            if (request.status === 200) {
-                element.innerHTML = request.responseText;
-            }
+    const cards = element.getElementsByClassName("col-6 col-sm-3 col-md-4 col-lg-2 mt-20");
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].getElementsByTagName("h6")[0].innerHTML.indexOf("terminée") > -1) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
         }
-    };
-    request.open('GET', '/profil/getMemberCompletedShow?pseudo=' + pseudo);
-    request.send();
+    }
 }
 
-function getMemberPlanToWatchShow(pseudo) {
+function getMemberPlanToWatchShow() {
     const element = document.getElementById("followedShows");
-    const request = new XMLHttpRequest();
-    request.onreadystatechange = function () {
-        if (request.readyState === 4) {
-            if (request.status === 200) {
-                element.innerHTML = request.responseText;
-            }
+    const cards = element.getElementsByClassName("col-6 col-sm-3 col-md-4 col-lg-2 mt-20");
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].getElementsByTagName("h6")[0].innerHTML.indexOf("à voir") > -1) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
         }
-    };
-    request.open('GET', '/profil/getMemberPlanToWatchShow?pseudo=' + pseudo);
-    request.send();
+    }
 }
 
-function filterFollowing(pseudo) {
+function filterFollowing() {
     const choice = document.getElementById("selectFollowedShows").value;
-    console.log(choice);
     switch (choice) {
         case "all":
-            getMemberFollowedShow(pseudo);
+            getMemberFollowedShow();
             break;
         case "watching":
-            getMemberWatchingShow(pseudo);
+            getMemberWatchingShow();
             break;
         case "completed":
-            getMemberCompletedShow(pseudo);
+            getMemberCompletedShow();
             break;
         case "plan":
-            getMemberPlanToWatchShow(pseudo);
+            getMemberPlanToWatchShow();
             break;
         default:
-            getMemberFollowedShow(pseudo);
+            getMemberFollowedShow();
             break;
     }
 }
