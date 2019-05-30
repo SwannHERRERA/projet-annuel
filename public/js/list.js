@@ -11,3 +11,16 @@ function removeShowList(idShow, idList) {
     request.open('GET', '/show/removeShowList?list=' + idList + "&show=" + idShow);
     request.send();
 }
+
+function searchShow() {
+    const input = document.getElementById("searchShow").value.toUpperCase();
+    console.log(input);
+    const list = document.getElementById("list").getElementsByTagName("tr");
+    for (let i = 0; i < list.length; i++) {
+        if (list[i].getElementsByTagName("span")[0].innerHTML.toUpperCase().indexOf(input) > -1) {
+            list[i].style.display = "";
+        } else {
+            list[i].style.display = "none";
+        }
+    }
+}

@@ -54,6 +54,12 @@
         <div class="col-12 mt-20">
             <hr>
             <h5>Contenu :</h5>
+            <div class="row">
+                <div class="col-md-2">
+                    <label class="mt-20" for="searchShow">Rechercher</label>
+                    <input type="text" class="form-control" id="searchShow" onkeyup="searchShow()">
+                </div>
+            </div>
             <table class="table table-striped table-dark align-self-center mt-20">
                 <thead>
                 <tr>
@@ -72,7 +78,7 @@
                             <img src="<?= $show['image_show'] ?>" class="img-thumbnail" alt="image show"
                                  width="30%">
                             <br>
-                            <?= $show['name_show'] ?>
+                            <span><?= $show['name_show'] ?></span>
                         </a></th>
                     <td class="align-middle"><?= $show['production_status'] ?></td>
                     <td class="align-middle"><?= date('d-m-Y', strtotime($show['first_aired_show'])) ?></td>
