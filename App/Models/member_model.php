@@ -81,7 +81,7 @@ class Member_model extends My_model
             $mail->Host = 'ssl0.ovh.net';
             $mail->SMTPAuth = true;
             $mail->Username = 'contact@flixadvisor.fr';
-            $mail->Password = '42A2}-7Bq*tQNir';
+            $mail->Password = '73LgxyaKJE5hgsS';
             $mail->SMTPSecure = 'tls';
             $mail->Port = 587;
 
