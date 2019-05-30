@@ -16,10 +16,10 @@ class Profil extends Controller
     public function index()
     {
         if (isset($_GET['user'])) {
-            $user = getMemberByPseudo($_GET['user']);
-            if ($user) {
+            $memberProfil = getMemberByPseudo($_GET['user']);
+            if ($memberProfil) {
                 require self::VIEW_PATH . 'layout/header.php';
-                require self::VIEW_PATH . 'page/profil.php';
+                require self::VIEW_PATH . 'profil/profil.php';
                 require self::VIEW_PATH . 'layout/footer.php';
             } else
                 header('Location: /');
@@ -27,183 +27,48 @@ class Profil extends Controller
             header('Location: /');
     }
 
-    public function getMemberFollowedShow()
+    public function profilList()
     {
-        if (isset($_GET['pseudo'])) {
-            $shows = getMemberFollowedShow($_GET['pseudo']);
-            foreach ($shows as $show) { ?>
-                <div id="<?= $show['name_show'] ?>" class="col-6 col-sm-3 col-md-4 col-lg-2 mt-20">
-                    <a href="<?='/show?show=' . $show['id_show'] ?>" target="_blank">
-                        <div class="white-card">
-                            <img class="card-img-top" src="<?= $show['image_show'] ?>" alt="<?= $show['name_show'] ?>">
-                            <div class="card-body">
-                                <h5 class="text-dark card-title text-center"><?= $show['name_show'] ?></h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Avancement
-                                    : <?php switch ($show['status_followed_show']) {
-                                        case 'en cours':
-                                            echo "en cours";
-                                            break;
-                                        case 'termine':
-                                            echo 'terminée';
-                                            break;
-                                        case 'a voir':
-                                            echo 'à voir';
-                                            break;
-                                        default:
-                                            echo 'inconnu';
-                                            break;
-                                    }
-                                    $nbepisodes = getMemberNumberWatchedEpisodesShow(getMemberByPseudo($_GET['pseudo'])['email'], $show['id_show']);
-                                    if ($nbepisodes > 0) { ?>
-                                        <br>Épisodes regardés : <?= $nbepisodes ?>
-                                        <?php
-                                    }
-                                    if ($show['mark_followed_show'] != '') {
-                                        ?><br><i style="color: orange"
-                                                 class="fas fa-star"></i><?= $show['mark_followed_show'];
-                                    } ?></h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <?php
-            }
+        if (isset($_GET['list'])) {
+            $list = getList($_GET['list']);
+            $shows = getListContent($_GET['list']);
+            if ($list) {
+                require self::VIEW_PATH . 'layout/header.php';
+                require self::VIEW_PATH . 'profil/profil_list.php';
+                require self::VIEW_PATH . 'layout/footer.php';
+            } else
+                header('Location: /');
         } else
-            echo 'Mauvaise requete';
+            header('Location: /');
     }
 
-    public function getMemberWatchingShow()
+    public function createList()
     {
-        if (isset($_GET['pseudo'])) {
-            $shows = getMemberWatchingShow($_GET['pseudo']);
-            foreach ($shows as $show) { ?>
-                <div id="<?= $show['name_show'] ?>" class="col-6 col-sm-3 col-md-4 col-lg-2 mt-20">
-                    <a href="<?='/show?show=' . $show['id_show'] ?>" target="_blank">
-                        <div class="white-card">
-                            <img class="card-img-top" src="<?= $show['image_show'] ?>" alt="<?= $show['name_show'] ?>">
-                            <div class="card-body">
-                                <h5 class="text-dark card-title text-center"><?= $show['name_show'] ?></h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Avancement
-                                    : <?php switch ($show['status_followed_show']) {
-                                        case 'en cours':
-                                            echo "en cours";
-                                            break;
-                                        case 'termine':
-                                            echo 'terminée';
-                                            break;
-                                        case 'a voir':
-                                            echo 'à voir';
-                                            break;
-                                        default:
-                                            echo 'inconnu';
-                                            break;
-                                    }
-                                    $nbepisodes = getMemberNumberWatchedEpisodesShow(getMemberByPseudo($_GET['pseudo'])['email'], $show['id_show']);
-                                    if ($nbepisodes > 0) { ?>
-                                        <br>Épisodes regardés : <?= $nbepisodes ?>
-                                        <?php
-                                    }
-                                    if ($show['mark_followed_show'] != '') {
-                                        ?><br><i style="color: orange"
-                                                 class="fas fa-star"></i><?= $show['mark_followed_show'];
-                                    } ?></h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <?php
-            }
-        } else
-            echo 'Mauvaise requete';
+        if (!isset($_POST['name']) || !isset($_POST['description']) || !isset($_POST['visibility']) || !$this->member_model->isConnected()) {
+            header('Location: /');
+        }
+        $idList = addMemberList($_SESSION['email'], $_POST['name'], $_POST['visibility'], $_POST['description']);
+        ?>
+        <tr id="list<?= $idList ?>">
+            <th scope="row"><?= $_POST['name'] ?></th>
+            <td><?= substr($_POST['description'], 0, 20) . (strlen($_POST['description']) > 20 ? '...' : '') ?></td>
+            <td><?= $_POST['visibility'] == 'public' ? 'publique' : 'privée' ?></td>
+            <td>
+                <button onclick="removeList(<?= $idList ?>)"
+                        class="btn btn-warning"><i
+                            class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>
+        <?php
     }
 
-    public function getMemberCompletedShow()
+    public function updateList()
     {
-        if (isset($_GET['pseudo'])) {
-            $shows = getMemberCompletedShow($_GET['pseudo']);
-            foreach ($shows as $show) { ?>
-                <div id="<?= $show['name_show'] ?>" class="col-6 col-sm-3 col-md-4 col-lg-2 mt-20">
-                    <a href="<?='/show?show=' . $show['id_show'] ?>" target="_blank">
-                        <div class="white-card">
-                            <img class="card-img-top" src="<?= $show['image_show'] ?>" alt="<?= $show['name_show'] ?>">
-                            <div class="card-body">
-                                <h5 class="text-dark card-title text-center"><?= $show['name_show'] ?></h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Avancement
-                                    : <?php switch ($show['status_followed_show']) {
-                                        case 'en cours':
-                                            echo "en cours";
-                                            break;
-                                        case 'termine':
-                                            echo 'terminée';
-                                            break;
-                                        case 'a voir':
-                                            echo 'à voir';
-                                            break;
-                                        default:
-                                            echo 'inconnu';
-                                            break;
-                                    }
-                                    $nbepisodes = getMemberNumberWatchedEpisodesShow(getMemberByPseudo($_GET['pseudo'])['email'], $show['id_show']);
-                                    if ($nbepisodes > 0) { ?>
-                                        <br>Épisodes regardés : <?= $nbepisodes ?>
-                                        <?php
-                                    }
-                                    if ($show['mark_followed_show'] != '') {
-                                        ?><br><i style="color: orange"
-                                                 class="fas fa-star"></i><?= $show['mark_followed_show'];
-                                    } ?></h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <?php
-            }
+        if (isset($_SESSION['email']) && isset($_POST['idList']) && isset($_POST['nameList']) && isset($_POST['description']) && isset($_POST['visibilityList'])) {
+            updateMemberList($_POST['idList'], $_POST['nameList'], $_POST['visibilityList'], $_POST['description']);
+            header('Location: /profil/profilList?list=' . $_POST['idList']);
         } else
-            echo 'Mauvaise requete';
-    }
-
-    public function getMemberPlanToWatchShow()
-    {
-        if (isset($_GET['pseudo'])) {
-            $shows = getMemberPlanToWatchShow($_GET['pseudo']);
-            foreach ($shows as $show) { ?>
-                <div id="<?= $show['name_show'] ?>" class="col-6 col-sm-3 col-md-4 col-lg-2 mt-20">
-                    <a href="<?='/show?show=' . $show['id_show'] ?>" target="_blank">
-                        <div class="white-card">
-                            <img class="card-img-top" src="<?= $show['image_show'] ?>" alt="<?= $show['name_show'] ?>">
-                            <div class="card-body">
-                                <h5 class="text-dark card-title text-center"><?= $show['name_show'] ?></h5>
-                                <h6 class="card-subtitle mb-2 text-muted">Avancement
-                                    : <?php switch ($show['status_followed_show']) {
-                                        case 'en cours':
-                                            echo "en cours";
-                                            break;
-                                        case 'termine':
-                                            echo 'terminée';
-                                            break;
-                                        case 'a voir':
-                                            echo 'à voir';
-                                            break;
-                                        default:
-                                            echo 'inconnu';
-                                            break;
-                                    }
-                                    $nbepisodes = getMemberNumberWatchedEpisodesShow(getMemberByPseudo($_GET['pseudo'])['email'], $show['id_show']);
-                                    if ($nbepisodes > 0) { ?>
-                                        <br>Épisodes regardés : <?= $nbepisodes ?>
-                                        <?php
-                                    }
-                                    if ($show['mark_followed_show'] != '') {
-                                        ?><br><i style="color: orange"
-                                                 class="fas fa-star"></i><?= $show['mark_followed_show'];
-                                    } ?></h6>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <?php
-            }
-        } else
-            echo 'Mauvaise requete';
+            header('Location: /');
     }
 }

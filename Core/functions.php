@@ -1396,6 +1396,7 @@ function getMemberWatchingShow($pseudo)
     }
     return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
 }
+
 function getMemberCompletedShow($pseudo)
 {
     $pdo = connectDB();
@@ -1437,6 +1438,7 @@ function getMemberNumberWatchedEpisodesShow($email, $show)
     }
     return $queryPrepared->fetch()[0];
 }
+
 function getMemberNumberWatchedEpisodes($email)
 {
     $pdo = connectDB();
@@ -1448,4 +1450,32 @@ function getMemberNumberWatchedEpisodes($email)
         die("Une erreur est survenue lors de la recuperation du nombre d'episodes regardés.");
     }
     return $queryPrepared->fetch()[0];
+}
+
+function getList($idList)
+{
+    $pdo = connectDB();
+    $query = "SELECT * FROM flixadvisor.LIST where id_list = :list";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":list" => $idList]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation de la liste");
+    }
+    return $queryPrepared->fetch(PDO::FETCH_ASSOC);
+
+}
+
+function getListContent($idList)
+{
+    $pdo = connectDB();
+    $query = "SELECT id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated FROM flixadvisor.TV_SHOW,LIST,IN_LIST where id_list = :list and list = id_list and tv_show = id_show group by id_show order by name_show asc";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":list" => $idList]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation du contenu de la liste");
+    }
+    return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
+
 }
