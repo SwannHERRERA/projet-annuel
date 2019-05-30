@@ -280,34 +280,25 @@ $show = getTVShow($idShow);
                 <?php } ?>
             </div>
         </div>
-        <div class="col-lg-3 col-xl-2 pt-10 pb-10 border">
-            <div class="row pl-10 pb-10">
-                Nombre d'épisodes : <?= getTVNumberEpisodes($idShow) ?>
-            </div>
-            <div class="row pl-10 pb-10">
-                Nombre de saisons : <?= getTVNumberSeasons($idShow) ?>
-            </div>
-            <div class="row pl-10 pb-10">
-                Durée moyenne : <?= $show['runtime_show'] . ' min' ?>
-            </div>
-            <div class="row pl-10 pb-10">
-                Status : <?= $show['production_status'] ?>
-            </div>
-            <div class="row pl-10 pb-10">
-                Date de diffusion : <?php
-                if ($show['production_status'] == 'Continuing')
-                    echo date('d-m-Y', strtotime($show['first_aired_show']));
-                else
-                    echo 'Du ' . date('d-m-Y', strtotime($show['first_aired_show'])) . ' au ' . date('d-m-Y', strtotime(getShowLastAiringDate($idShow)));
-                ?>
-            </div>
-            <div class="row pl-10 pb-10">
-                Producteurs
-                : <?php foreach (getTVShowNetworks($idShow) as $network) echo $network['name_network'] . ' '; ?>
-            </div>
-            <div class="row pl-10 pb-10">
-                Genres
-                : <?php foreach (getShowCategories($idShow) as $categorie) echo $categorie['name_category'] . ' '; ?>
+        <div class="col-lg-3 col-xl-2">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Information</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Nombre d'épisodes : <?= getTVNumberEpisodes($idShow) ?></li>
+                    <li class="list-group-item">Nombre de saisons : <?= getTVNumberSeasons($idShow) ?></li>
+                    <li class="list-group-item">Durée moyenne : <?= $show['runtime_show'] . ' min' ?></li>
+                    <li class="list-group-item">Status : <?= $show['production_status'] ?></li>
+                    <li class="list-group-item">Date de diffusion : <?php
+                        if ($show['production_status'] == 'Continuing')
+                            echo date('d-m-Y', strtotime($show['first_aired_show']));
+                        else
+                            echo 'Du ' . date('d-m-Y', strtotime($show['first_aired_show'])) . ' au ' . date('d-m-Y', strtotime(getShowLastAiringDate($idShow)));
+                    ?></li>
+                    <li class="list-group-item">Producteurs: <?php foreach (getTVShowNetworks($idShow) as $network) echo $network['name_network'] . ' '; ?></li>
+                    <li class="list-group-item">Genres: <?php foreach (getShowCategories($idShow) as $categorie) echo $categorie['name_category'] . ' '; ?></li>
+                </ul>
             </div>
         </div>
 
@@ -419,12 +410,14 @@ $show = getTVShow($idShow);
                     <div class="row">
                         <?php foreach (getTVShowActors($idShow) as $actor) {
                             ?>
-                            <div class="card col-xl-4 col-sm-6 mt-10">
-                                <img class="card-img-top" alt="Actor photo"
-                                     src=<?= '"' . $actor['photo_actor'] . '"'; ?>>
-                                <div class="card-body">
-                                    <h5 class="card-title"><?= $actor['name_actor']; ?></h5>
-                                    <p>Role : <?= $actor['role_actor']; ?></p>
+                            <div class="col-xl-4 col-sm-6">
+                                <div class="card  mt-10">
+                                    <img class="card-img-top" alt="Actor photo"
+                                        src=<?= '"' . $actor['photo_actor'] . '"'; ?>>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><?= $actor['name_actor']; ?></h5>
+                                        <div>Role : <?= $actor['role_actor']; ?></div>
+                                    </div>
                                 </div>
                             </div>
                         <?php } ?>

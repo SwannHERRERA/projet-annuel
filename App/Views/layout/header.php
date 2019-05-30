@@ -51,15 +51,11 @@
             <?php endif;?>
             <ul class="mb-20 ">
                 <li><a href="<?= $site_url . '/recherche_avancee' ?>" class="link"><i class="fas fa-search"></i>&nbsp;Recherche avancée</a>
-                <li><a href="#" class="link"><i class="fas fa-flask"></i>&nbsp;Surprenez-moi !</a>
-                <li><a href="#" class="link"><i class="fas fa-plus"></i>&nbsp;Proposer une série</a>
                 <li><a href="#" class="link"><i class="fas fa-address-book"></i>&nbsp;Contact</a>
             </ul>
             <?php if ($this->member_model->isConnected()):?>
                 <p class="text-center">
-                    <a href="#" class="btn btn-secondary"><i class="fas fa-cog"></i></a>
-                    <a href="#" class="btn btn-secondary"><i class="fas fa-question"></i></a>
-                    <a href="#" class="btn btn-secondary"><i class="fas fa-tv"></i></a>
+                    <a href="<?= $site_url . '/member/parameters' ?>" class="btn btn-secondary"><i class="fas fa-cog"></i></a>
                 </p>
             <?php endif;?>
                     <div class="switch">

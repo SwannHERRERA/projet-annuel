@@ -29,10 +29,12 @@ $light-dark: #93959a;
 $aside: #111035;
 $lite: #d1f3f0;
 $lite_blue: #afd7e8;
+$lite_blue2: #394e80;
 
 /*---- bootstrap assignment ----*/
-$primary: $blue;
+$primary: $yellow;
 $secondary: $cyan;
+$tertiary: $lite_blue2;
 $success: $green;
 $info: $lite_blue;
 $warning: $orange;
@@ -46,6 +48,7 @@ $theme-colors: map-merge(
   (
     "primary": $primary,
     "secondary": $secondary,
+    "tertiary": $tertiary,
     "success": $success,
     "info": $info,
     "warning": $warning,
@@ -149,6 +152,7 @@ $modal-content-bg: $myDark;
 $modal-content-color: $white;
 $close-color: $white;
 $close-text-shadow: 0 1px 0 $myDark;
-$card-bg: $light-dark;
+$card-bg: $tertiary;
 $card-color: $white;
-$list-group-bg: $light-dark;
+$list-group-bg: $tertiary;
+$nav-tabs-link-active-color: $white;

@@ -52,6 +52,14 @@ h2,
   }
 }
 
+h3.card-title {
+  text-transform: uppercase;
+  color: $secondary;
+  font-size: 16px;
+  line-height: 18px;
+  margin-top: 8px;
+}
+
 h5,
 .h5 {
   color: $white;

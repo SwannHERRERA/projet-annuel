@@ -6,7 +6,7 @@
             <div class="white-card">
                 <a href="<?= $site_url . '/show?show=' . $most_followed['id_show'] ?>">
                     <img class="card-img-top" src="<?= $most_followed['image_show'] ?>" alt="slide <?= $most_followed['name_show'] ?>">
-                    <p class="text-center"><?= $most_followed['name_show'] ?></p>
+                    <h3 class="text-center card-title"><?= $most_followed['name_show'] ?></h3>
                 </a>
             </div>
         <?php endforeach; ?>
@@ -17,7 +17,7 @@
             <div class="white-card">
                 <a href="<?= $site_url . '/show?show=' . $best_show['id_show'] ?>">
                     <img class="card-img-top" src="<?= $best_show['image_show'] ?>" alt="slide <?= $best_show['name_show'] ?>">
-                    <p class="text-center"><?= $best_show['name_show'] ?></p>
+                    <h3 class="text-center card-title"><?= $best_show['name_show'] ?></h3>
                 </a>
             </div>
         <?php endforeach; ?>
@@ -28,7 +28,7 @@
             <div class="white-card">
                 <a href="<?= $site_url . '/show?show=' . $last_updated['id_show'] ?>">
                     <img class="card-img-top" src="<?= $last_updated['image_show'] ?>" alt="image <?= $last_updated['name_show'] ?>">
-                    <p class="text-center"><?= $last_updated['name_show'] ?></p>
+                    <h3 class="text-center card-title"><?= $last_updated['name_show'] ?></h3>
                 </a>
             </div>
         <?php endforeach; ?>
