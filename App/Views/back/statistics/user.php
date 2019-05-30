@@ -32,6 +32,54 @@
         </tr>
     </tbody>
 </table>
-<pre>
-<?= var_dump($country) ?>
-</pre>
+<h3 class="mb-30">Pays</h3>
+<table class="table table-striped table-bordered text-center mb-20">
+    <thead>
+        <tr>
+            <?php foreach ($countrys as $country) : ?>
+                <th><?= $country['country']?></th>
+            <?php endforeach ?>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <?php foreach ($countrys as $country) : ?>
+                <td><?= $country['nombres']?></td>
+            <?php endforeach ?>
+        </tr>
+    </tbody>
+</table>
+<h3 class="mb-30">Villes</h3>
+<table class="table table-striped table-bordered text-center mb-20">
+    <thead>
+        <tr>
+            <?php foreach ($citys as $city) : ?>
+                <th><?= $city['city']?></th>
+            <?php endforeach ?>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <?php foreach ($citys as $city) : ?>
+                <td><?= $city['nombres']?></td>
+            <?php endforeach ?>
+        </tr>
+    </tbody>
+</table>
+<h3 class="mb-30">Age</h3>
+<table class="table table-striped table-bordered text-center mb-20">
+    <thead>
+        <tr>
+            <th>email</th>
+            <th>age</th>
+        </tr>
+    </thead>
+    <tbody>
+            <?php foreach ($years_of_users as $years_of_user) : ?>
+                <tr>
+                    <td><?= $years_of_user['email']?></td>
+                    <td><?= $years_of_user['AGE']?></td>
+                </tr>
+            <?php endforeach ?>
+    </tbody>
+</table>

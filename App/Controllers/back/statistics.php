@@ -24,9 +24,9 @@ class Statistics extends Controller
         $nb_user = $this->member_model->get_columns(['count(*)']);
         $nb_user_connected = $this->member_model->get_nb_user_connected();
         $gender = $this->member_model->getGenderStats();
-        $country = $this->member_model->getMembersCountry();
-        $city = $this->member_model->getMembersCity();
-        $years_of_user = $this->member_model->getMembersAge();
+        $countrys = $this->member_model->getMembersCountry();
+        $citys = $this->member_model->getMembersCity();
+        $years_of_users = $this->member_model->getMembersAge();
 
         require self::VIEW_PATH . 'back/layout/header.php';
         require self::VIEW_PATH . 'back/statistics/user.php';
@@ -45,18 +45,13 @@ class Statistics extends Controller
         $page_title = 'Statistiques';
         $sous_categories = ['Statistiques utilisateurs' => 'user', 'Statistiques des séries' => 'series'];
         $nb_series = $tv_show_model->get_columns(['count(*)']);
-        $nb_actor = $actor_model->get_columns(['count(*)']);
+        $nb_actors = $actor_model->get_columns(['count(*)']);
         $nb_studios = $network_model->get_columns(['count(*)']);
-        $nb_realisator = "";
         $status_series = $category_model->getCategoriesStats();
-        $TVYearStatusStat = $tv_show_model->getTVYearStatusStat();
+        $TVYearStatusStats = $tv_show_model->getTVYearStatusStat();
 
 
         require self::VIEW_PATH . 'back/layout/header.php';
-        echo '<pre>';
-        var_dump($TVYearStatusStat);
-        echo '</pre>';
-
         require self::VIEW_PATH . 'back/statistics/series.php';
         require self::VIEW_PATH . 'back/layout/footer.php';
     }
