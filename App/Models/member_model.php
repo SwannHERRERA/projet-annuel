@@ -57,7 +57,7 @@ class Member_model extends My_model
                     ':date_inscription' => date("Y-m-d"),
                     ':verified_email' => $lien
                 ]);
-                sendMail();
+                $this->sendMail();
 
                 header("Location: /member/register/#valid_email");
             }
