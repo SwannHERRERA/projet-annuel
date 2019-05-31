@@ -194,9 +194,9 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td><?= isset(array_count_values(array_column($shows, 'status_followed_show'))['a voir']) ?: "0" ?></td>
-                                    <td><?= isset(array_count_values(array_column($shows, 'status_followed_show'))['en cours']) ?: "0" ?></td>
-                                    <td><?= isset(array_count_values(array_column($shows, 'status_followed_show'))['termine']) ?: "0" ?></td>
+                                    <td><?= isset(array_count_values(array_column($shows, 'status_followed_show'))['a voir']) ? array_count_values(array_column($shows, 'status_followed_show'))['a voir'] : "0" ?></td>
+                                    <td><?= isset(array_count_values(array_column($shows, 'status_followed_show'))['en cours']) ? array_count_values(array_column($shows, 'status_followed_show'))['en cours'] : "0" ?></td>
+                                    <td><?= isset(array_count_values(array_column($shows, 'status_followed_show'))['termine']) ? array_count_values(array_column($shows, 'status_followed_show'))['termine'] : "0" ?></td>
                                     <td><?= sizeof($shows) ?></td>
                                 </tr>
                                 </tbody>

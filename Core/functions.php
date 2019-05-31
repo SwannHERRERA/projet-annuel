@@ -736,7 +736,7 @@ function getCategoryList()
 function getMemberCategoryRate($email)
 {
     $pdo = connectDB();
-    $query = "select count(*) as nb, name_category from FOLLOWED_SHOW, CATEGORY, CATEGORIZED_SHOW where id_category = category and CATEGORIZED_SHOW.tv_show = FOLLOWED_SHOW.tv_show and member = :email group by id_category order by name_category;";
+    $query = "select count(*) as nb, name_category from FOLLOWED_SHOW, CATEGORY, CATEGORIZED_SHOW where id_category = category and CATEGORIZED_SHOW.tv_show = FOLLOWED_SHOW.tv_show and member = :email group by id_category order by nb desc;";
 
     $queryPrepared = $pdo->prepare($query);
     $queryPrepared->execute([":email" => $email]);
