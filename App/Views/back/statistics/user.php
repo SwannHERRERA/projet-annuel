@@ -22,7 +22,7 @@
     <thead>
         <tr>
             <th>Total de membre</th>
-            <th>Membre connecter</th>
+            <th>Membre connectés</th>
         </tr>
     </thead>
     <tbody>

@@ -169,7 +169,7 @@ function changeStatus(show) {
     request.send();
 }
 
-function submitComment(idShow, userPhoto, username) {
+function submitComment(idShow) {
     const comment = document.getElementById("commentWrite");
     if (comment.value.length > 0) {
         const request = new XMLHttpRequest();
@@ -177,11 +177,7 @@ function submitComment(idShow, userPhoto, username) {
             if (request.readyState === 4) {
                 if (request.status === 200) {
                     const comments = document.getElementById("userComments");
-                    let newComment = '<div class="row mb-10"><div class="col-2"><img src="' + userPhoto + '"' +
-                        ' class="img-thumbnail" alt="photo profile"></div><div class="col-8"><div class="card"><div class="card-header">' +
-                        '<strong>' + username + '</strong> <span class="text-muted">commenté le ' + new Date().getDate() + '</span>' +
-                        '</div><div class="card-body">' + comment.value + '</div></div></div></div>';
-                    comments.innerHTML = newComment + comments.innerHTML;
+                    comments.innerHTML = request.responseText + comments.innerHTML;
                 }
             }
         };

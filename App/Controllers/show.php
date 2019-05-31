@@ -110,7 +110,50 @@ class show extends Controller
         if (!isset($_POST['show']) || !isset($_POST['comment']) || !$this->member_model->isConnected()) {
             header('Location: /');
         }
-        addTVShowComments($_POST['show'], $_SESSION['email'], $_POST['comment']);
+        $idComment = addTVShowComments($_POST['show'], $_SESSION['email'], $_POST['comment']);
+        $comment = getComment($idComment);
+        ?>
+        <div id="<?= $comment['id_comment'] ?>" class="row mb-10">
+            <div class="col-2">
+                <div class="row">
+                    <div class="col-12">
+                        <a target="_blank"
+                           href="<?= $site_url . '/profil?user=' . $comment['pseudo'] ?>"><img
+                                    src="<?= $comment['photo'] ?>"
+                                    class="img-thumbnail" alt="photo profile"></a>
+                    </div>
+                    <div class="col-12 mt-5 text-center">
+                        <button class="btn btn-warning" onclick="deleteComment(<?= $comment['id_comment'] ?>)"><i
+                                    class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-header">
+                        <a target="_blank"
+                           href="<?= $site_url . '/profil?user=' . $comment['pseudo'] ?>"><strong><?= $comment['pseudo'] ?></strong></a>
+                        <span class="text-muted">commenté le <?= date('d-m-Y', strtotime($comment['date_comment'])) ?></span>
+                    </div>
+                    <div class="card-body">
+                        <?= $comment['text_comment'] ?>
+                    </div>
+                </div>
+            </div>
+            <div class="col-1 align-self-center">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button onclick="checkLike(<?= $comment['id_comment'] ?>)"
+                                class="btn btn-primary">
+                            <i id="thumb<?= $comment['id_comment'] ?>"
+                               class="far fa-thumbs-up"></i>
+                            <span id="nblikes<?= $comment['id_comment'] ?>">0</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
     }
 
     public function deleteComment()

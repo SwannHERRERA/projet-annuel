@@ -730,6 +730,24 @@ function getCategoryList()
 }
 
 /**
+ * @param $email
+ * @return array[[nb,name_category],...]
+ */
+function getMemberCategoryRate($email)
+{
+    $pdo = connectDB();
+    $query = "select count(*) as nb, name_category from FOLLOWED_SHOW, CATEGORY, CATEGORIZED_SHOW where id_category = category and CATEGORIZED_SHOW.tv_show = FOLLOWED_SHOW.tv_show and member = :email group by id_category order by name_category;";
+
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":email" => $email]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation des categories de l'utilisateur.");
+    }
+    return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
  * Récupère la liste des chaines de diffusions existantes en BDD par ordre aphabétique dans un tableau à 2 dimensions
  * @return array [0 => [id_network, name_network, country_network], 1 => [id_network, name_network, country_network], ...]
  */

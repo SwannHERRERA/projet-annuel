@@ -278,7 +278,7 @@ $show = getTVShow($idShow);
         <div class="col-lg-3">
             <div class="card mb-20">
                 <div class="card-header">
-                    <h5 class="card-title">Information</h5>
+                    <h5 class="card-title">Informations :</h5>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Nombre d'épisodes : <?= getTVNumberEpisodes($idShow) ?></li>
@@ -427,6 +427,7 @@ $show = getTVShow($idShow);
                     <hr>
                     <?php $comments = getTVShowComments($idShow);
                     if ($this->member_model->isConnected()) {
+                        $user = getMember($_SESSION['email']);
                         ?>
                         <div class="col-12">
                             <div class="row">
@@ -436,7 +437,7 @@ $show = getTVShow($idShow);
                                 </div>
                                 <div class="col-2 align-self-center">
                                     <button class="btn btn-success"
-                                            onclick="submitComment(<?= $idShow; ?>,'<?= $memberProfil['photo']; ?>','<?= $memberProfil['pseudo']; ?>')">
+                                            onclick="submitComment(<?= $idShow; ?>)">
                                         Envoyer
                                     </button>
                                 </div>
@@ -454,7 +455,8 @@ $show = getTVShow($idShow);
                                                         src="<?= $comment['photo'] ?>"
                                                         class="img-thumbnail" alt="photo profile"></a>
                                         </div>
-                                        <?php if ($this->member_model->isConnected() && ($comment['pseudo'] == $memberProfil['pseudo'] || $memberProfil['account_role'] == 'admin')) { ?>
+                                        <?php
+                                        if ($this->member_model->isConnected() && ($comment['pseudo'] == $user['pseudo'] || $user['account_role'] == 'admin')) { ?>
                                             <div class="col-12 mt-5 text-center">
                                                 <button class="btn btn-warning" onclick="deleteComment(<?= $comment['id_comment'] ?>)"><i class="fas fa-trash"></i></button>
                                             </div>

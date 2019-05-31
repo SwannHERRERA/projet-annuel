@@ -180,7 +180,53 @@
                     activités
                 </div>
                 <div class="tab-pane fade" id="stats" role="tabpanel" aria-labelledby="stats-tab">
-                    stats
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="h4 mt-20">Mes séries suivies :</h3>
+                            <table class="table table-striped table-bordered text-center mt-20">
+                                <thead>
+                                <tr>
+                                    <th scope="col">A voir</th>
+                                    <th scope="col">En cours</th>
+                                    <th scope="col">Terminés</th>
+                                    <th scope="col">Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><?= array_count_values(array_column($shows, 'status_followed_show'))['a voir'] ?></td>
+                                    <td><?= array_count_values(array_column($shows, 'status_followed_show'))['en cours'] ?></td>
+                                    <td><?= array_count_values(array_column($shows, 'status_followed_show'))['termine'] ?></td>
+                                    <td><?= sizeof($shows) ?></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="h4 mt-20">Mes catégories préférées :</h3>
+                            <table class="table table-striped table-bordered text-center mt-20">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Catégorie</th>
+                                    <th scope="col">Occurence</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <?php
+                                    $categories = getMemberCategoryRate($memberProfil['email']);
+                                    foreach ($categories as $category) {
+                                        echo '<tr>';
+                                        echo '<td>' . $category['name_category'] . '</td>';
+                                        echo '<td>' . $category['nb'] . '</td>';
+                                        echo '</tr>';
+                                    }
+                                    ?>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
