@@ -17754,7 +17754,7 @@ hr {
 }
 
 .menu {
-  background-color: #fadb14;
+  background: linear-gradient(#ff881b, #ffcf1b);
 }
 
 .white-card {
