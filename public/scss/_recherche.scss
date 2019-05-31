@@ -111,3 +111,18 @@
     margin-bottom: 20px;
   }
 }
+
+#result {
+  z-index: $zindex-dropdown;
+  position: absolute;
+  left: 20px;
+  background-color: $blue;
+  ul {
+    margin: 0px;
+    li {
+      border: 1px solid $light-dark;
+      border-top: none;
+      padding: 6px 10px 6px 25px;
+    }
+  }
+}

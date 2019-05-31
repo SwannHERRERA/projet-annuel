@@ -17642,6 +17642,21 @@ footer .btn:hover {
   display: block;
 }
 
+#result {
+  z-index: 1000;
+  position: absolute;
+  left: 20px;
+  background-color: #2f54eb;
+}
+#result ul {
+  margin: 0px;
+}
+#result ul li {
+  border: 1px solid #93959a;
+  border-top: none;
+  padding: 6px 10px 6px 25px;
+}
+
 body {
   font-family: "lato";
   font-weight: 400;
