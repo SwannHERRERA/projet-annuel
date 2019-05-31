@@ -393,7 +393,7 @@ function getTVShowFollowersNumber($idShow)
 function getTVShowComments($idShow)
 {
     $pdo = connectDB();
-    $query = "SELECT id_comment, text_comment, date_comment, is_modified_comment, member, tv_show, photo, pseudo, (SELECT count(*) FROM flixadvisor.LIKED_COMMENT WHERE comment = id_comment) AS nbLikes FROM flixadvisor.COMMENT, flixadvisor.MEMBER WHERE tv_show = :id AND member = email ORDER BY field(nbLikes, 'core'), id_comment DESC";
+    $query = "SELECT id_comment, text_comment, date_comment, is_modified_comment, member, tv_show, photo, pseudo, (SELECT count(*) FROM flixadvisor.LIKED_COMMENT WHERE comment = id_comment) AS nbLikes FROM flixadvisor.COMMENT, flixadvisor.MEMBER WHERE tv_show = :id AND member = email ORDER BY nbLikes DESC, id_comment desc";
     $queryPrepared = $pdo->prepare($query);
     $queryPrepared->execute([":id" => $idShow]);
     if ($queryPrepared->errorCode() != '00000') {
@@ -465,6 +465,7 @@ function addTVShowComments($idShow, $email, $textComment)
         var_dump($queryPrepared->errorInfo());
         die("Une erreur est survenue lors de la recuperation des commentaires de la serie.");
     }
+    return $pdo->lastInsertId();
 }
 
 function removeTVShowComment($idComment)
@@ -616,10 +617,25 @@ function getCommentReplys($idComment)
     $queryPrepared->execute([":id" => $idComment]);
     if ($queryPrepared->errorCode() != '00000') {
         var_dump($queryPrepared->errorInfo());
-        die("Une erreur est survenue lors de la recherche d'image.");
+        die("Une erreur est survenue lors de la recup d'un commentaire.");
     }
 
     return $queryPrepared->fetchAll();
+}
+
+function getComment($idComment)
+{
+    $pdo = connectDB();
+    $query = "SELECT id_comment, text_comment, date_comment, is_modified_comment, member, tv_show, photo, pseudo FROM flixadvisor.COMMENT, flixadvisor.MEMBER WHERE member = email and id_comment = :id";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":id" => $idComment]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recup d'un commentaire.");
+    }
+
+    return $queryPrepared->fetch(PDO::FETCH_ASSOC);
+
 }
 
 /**
