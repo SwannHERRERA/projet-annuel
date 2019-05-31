@@ -75,14 +75,13 @@
                 <?php foreach ($shows as $show) { ?>
                 <tr id="<?= $show['id_show'] ?>">
                     <th scope="row"><a href="<?= '/show?show=' . $show['id_show'] ?>">
-                            <img src="<?= $show['image_show'] ?>" class="img-thumbnail" alt="image show"
-                                 width="30%">
+                            <img src="<?= $show['image_show'] ?>" class="img-thumbnail w-50" alt="image show">
                             <br>
                             <span><?= $show['name_show'] ?></span>
                         </a></th>
                     <td class="align-middle"><?= $show['production_status'] ?></td>
                     <td class="align-middle"><?= date('d-m-Y', strtotime($show['first_aired_show'])) ?></td>
-                    <td class="align-middle"><?= substr($show['summary_show'], 0, 80) . (strlen($show['summary_show']) > 80 ? '...' : '') ?></td>
+                    <td class="align-middle"><?= substr($show['summary_show'], 0, 180) . (strlen($show['summary_show']) > 180 ? '...' : '') ?></td>
                     <td class="align-middle"><?php
                         $genres = getShowCategories($show['id_show']);
                         $str = '';

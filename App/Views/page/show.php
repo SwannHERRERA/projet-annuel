@@ -27,7 +27,7 @@ $show = getTVShow($idShow);
     <div class="row mt-20 ml-20">
         <p class="align-self-baseline h3">
             Date de parution : <?= date('d-m-Y', strtotime($show['first_aired_show'])) ?> -
-            Producteurs : <?php foreach (getTVShowNetworks($idShow) as $network) echo $network['name_network'] . ' '; ?>
+            Diffusé sur : <?php foreach (getTVShowNetworks($idShow) as $network) echo $network['name_network'] . ' '; ?>
             -
             <?= getTVNumberSeasons($idShow) ?> saisons
             <br><br>
@@ -291,7 +291,7 @@ $show = getTVShow($idShow);
                         else
                             echo 'Du ' . date('d-m-Y', strtotime($show['first_aired_show'])) . ' au ' . date('d-m-Y', strtotime(getShowLastAiringDate($idShow)));
                     ?></li>
-                    <li class="list-group-item">Producteurs: <?php foreach (getTVShowNetworks($idShow) as $network) echo $network['name_network'] . ' '; ?></li>
+                    <li class="list-group-item">Diffusé sur : <?php foreach (getTVShowNetworks($idShow) as $network) echo $network['name_network'] . ' '; ?></li>
                     <li class="list-group-item">Genres: <?php foreach (getShowCategories($idShow) as $categorie) echo $categorie['name_category'] . ' '; ?></li>
                 </ul>
             </div>

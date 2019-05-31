@@ -191,17 +191,19 @@ function submitComment(idShow) {
 }
 
 function deleteComment(id) {
-    const element = document.getElementById(id);
-    const request = new XMLHttpRequest();
-    request.open('GET', '/show/deleteComment?comment=' + id);
-    request.onreadystatechange = function () {
-        if (request.readyState === 4) {
-            if (request.status === 200) {
-                element.remove();
+    if (confirm("Voulez vous vraiment supprimer ce commentaire ?")) {
+        const element = document.getElementById(id);
+        const request = new XMLHttpRequest();
+        request.open('GET', '/show/deleteComment?comment=' + id);
+        request.onreadystatechange = function () {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+                    element.remove();
+                }
             }
-        }
-    };
-    request.send();
+        };
+        request.send();
+    }
 }
 
 function checkLike(idComment) {

@@ -1473,6 +1473,19 @@ function getMemberNumberWatchedEpisodesShow($email, $show)
     return $queryPrepared->fetch()[0];
 }
 
+function getMemberTimeWatchedEpisodesShow($email)
+{
+    $pdo = connectDB();
+    $query = "select count(id_episode) as nb, runtime_show from EPISODE, SEASON, TV_SHOW where SEASON.tv_show = TV_SHOW.id_show and EPISODE.season = SEASON.id_season and TV_SHOW.id_show in (select tv_show from FOLLOWED_SHOW where member = :email) group by id_show";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":email" => $email]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation du temps d'episodes regardés.");
+    }
+    return $queryPrepared->fetchAll();
+}
+
 function getMemberNumberWatchedEpisodes($email)
 {
     $pdo = connectDB();

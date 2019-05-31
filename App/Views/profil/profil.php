@@ -79,7 +79,7 @@
                                                                 echo 'inconnu';
                                                                 break;
                                                         }
-                                                        $nbepisodes = getMemberNumberWatchedEpisodesShow(getMemberByPseudo($_GET['pseudo'])['email'], $show['id_show']);
+                                                        $nbepisodes = getMemberNumberWatchedEpisodesShow($memberProfil['email'], $show['id_show']);
                                                         if ($nbepisodes > 0) { ?>
                                                             <br>Épisodes regardés : <?= $nbepisodes ?>
                                                             <?php
@@ -194,10 +194,41 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td><?= array_count_values(array_column($shows, 'status_followed_show'))['a voir'] ?></td>
-                                    <td><?= array_count_values(array_column($shows, 'status_followed_show'))['en cours'] ?></td>
-                                    <td><?= array_count_values(array_column($shows, 'status_followed_show'))['termine'] ?></td>
+                                    <td><?= isset(array_count_values(array_column($shows, 'status_followed_show'))['a voir']) ?: "0" ?></td>
+                                    <td><?= isset(array_count_values(array_column($shows, 'status_followed_show'))['en cours']) ?: "0" ?></td>
+                                    <td><?= isset(array_count_values(array_column($shows, 'status_followed_show'))['termine']) ?: "0" ?></td>
                                     <td><?= sizeof($shows) ?></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="h4 mt-20">Statistiques épisodes regardés</h3>
+                            <table class="table table-striped table-bordered text-center mt-20">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Episodes vus</th>
+                                    <th scope="col">Temps passé</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><?= getMemberNumberWatchedEpisodes($memberProfil['email']) ?></td>
+                                    <td><?php
+                                        $runtime = getMemberTimeWatchedEpisodesShow($memberProfil['email']);
+                                        $time = 0;
+                                        foreach ($runtime as $run) {
+                                            $time += $run['nb'] * $run['runtime_show'];
+                                        }
+                                        function convert_seconds($seconds)
+                                        {
+                                            $dt1 = new DateTime("@0");
+                                            $dt2 = new DateTime("@$seconds");
+                                            return $dt1->diff($dt2)->format('%a jours, %h heures et %i minutes');
+                                        }
+
+                                        echo convert_seconds($time * 60);
+                                        ?></td>
                                 </tr>
                                 </tbody>
                             </table>
