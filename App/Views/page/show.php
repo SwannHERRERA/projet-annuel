@@ -436,6 +436,7 @@ $show = getTVShow($idShow);
                                     <textarea class="form-control" id="commentWrite" rows="2"></textarea>
                                 </div>
                                 <div class="col-2 align-self-center">
+                                    <button type="button" class="btn btn-info mb-3" onclick="hideSpoiler('commentWrite')">hide Spoiler</button>
                                     <button class="btn btn-success"
                                             onclick="submitComment(<?= $idShow; ?>)">
                                         Envoyer

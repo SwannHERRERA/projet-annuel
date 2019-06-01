@@ -110,7 +110,16 @@ class show extends Controller
         if (!isset($_POST['show']) || !isset($_POST['comment']) || !$this->member_model->isConnected()) {
             header('Location: /');
         }
-        $idComment = addTVShowComments($_POST['show'], $_SESSION['email'], $_POST['comment']);
+        $re = '/\[spoil\]([^\[]*)\[\/spoil\]/m';
+        $str = $_POST['comment'];
+
+        preg_match_all($re, $str, $matches, PREG_SET_ORDER, 0);
+        foreach ($matches as $value) {
+            $result = '<span class="spoiler">' . $value[1] . '</span>';
+            $str = preg_replace($re, $result, $str, 1);
+        }
+
+        $idComment = addTVShowComments($_POST['show'], $_SESSION['email'], $str);
         $comment = getComment($idComment);
         ?>
         <div id="<?= $comment['id_comment'] ?>" class="row mb-10">
