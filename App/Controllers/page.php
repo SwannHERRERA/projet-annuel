@@ -6,6 +6,7 @@ class Page extends Controller
     private $tv_show_model;
     public function __construct()
     {
+        require_once BASEPATH . '/Core/functions.php';
         require self::MODEL_PATH . 'tv_show_model.php';
         $this->tv_show_model = new Tv_show_model;
         require self::MODEL_PATH . 'member_model.php';
