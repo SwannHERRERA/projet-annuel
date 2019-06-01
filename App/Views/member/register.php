@@ -1,4 +1,4 @@
-<div class="col-md-9 col-lg-10 align-self">
+<div class="col-md-9 col-lg-10">
       <?php if (isset($_SESSION['register'])): ?>
         <div class="mt-30 alert alert-danger">
           <ul class='mb-0'>

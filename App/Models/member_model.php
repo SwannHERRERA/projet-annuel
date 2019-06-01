@@ -175,6 +175,16 @@ class Member_model extends My_model
         }
     }
 
+
+    /**
+    * @param STRING $email
+    * @param STRING $newPassword
+    */
+    public function update_pass($email, $newPassword) {
+        $query = $this->pdo->prepare('UPDATE ' . $this->_table . ' SET password=:password WHERE email=:email');
+        $query->execute([":password" => password_hash($newPassword, PASSWORD_DEFAULT), ":email" => $email]);
+    }
+
     /**
     * login
     * @param STRING $email = primary_key

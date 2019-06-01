@@ -50,7 +50,7 @@
      public function get($primary_key)
      {
          $query = $this->pdo->prepare('SELECT * FROM ' . $this->_table .' WHERE ' . $this->table_primary_key . ' = :primary_key');
-         $query = $this->pdo->execute([':primary_key' => $primary_key]);
+         $query->execute([':primary_key' => $primary_key]);
          $result = $query->fetch();
          return $result;
      }

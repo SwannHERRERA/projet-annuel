@@ -1,5 +1,8 @@
 <?php
 require_once BASEPATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Controller.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 class Member extends Controller
 {
     public $member_model;
@@ -79,5 +82,64 @@ class Member extends Controller
         require self::VIEW_PATH . 'layout/header.php';
         require self::VIEW_PATH . 'member/parameters.php';
         require self::VIEW_PATH . 'layout/footer.php';
+    }
+
+    public function password_lost() {
+        if ($this->member_model->isConnected()) {
+            header('Location: /');
+        }
+        if (!empty($_POST)) {
+            require BASEPATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Form_validation.php';
+            $form_validation = new form_validation('password_lost');
+            $form_validation->set_rules('email', 'email', ['valid_email']);
+            $member = $this->member_model->get($_POST['email']);
+            if (isset($member['email'])) {
+                $newPassword = substr(Sha1(uniqid() . 'zdnkzdb'), 0, rand(6, 8));
+                $this->member_model->update_pass($_POST['email'], $newPassword);
+
+                require_once BASEPATH . DIRECTORY_SEPARATOR . "vendor/autoload.php";
+                $mail = new PHPMailer(true);
+
+                try {
+                    //Server settings
+                    $mail->isSMTP();
+                    $mail->CharSet = 'UTF-8';
+                    $mail->Host = 'ssl0.ovh.net';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'contact@flixadvisor.fr';
+                    $mail->Password = '73LgxyaKJE5hgsS';
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port = 587;
+
+                    //Recipients
+                    $mail->setFrom('contact@flixadvisor.fr', 'Flix Advisor');
+                    $mail->addAddress($_POST['email']);
+
+                    // Content
+                    $mail->isHTML(true);
+                    $mail->Subject = 'Flix Advisor : Nouveau password';
+                    $mail->Body = "Bonjour " .  $member["pseudo"] .",
+                                Vous avez demander un nouveau de votre mot de passe.<br>
+                                Votre nouveau mot de passe : " . $newPassword .
+                                "<br>A bientôt,<br>
+                                L'équipe Flix Advisor<br>
+                                https://flixadvisor.fr";
+                    //$mail->AltBody = 'non-HTML mail clients';
+
+                    if ($mail->send()) {
+                        $_SESSION['success-message'][] = 'Un email vous a été envoyer veuillez consulté votre boîte mail';
+                    }
+                } catch (Exception $e) {
+                    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                }
+            } else {
+                $_SESSION['password_lost'][] = 'Cet utilisateur n\'est pas inscrit';
+            }
+        }
+        require self::VIEW_PATH . 'layout/header.php';
+        require self::VIEW_PATH . 'member/password_lost.php';
+        require self::VIEW_PATH . 'layout/footer.php';
+        unset($_SESSION['success-message']);
+        unset($_SESSION['password_lost']);
     }
 }

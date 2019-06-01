@@ -49,7 +49,7 @@
             <label for="password_modal">Mot de passe</label>
             <input type="password" class="form-control" id="password_modal" name="password_modal">
           </div>
-          <p><a href="#" class="text-light">Mot de passe oublié ?</a></p>
+          <p><a href="<?= $site_url . '/member/password_lost' ?>" class="text-light">Mot de passe oublié ?</a></p>
           <p class="text-center"><button type="submit" class="btn btn-connexion">Connexion</button></p>
         </form>
       </div>

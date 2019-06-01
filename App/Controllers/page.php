@@ -61,7 +61,6 @@ class Page extends Controller
             !empty($_GET['actor'])) {
             if (isset($_SESSION["token_csrf"])) {
                 if ($_SESSION["token_csrf"] == $_GET['token_csrf']) {
-                    unset($_SESSION["token_csrf"]);
                     $tv_shows = $this->tv_show_model->searchTVShowAdvanced(
                         $_GET['search'] ?? '',
                         $_GET['minimum_rating'] ?? '',
@@ -84,9 +83,5 @@ class Page extends Controller
         require self::VIEW_PATH . 'layout/header.php';
         require self::VIEW_PATH . 'page/recherche_avancee.php';
         require self::VIEW_PATH . 'layout/footer.php';
-    }
-
-    public function test(){
-        $this->member_model->test();
     }
 }
