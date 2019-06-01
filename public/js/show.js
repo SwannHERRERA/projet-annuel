@@ -178,6 +178,7 @@ function submitComment(idShow) {
                 if (request.status === 200) {
                     const comments = document.getElementById("userComments");
                     comments.innerHTML = request.responseText + comments.innerHTML;
+                    comment.value = "";
                 }
             }
         };
@@ -277,17 +278,19 @@ function addList(idShow) {
 }
 
 function removeList(idList) {
-    const request = new XMLHttpRequest();
-    request.open('GET', '/show/deleteList?list=' + idList);
-    request.onreadystatechange = function () {
-        if (request.readyState === 4) {
-            if (request.status === 200) {
-                const list = document.getElementById("list" + idList);
-                list.remove();
+    if (confirm("Voulez vous vraiment supprimer cette liste ?")) {
+        const request = new XMLHttpRequest();
+        request.open('GET', '/show/deleteList?list=' + idList);
+        request.onreadystatechange = function () {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+                    const list = document.getElementById("list" + idList);
+                    list.remove();
+                }
             }
-        }
-    };
-    request.send();
+        };
+        request.send();
+    }
 }
 
 function addShowToList(idShow, idList) {

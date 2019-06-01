@@ -1524,5 +1524,33 @@ function getListContent($idList)
         die("Une erreur est survenue lors de la recuperation du contenu de la liste");
     }
     return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
+}
 
+function listMemberMessages($email)
+{
+    $pdo = connectDB();
+    $query = "select CASE when receiving_member = :email then sending_member else receiving_member end as correspondant from MESSAGE where 1 group by correspondant";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":email" => $email]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation de la liste des messages.");
+    }
+    return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getMessages($email1, $email2)
+{
+    $pdo = connectDB();
+    $query = "select * from MESSAGE where (sending_member = :email1 and receiving_member = :email2) or (sending_member = :email2 and receiving_member = :email1) order by id_message";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":email1" => $email1,
+        ":email2" => $email2
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation des messages.");
+    }
+    return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
 }

@@ -6,15 +6,6 @@ require '../Core/functions.php';
 
 $pdo = connectDB();
 
-
-
-/*$host = '51.75.249.213';
-$user = 'root';
-$password = 'fredo';
-$database = 'flixadvisor';
-$mysqli = new mysqli($host, $user, $password, $database);*/
-
-
 try {
 
     // VERIFICATION DES ERREURS
@@ -49,7 +40,7 @@ try {
     }
     $mimeType = $imageData['mime'];
 
-    // Vérification du tipe MIME
+    // Vérification du type MIME
     $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
     if (!in_array($mimeType, $allowedMimeTypes)) {
         throw new Exception('Seuls les formats JPEG, PNG et GIFs sont autorisés.');
@@ -57,6 +48,7 @@ try {
 
     // PAS D'ERREUR : TRAITEMENT
 
+    //$image = imagecrop($image, ['x' => 0, 'y' => 0, 'width' => 250, 'height' => 250]);
     $fileExtension = strtolower(pathinfo($image['name'] ,PATHINFO_EXTENSION));
     $fileName = round(microtime(true)).mt_rand().'.'.$fileExtension;
     $path = '/images/upload/'.$fileName;
@@ -64,14 +56,13 @@ try {
 
     if (move_uploaded_file($image['tmp_name'], $destination)) {
         // Création de l'URL finale de l'image
-        $protocol = $_SERVER['HTTPS'] ? 'https://' : 'http://';
+        //$protocol = $_SERVER['HTTPS'] ? 'https://' : 'http://';
+        $protocol = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://');
         $domain = $protocol . $_SERVER['SERVER_NAME'];
         $url = $domain.$path;
 
-        //$stmt = $pdo -> prepare('UPDATE MEMBER SET photo = (?)');
         $stmt = $pdo -> prepare('UPDATE MEMBER SET photo = :photo WHERE email = :email');
 
-        //if ($stmt && $stmt -> bind_param('s', $url) && $stmt -> execute([':photo' => $url])) {
         if ($stmt && $stmt -> execute([':photo' => $url, ':email' => $_SESSION['email']])) {
             exit(
             json_encode(
