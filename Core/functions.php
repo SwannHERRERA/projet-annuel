@@ -1529,7 +1529,7 @@ function getListContent($idList)
 function listMemberMessages($email)
 {
     $pdo = connectDB();
-    $query = "select CASE when receiving_member = :email then sending_member else receiving_member end as correspondant from MESSAGE where receiving_member = :email or sending_member = :email group by correspondant";
+    $query = "select CASE when receiving_member = :email then sending_member else receiving_member end as correspondant from MESSAGE where receiving_member = :email or sending_member = :email group by correspondant order by correspondant asc";
     $queryPrepared = $pdo->prepare($query);
     $queryPrepared->execute([":email" => $email]);
     if ($queryPrepared->errorCode() != '00000') {
@@ -1569,4 +1569,12 @@ function sendMessage($sender, $reciever, $message)
         var_dump($queryPrepared->errorInfo());
         die("Une erreur est survenue lors de l'ajout du message.");
     }
+}
+
+function getRandomShowId()
+{
+    $pdo = connectDB();
+    $query = "select id_show from TV_SHOW order by rand() limit 1";
+    $queryPrepared = $pdo->query($query);
+    return $queryPrepared->fetch();
 }
