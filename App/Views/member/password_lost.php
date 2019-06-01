@@ -34,3 +34,4 @@
         </div>
     </div>
 </div>
+<?= var_dump($_SESSION) ?>

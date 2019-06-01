@@ -16,6 +16,7 @@ abstract class Controller {
             //call_user_func_array([$child_class, $uri_segments[$i]], []);
             $this->{$uri_segments[$i]}();
         } else {
+            http_response_code(404);
             require BASEPATH . "/public/404.php";
         }
     }
