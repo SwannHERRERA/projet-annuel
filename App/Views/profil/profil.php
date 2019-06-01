@@ -219,7 +219,7 @@
                 <div class="tab-pane fade" id="stats" role="tabpanel" aria-labelledby="stats-tab">
                     <div class="row">
                         <div class="col-md-6">
-                            <h3 class="h4 mb-20">Mes séries suivies :</h3>
+                            <h3 class="h4 mb-20">Séries suivies :</h3>
                             <table class="table table-striped table-bordered text-center mb-20">
                                 <thead>
                                 <tr>
@@ -271,7 +271,7 @@
                             </table>
                         </div>
                         <div class="col-md-6">
-                            <h3 class="h4 mb-20">Mes catégories préférées :</h3>
+                            <h3 class="h4 mb-20">Catégories préférées :</h3>
                             <table class="table table-striped table-bordered text-center mb-20">
                                 <thead>
                                 <tr>

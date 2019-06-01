@@ -15,7 +15,7 @@
 
     <h1>Paramètres</h1>
 
-    <form method="POST" class='mt-50 mb-65' onchange="submitForm(event)" enctype='multipart/form-data'>
+    <form method="POST" class='mt-50' onchange="submitForm(event)" enctype='multipart/form-data'>
         <div class="form-row mt-5">
             <div class="form-group col-md-6" style="text-align: center;">
                 <img id="preview" width="200" src="<?= $current_param['photo'] ?>">
@@ -31,6 +31,7 @@
                 </button>
             </div>
         </div>
+        <hr>
         <div class="form-row mt-5">
             <div class="form-group col-md-6">
                 <label for="email">E-mail</label>
@@ -80,7 +81,7 @@
         </p>
     </form>
 
-    <hr><br>
+    <hr>
 
     <div class="form-row mt-5">
         <div class="form-group col-md-6">
@@ -89,7 +90,7 @@
             </button>
         </div>
         <div class="form-group col-md-6">
-            <button class="btn btn-info btn-block mb-30" onclick="">
+            <button onclick="confirmAccountDelete('<?=$site_url."/member/delete"?>')" class="btn btn-info btn-block mb-30">
                 Supprimer mon compte
             </button>
         </div>
