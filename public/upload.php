@@ -14,12 +14,6 @@ try {
         throw new Exception('Image manquante.');
     }
     $image = $_FILES['image'];
-    $image2 = imagecrop($image, ['x' => 0, 'y' => 0, 'width' => 250, 'height' => 250]);
-    if ($image2 !== FALSE) {
-        throw new Exception('mah');
-        $image = imagepng($image2, 'test.png');
-    }
-
 
     // Vérification des erreurs liées au ini.php
     if ($image['error'] !== 0) {
@@ -53,6 +47,11 @@ try {
     }
 
     // PAS D'ERREUR : TRAITEMENT
+    
+    $im2 = imagecrop($image, ['x' => 0, 'y' => 0, 'width' => "250px", 'height' => "250px"]);
+    if ($im2 !== FALSE) {
+        $image = imagepng($im2, 'test.png');
+    }
 
     $fileExtension = strtolower(pathinfo($image['name'] ,PATHINFO_EXTENSION));
     $fileName = round(microtime(true)).mt_rand().'.'.$fileExtension;
