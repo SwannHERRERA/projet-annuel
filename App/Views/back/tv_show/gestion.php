@@ -1,6 +1,12 @@
 <div class="mt-20 col-12">
     <a href="<?=$site_url.'/back/tv_show/updateShowsLight'?>" class="btn btn-primary mb-10">Update</a>
     <a href="<?=$site_url.'/back/tv_show/updateShowsHard'?>" class="btn btn-primary mb-10">Update hard</a>
+    <div class="row mb-20">
+        <div class="col-sm-3">
+            <label for="searchShow">Rechercher</label>
+            <input id="searchShow" type="text" class="form-control" onkeyup="searchShow()">
+        </div>
+    </div>
   <table class="table table-bordered table-striped mb-20">
     <thead>
       <tr>
