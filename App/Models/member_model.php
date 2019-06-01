@@ -238,6 +238,7 @@ class Member_model extends My_model
         $query .= "delete from WATCHED_EPISODES where member = :email; ";
         $query .= "delete from VOTED_RECO where member = :email; ";
         $query .= "delete from RECOMMENDATION where member =:email; ";
+        $query .= "delete from MEMBER where email =:email; ";
         $queryPrepared = $this->pdo->prepare($query);
         $queryPrepared->execute([":email" => $email]);
     }
