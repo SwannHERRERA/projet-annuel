@@ -47,12 +47,6 @@ try {
     }
 
     // PAS D'ERREUR : TRAITEMENT
-    
-    $im2 = imagecrop($image, ['x' => 0, 'y' => 0, 'width' => "250px", 'height' => "250px"]);
-    if ($im2 !== FALSE) {
-        $image = imagepng($im2, 'test.png');
-    }
-
     $fileExtension = strtolower(pathinfo($image['name'] ,PATHINFO_EXTENSION));
     $fileName = round(microtime(true)).mt_rand().'.'.$fileExtension;
     $path = '/images/upload/'.$fileName;
