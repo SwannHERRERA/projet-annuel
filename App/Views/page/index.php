@@ -1,5 +1,7 @@
 <div class="col-md-9 col-lg-10 align-self">
-    <h1>Flixadvisor</h1>
+    <h1 style="text-align: center; font-size: 50px">Bienvenue sur Flixadvisor !</h1>
+    <br>
+    <hr>
     <h2>Les séries les plus vues</h2>
     <div id="slider_most_viewed">
         <?php foreach ($most_followeds as $most_followed): ?>
@@ -11,6 +13,7 @@
             </div>
         <?php endforeach; ?>
     </div>
+    <hr>
     <h2>Les séries les mieux notées</h2>
     <div id="highest_rated">
         <?php foreach ($best_shows as $best_show): ?>
@@ -22,6 +25,7 @@
             </div>
         <?php endforeach; ?>
     </div>
+    <hr>
     <h2>Les séries les plus récentes</h2>
     <div id="most_recent">
         <?php foreach ($last_updateds as $last_updated): ?>

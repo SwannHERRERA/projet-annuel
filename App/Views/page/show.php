@@ -14,30 +14,25 @@ $show = getTVShow($idShow);
 <script src="<?= $site_url . '/js/show.js' ?>"></script>
 <div class="col-md-9 col-lg-10 align-self">
     <div class="row mt-20 ml-20">
-        <div class="col-md-3 align-self-baseline">
-            <h1 class="h2"><?= $show['name_show'] ?></h1>
+            <h1 class="h2" style="text-transform: uppercase;"><?= $show['name_show'] ?></h1>
+    </div>
+    <div class="row banner-gold">
+        <div class="col-md-4 align-self-baseline h3">
+            <b>Rang : #<?= getShowRank($idShow) ?></b>
         </div>
-        <div class="col-md-9 align-self-baseline h3">
-            Rang : <?= getShowRank($idShow) ?> Score : <?= getShowScore($idShow) ?> Suivi par
-            : <?= getTVShowFollowersNumber($idShow) ?>
-            utilisateurs
+        <div class="col-md-4 align-self-baseline h3">
+            <b>Score : <?= getShowScore($idShow) ?></b>
+        </div>
+        <div class="col-md-4 align-self-baseline h3">
+            <?php $nbFollowers = getTVShowFollowersNumber($idShow);
+            $word = $nbFollowers > 1 ? 'membres' : 'membre'?>
+            <b>Suivie par <?= $nbFollowers." ".$word ?></b>
         </div>
     </div>
-    <hr>
-    <div class="row mt-20 ml-20">
-        <p class="align-self-baseline h3">
-            Date de parution : <?= date('d-m-Y', strtotime($show['first_aired_show'])) ?> -
-            Diffusé sur : <?php foreach (getTVShowNetworks($idShow) as $network) echo $network['name_network'] . ' '; ?>
-            -
-            <?= getTVNumberSeasons($idShow) ?> saisons
-            <br><br>
-            Statut : <?= ($show['production_status'] == 'Ended') ? 'Terminé' : 'En cours' ?>
-        </p>
-    </div>
-    <hr>
+    <br>
     <div class="row mt-20">
         <div class="col-lg-3">
-            <img alt="image show" class="img-fluid mx-auto d-block" src=<?= '"' . $show['image_show'] . '"' ?>>
+            <img alt="image show" class="img-fluid mx-auto d-block" style="padding:1px; border:1px solid rgba(255,215,0,0.9);;" src=<?= '"' . $show['image_show'] . '"' ?>>
             <div class="row pt-10">
                 <?php if ($this->member_model->isConnected()) { ?>
                     <?php if (isFollowing($_SESSION['email'], $idShow)) {
@@ -52,7 +47,7 @@ $show = getTVShow($idShow);
                             <script type="text/javascript">statusShow(<?='"' . $status . '",' . $idShow?>)</script>
                         </div>
                         <div class="col-12 mt-10 mb-10 text-center">
-                            <a href="/show/unfollow?show=<?= $idShow ?>" class="btn btn-success pt-10 pb-10">Ne plus
+                            <a href="/show/unfollow?show=<?= $idShow ?>" class="btn btn-gold pt-10 pb-10">Ne plus
                                 suivre</a>
                             <?php if (isNotified($_SESSION['email'], $idShow) == "o") { ?>
                                 <button onclick="checkNotification(<?= $idShow ?>)" class="btn btn-info"><i
@@ -66,7 +61,7 @@ $show = getTVShow($idShow);
                         </div>
                     <?php } else { ?>
                         <div class="col-12 mt-10 mb-10 text-center">
-                            <button type="button" class="btn btn-success pt-10 pb-10" data-toggle="modal"
+                            <button type="button" class="btn btn-gold pt-10 pb-10" data-toggle="modal"
                                     data-target="#addShowList" aria-hidden="true">Suivre cette série
                             </button>
                             <div class="modal fade" id="addShowList" tabindex="-1" role="dialog"
@@ -172,7 +167,7 @@ $show = getTVShow($idShow);
                         </div>
                     <?php } ?>
                     <div class="col-12 mt-10 mb-10 text-center">
-                        <button type="button" class="btn btn-success pt-10 pb-10" data-toggle="modal"
+                        <button type="button" class="btn btn-gold pt-10 pb-10" data-toggle="modal"
                                 data-target="#addUserShowList" aria-hidden="true">Ajouter à une liste
                         </button>
                         <div class="modal fade" id="addUserShowList" tabindex="-1" role="dialog"
@@ -261,10 +256,8 @@ $show = getTVShow($idShow);
                                                                 class="btn btn-primary">
                                                                 Ajouter
                                                             </button></p>
-
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -278,21 +271,21 @@ $show = getTVShow($idShow);
         <div class="col-lg-3">
             <div class="card mb-20">
                 <div class="card-header">
-                    <h5 class="card-title">Informations :</h5>
+                    <h5 class="card-title">Informations</h5>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Nombre d'épisodes : <?= getTVNumberEpisodes($idShow) ?></li>
                     <li class="list-group-item">Nombre de saisons : <?= getTVNumberSeasons($idShow) ?></li>
                     <li class="list-group-item">Durée moyenne : <?= $show['runtime_show'] . ' min' ?></li>
-                    <li class="list-group-item">Status : <?= $show['production_status'] ?></li>
+                    <li class="list-group-item">Statut : <?= ($show['production_status'] == 'Ended') ? 'Terminée' : 'En cours' ?></li>
                     <li class="list-group-item">Date de diffusion : <?php
                         if ($show['production_status'] == 'Continuing')
                             echo date('d-m-Y', strtotime($show['first_aired_show']));
                         else
-                            echo 'Du ' . date('d-m-Y', strtotime($show['first_aired_show'])) . ' au ' . date('d-m-Y', strtotime(getShowLastAiringDate($idShow)));
+                            echo 'du ' . date('d-m-Y', strtotime($show['first_aired_show'])) . ' au ' . date('d-m-Y', strtotime(getShowLastAiringDate($idShow)));
                     ?></li>
-                    <li class="list-group-item">Diffusé sur : <?php foreach (getTVShowNetworks($idShow) as $network) echo $network['name_network'] . ' '; ?></li>
-                    <li class="list-group-item">Genres: <?php foreach (getShowCategories($idShow) as $categorie) echo $categorie['name_category'] . ' '; ?></li>
+                    <li class="list-group-item">Diffusée sur : <?php foreach (getTVShowNetworks($idShow) as $network) echo $network['name_network'] . ' '; ?></li>
+                    <li class="list-group-item">Genres : <?php foreach (getShowCategories($idShow) as $categorie) echo $categorie['name_category'] . ' '; ?></li>
                 </ul>
             </div>
         </div>
@@ -301,59 +294,49 @@ $show = getTVShow($idShow);
             <ul class="nav nav-tabs" id="showTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#details" role="tab"
-                       aria-controls="home" aria-selected="true">Détails</a>
+                       aria-controls="home" aria-selected="true"><b>Synopsis</b></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="episodes-tab" data-toggle="tab" href="#episodes" role="tab"
-                       aria-controls="episodes" aria-selected="false">Episodes</a>
+                       aria-controls="episodes" aria-selected="false"><b>Episodes</b></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="casting-tab" data-toggle="tab" href="#casting" role="tab"
                        aria-controls="casting" aria-selected="false">
-                        Casting
+                        <b>Casting</b>
                     </a>
                 </li>
                 <!--<li class="nav-item">
                     <a class="nav-link" id="recommendations-tab" data-toggle="tab" href="#recommendations" role="tab"
-                       aria-controls="recommendations" aria-selected="false">Recommendations</a>
+                       aria-controls="recommendations" aria-selected="false"><b>Recommendations</b></a>
                 </li>-->
                 <li class="nav-item">
                     <a class="nav-link" id="comments-tab" data-toggle="tab" href="#comments" role="tab"
-                       aria-controls="comments" aria-selected="false">Commentaires</a>
+                       aria-controls="comments" aria-selected="false"><b>Commentaires</b></a>
                 </li>
 
             </ul>
             <div class="tab-content" id="tabShowContent">
                 <div class="tab-pane fade show active mt-10" id="details" role="tabpanel" aria-labelledby="home-tab">
-                    <h1 class="h3">Synopsis</h1>
-                    <hr>
                     <p class="text-justify">
                         <?= $show['summary_show'] ?>
                     </p>
                 </div>
                 <div class="tab-pane mt-10" id="episodes" role="tabpanel" aria-labelledby="episodes-tab">
                     <div class="row">
-                        <div class="col-md-3 text-left align-baseline">
-                            <h1 class="h3">Episodes</h1>
-                        </div>
-                        <div class="col-md-9 text-right align-baseline">
+                        <div class="col-md-12 text-right align-baseline">
                             <?php if ($this->member_model->isConnected() && isFollowing($_SESSION['email'], $idShow)) { ?>
                                 <div class="row">
                                     <div class="col-md-6 text-md-right">
-                                        <a class="btn btn-success" onclick="watchAll(<?= $idShow ?>)"> Tout marquer
-                                            comme
-                                            vu</a>
+                                        <a class="btn btn-success" onclick="watchAll(<?= $idShow ?>)"> Tout marquer comme vu</a>
                                     </div>
                                     <div class="col-md-6 text-md-left">
-                                        <a class="btn btn-danger" onclick="unwatchAll(<?= $idShow ?>)"> Tout marquer
-                                            comme
-                                            non vu</a>
+                                        <a class="btn btn-danger" onclick="unwatchAll(<?= $idShow ?>)"> Tout marquer comme non vu</a>
                                     </div>
                                 </div>
                             <?php } ?>
                         </div>
                     </div>
-                    <hr>
                     <div class="accordion">
                         <?php
                         $episodes = getShowEpisodes($idShow);
@@ -400,8 +383,6 @@ $show = getTVShow($idShow);
                     </div>
                 </div>
                 <div class="tab-pane mt-10" id="casting" role="tabpanel" aria-labelledby="casting-tab">
-                    <h1 class="h3">Casting</h1>
-                    <hr>
                     <div class="row align-items-top">
                         <?php foreach (getTVShowActors($idShow) as $actor) {
                             ?>
@@ -411,7 +392,7 @@ $show = getTVShow($idShow);
                                         src=<?= '"' . $actor['photo_actor'] . '"'; ?>></a>
                                     <div class="card-body">
                                         <a href="<?= $site_url . '/recherche_avancee?actor%5B%5D=' . $actor['id_actor'] ?>"><h5 class="card-title"><?= $actor['name_actor']; ?></h5></a>
-                                        <div>Role : <?= $actor['role_actor']; ?></div>
+                                        <div>Rôle : <?= $actor['role_actor']; ?></div>
                                     </div>
                                 </div>
                             </div>
@@ -423,8 +404,6 @@ $show = getTVShow($idShow);
                     <hr>
                 </div>
                 <div class="tab-pane mt-10" id="comments" role="tabpanel" aria-labelledby="comments-tab">
-                    <h1 class="h3">Commentaires</h1>
-                    <hr>
                     <?php $comments = getTVShowComments($idShow);
                     if ($this->member_model->isConnected()) {
                         $user = getMember($_SESSION['email']);
