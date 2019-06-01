@@ -89,6 +89,7 @@ class Member extends Controller
             $pseudo = $this->member_model->getPseudo();
             $this->member_model->delete($pseudo);
             header("Location: /");
+            session_destroy();
         }
     }
 
