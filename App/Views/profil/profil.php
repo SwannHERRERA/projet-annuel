@@ -10,10 +10,41 @@
         <div class="col-9">
             <h1 class="h2"><?= $memberProfil['pseudo'] ?></h1>
             <p>Membre depuis le <?= date('d-m-Y', strtotime($memberProfil['date_inscription'])) ?>
-            <br><br>
-            Rôle : <?= $memberProfil['account_role'] == 'admin' ? 'Administrateur' : 'Utilisateur' ?></p>
-            <br><br>
-
+                <br><br>
+                Rôle : <?= $memberProfil['account_role'] == 'admin' ? 'Administrateur' : 'Utilisateur' ?>
+            <?php
+            if (isset($_SESSION['email']) && $memberProfil['email'] != $_SESSION['email']) {
+                ?>
+                <br><br>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sendMessage">
+                    <i
+                            class="fas fa-envelope"></i>
+                </button>
+                <div class="modal fade" id="sendMessage" tabindex="-1" role="dialog"
+                     aria-labelledby="sendMessage" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Envoyer un message</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="<?= '/profil/sendMessage' ?>" method="post">
+                                    <input type="hidden" name="pseudo" value="<?=$memberProfil['pseudo']?>">
+                                    <label for="message">Message :</label>
+                                    <textarea class="form-control" name="message" id="message"></textarea>
+                                    <button type="submit" class="btn btn-primary mt-20">Envoyer</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php
+            }
+                ?>
+            </p>
         </div>
         <div class="col-12">
             <hr>
@@ -42,7 +73,7 @@
                         <div class="col-sm-12 col-md-4 col-lg-3">
                             <div class="form-group">
                                 <label for="selectFollowedShows">Afficher : </label>
-                                <select onchange="filterFollowing()" class="form-control"   id="selectFollowedShows">
+                                <select onchange="filterFollowing()" class="form-control" id="selectFollowedShows">
                                     <option value="all">Tout</option>
                                     <option value="watching">En cours</option>
                                     <option value="completed">Terminées</option>
@@ -53,7 +84,8 @@
                         <div class="col-sm-12 col-md-4 col-lg-3">
                             <div class="form-group">
                                 <label for="searchFollowing">Rechercher : </label>
-                                <input type="text" class="form-control" id="searchFollowing" placeholder="Recherche ..." onkeyup="searchFollowing()">
+                                <input type="text" class="form-control" id="searchFollowing" placeholder="Recherche ..."
+                                       onkeyup="searchFollowing()">
                             </div>
                         </div>
                         <div class="col-12">
@@ -61,7 +93,8 @@
                                 <?php
                                 $shows = getMemberFollowedShow($memberProfil['pseudo']);
                                 foreach ($shows as $show) { ?>
-                                    <div id="<?= $show['name_show'] ?>" class="col-6 col-sm-3 col-md-4 col-lg-3 mb-20 followedShow">
+                                    <div id="<?= $show['name_show'] ?>"
+                                         class="col-6 col-sm-3 col-md-4 col-lg-3 mb-20 followedShow">
                                         <a href="<?= '/show?show=' . $show['id_show'] ?>" target="_blank">
                                             <div class="white-card">
                                                 <img class="card-img-top" src="<?= $show['image_show'] ?>"

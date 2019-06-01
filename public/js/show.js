@@ -183,7 +183,7 @@ function submitComment(idShow) {
             }
         };
         request.open('POST', '/show/submitComment');
-        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         request.send(
             'show=' + idShow +
             '&comment=' + comment.value
@@ -268,7 +268,7 @@ function addList(idShow) {
             }
         };
         request.open('POST', '/show/createList');
-        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         request.send(
             'name=' + name.value +
             '&description=' + description.value +

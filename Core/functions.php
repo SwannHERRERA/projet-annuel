@@ -1529,7 +1529,7 @@ function getListContent($idList)
 function listMemberMessages($email)
 {
     $pdo = connectDB();
-    $query = "select CASE when receiving_member = :email then sending_member else receiving_member end as correspondant from MESSAGE where 1 group by correspondant";
+    $query = "select CASE when receiving_member = :email then sending_member else receiving_member end as correspondant from MESSAGE where receiving_member = :email or sending_member = :email group by correspondant order by correspondant asc";
     $queryPrepared = $pdo->prepare($query);
     $queryPrepared->execute([":email" => $email]);
     if ($queryPrepared->errorCode() != '00000') {
@@ -1553,4 +1553,28 @@ function getMessages($email1, $email2)
         die("Une erreur est survenue lors de la recuperation des messages.");
     }
     return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function sendMessage($sender, $reciever, $message)
+{
+    $pdo = connectDB();
+    $query = "insert into flixadvisor.MESSAGE (date_message, text_message, sending_member, receiving_member, type) VALUES (curdate(),:message,:sender,:reciever,'message')";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":message" => $message,
+        ":sender" => $sender,
+        ":reciever" => $reciever
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de l'ajout du message.");
+    }
+}
+
+function getRandomShowId()
+{
+    $pdo = connectDB();
+    $query = "select id_show from TV_SHOW order by rand() limit 1";
+    $queryPrepared = $pdo->query($query);
+    return $queryPrepared->fetch();
 }
