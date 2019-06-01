@@ -18,19 +18,17 @@
     <form method="POST" class='mt-50 mb-65' onchange="submitForm(event)" enctype='multipart/form-data'>
         <div class="form-row mt-5">
             <div class="form-group col-md-6" style="text-align: center;">
-                <img id="preview" class="img-fluid"  src="<?= $current_param['photo'] ?>">
+                    <img id="preview" width="auto" src="<?= $current_param['photo'] ?>">
             </div>
             <div class="form-group col-md-6">
                 <p><b>Changer ma photo de profil :</b><br>
-                Formats autorisés : JPEG, PNG et GIF <br>
-                Poids maximum : TBD</p>
+                Formats autorisés : JPEG, PNG et GIF <br></p>
                 <div id="uploading-text" style="display:none;">Téléchargement en cours...</div>
                 <input type="file" name="image" id="image-selecter" accept="image/*">
                 <br><br>
                 <button type="button" class="btn d-none d-md-block btn-info btn-block" data-toggle="modal" data-target="#canvas">
-                    Dessiner ma photo de profil !
+                    Dessiner ma photo de profil
                 </button>
-
             </div>
         </div>
         <div class="form-row mt-5">
@@ -82,9 +80,23 @@
         </p>
     </form>
 
-    <button type="button" class="btn btn-info btn-block mb-30" data-toggle="modal" data-target="#passwordChange">
-        Modifier mon mot de passe
-    </button>
+    <hr><br>
+
+    <div class="form-row mt-5">
+        <div class="form-group col-md-6">
+            <button type="button" class="btn btn-info btn-block mb-30" data-toggle="modal" data-target="#passwordChange">
+                Modifier mon mot de passe
+            </button>
+        </div>
+        <div class="form-group col-md-6">
+            <button class="btn btn-info btn-block mb-30" onclick="">
+                Supprimer mon compte
+            </button>
+        </div>
+    </div>
+
+
+
 </div>
 
 <!-- Modal Canvas-->
@@ -92,7 +104,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalCanvas">Dessiner ma photo !</h5>
+                <h5 class="modal-title" id="modalCanvas">Dessiner ma photo</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
