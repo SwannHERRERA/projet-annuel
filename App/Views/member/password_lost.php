@@ -3,6 +3,7 @@
     <p class="mb-50">Nous vous enverons un mot de passe par email</p>
     <div class="row align-self-center">
         <div class="col-md-6 offset-md-3">
+            <?= !empty($_SESSION['success-message']) ?>
             <? if (!empty($_SESSION['success-message'])): ?>
                 <div class="alert alert-success">
                     <ul>
