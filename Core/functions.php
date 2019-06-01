@@ -736,7 +736,7 @@ function getCategoryList()
 function getMemberCategoryRate($email)
 {
     $pdo = connectDB();
-    $query = "select count(*) as nb, name_category from FOLLOWED_SHOW, CATEGORY, CATEGORIZED_SHOW where id_category = category and CATEGORIZED_SHOW.tv_show = FOLLOWED_SHOW.tv_show and member = :email group by id_category order by nb desc;";
+    $query = "select count(*) as nb, name_category, id_category from FOLLOWED_SHOW, CATEGORY, CATEGORIZED_SHOW where id_category = category and CATEGORIZED_SHOW.tv_show = FOLLOWED_SHOW.tv_show and member = :email group by id_category order by nb desc;";
 
     $queryPrepared = $pdo->prepare($query);
     $queryPrepared->execute([":email" => $email]);
@@ -745,6 +745,37 @@ function getMemberCategoryRate($email)
         die("Une erreur est survenue lors de la recuperation des categories de l'utilisateur.");
     }
     return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getMemberPersonnalisedShows($email)
+{
+    $pdo = connectDB();
+    $cat = getMemberCategoryRate($email);
+    switch (sizeof($cat)) {
+        case 0:
+            $query = "select id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated from TV_SHOW, CATEGORIZED_SHOW where CATEGORIZED_SHOW.tv_show = id_show and (select count(*) from FOLLOWED_SHOW where FOLLOWED_SHOW.tv_show = id_show and member = :email) = 0"
+                . " order by rand() limit 10";
+            break;
+        case 1:
+            $query = "select id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated from TV_SHOW, CATEGORIZED_SHOW where CATEGORIZED_SHOW.tv_show = id_show and (select count(*) from FOLLOWED_SHOW where FOLLOWED_SHOW.tv_show = id_show and member = :email) = 0"
+                . " and category in (" . $cat[0]['id_category'] . ") order by rand() limit 10";
+            break;
+        case 2:
+            $query = "select id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated from TV_SHOW, CATEGORIZED_SHOW where CATEGORIZED_SHOW.tv_show = id_show and (select count(*) from FOLLOWED_SHOW where FOLLOWED_SHOW.tv_show = id_show and member = :email) = 0"
+                . " and category in (" . $cat[0]['id_category'] . "," . $cat[1]['id_category'] . ") order by rand() limit 10";
+            break;
+        case 3:
+            $query = "select id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated from TV_SHOW, CATEGORIZED_SHOW where CATEGORIZED_SHOW.tv_show = id_show and (select count(*) from FOLLOWED_SHOW where FOLLOWED_SHOW.tv_show = id_show and member = :email) = 0"
+                . " and category in (" . $cat[0]['id_category'] . "," . $cat[1]['id_category'] . "," . $cat[2]['id_category'] . ") order by rand() limit 10";
+            break;
+        default:
+            $query = "select id_show, name_show, production_status, runtime_show, first_aired_show, image_show, summary_show, last_updated from TV_SHOW, CATEGORIZED_SHOW where CATEGORIZED_SHOW.tv_show = id_show and (select count(*) from FOLLOWED_SHOW where FOLLOWED_SHOW.tv_show = id_show and member = :email) = 0"
+                . " order by rand() limit 10";
+            break;
+    }
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([":email" => $email]);
+    return $queryPrepared->fetchAll();
 }
 
 /**
