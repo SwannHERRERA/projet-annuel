@@ -14,6 +14,12 @@ try {
         throw new Exception('Image manquante.');
     }
     $image = $_FILES['image'];
+    $image2 = imagecrop($image, ['x' => 0, 'y' => 0, 'width' => 250, 'height' => 250]);
+    if ($image2 !== FALSE) {
+        throw new Exception('mah');
+        $image = imagepng($image2, 'test.png');
+    }
+
 
     // Vérification des erreurs liées au ini.php
     if ($image['error'] !== 0) {
@@ -48,7 +54,6 @@ try {
 
     // PAS D'ERREUR : TRAITEMENT
 
-    //$image = imagecrop($image, ['x' => 0, 'y' => 0, 'width' => 250, 'height' => 250]);
     $fileExtension = strtolower(pathinfo($image['name'] ,PATHINFO_EXTENSION));
     $fileName = round(microtime(true)).mt_rand().'.'.$fileExtension;
     $path = '/images/upload/'.$fileName;
@@ -56,7 +61,6 @@ try {
 
     if (move_uploaded_file($image['tmp_name'], $destination)) {
         // Création de l'URL finale de l'image
-        //$protocol = $_SERVER['HTTPS'] ? 'https://' : 'http://';
         $protocol = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://');
         $domain = $protocol . $_SERVER['SERVER_NAME'];
         $url = $domain.$path;
