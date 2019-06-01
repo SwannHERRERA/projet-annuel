@@ -48,7 +48,7 @@ try {
 
     // PAS D'ERREUR : TRAITEMENT
 
-    $image = imagecrop($image, ['x' => 0, 'y' => 0, 'width' => 250, 'height' => 250]);
+    //$image = imagecrop($image, ['x' => 0, 'y' => 0, 'width' => 250, 'height' => 250]);
     $fileExtension = strtolower(pathinfo($image['name'] ,PATHINFO_EXTENSION));
     $fileName = round(microtime(true)).mt_rand().'.'.$fileExtension;
     $path = '/images/upload/'.$fileName;
@@ -56,7 +56,8 @@ try {
 
     if (move_uploaded_file($image['tmp_name'], $destination)) {
         // Création de l'URL finale de l'image
-        $protocol = $_SERVER['HTTPS'] ? 'https://' : 'http://';
+        //$protocol = $_SERVER['HTTPS'] ? 'https://' : 'http://';
+        $protocol = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://')
         $domain = $protocol . $_SERVER['SERVER_NAME'];
         $url = $domain.$path;
 
