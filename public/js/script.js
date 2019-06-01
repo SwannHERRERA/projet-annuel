@@ -140,7 +140,7 @@ const search = document.getElementById('search');
 if (search != undefined) {
     search.addEventListener('keyup', function() {
         if (search.value.length > 2) {
-            makeRequest(search.value, "http://localhost/recherche", createList);
+            makeRequest(search.value, "https://flixadvisor.fr/recherche", createList);
         } else {
             document.getElementById('result').innerHTML = "";
         }
