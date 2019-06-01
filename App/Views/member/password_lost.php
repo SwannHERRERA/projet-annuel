@@ -3,11 +3,7 @@
     <p class="mb-50">Nous vous enverrons un mot de passe par email</p>
     <div class="row align-self-center">
         <div class="col-md-6 offset-md-3">
-<<<<<<< HEAD
             <?php if (!empty($_SESSION['success-message'])): ?>
-=======
-            <? if (!empty($_SESSION['success-message'])): ?>
->>>>>>> 0bed47de5ddaa4c43ff60a6324e0b05bcfbef053
                 <div class="alert alert-success">
                     <ul>
                         <?php foreach ($_SESSION['success-message'] as $message): ?>
@@ -15,11 +11,7 @@
                         <?php endforeach; ?>
                     </ul>
                 </div>
-<<<<<<< HEAD
             <?php endif; ?>
-=======
-            <? endif; ?>
->>>>>>> 0bed47de5ddaa4c43ff60a6324e0b05bcfbef053
             <?php if (!empty($_SESSION['password_lost'])): ?>
                 <div class="alert alert-danger">
                     <ul>
