@@ -84,6 +84,14 @@ class Member extends Controller
         require self::VIEW_PATH . 'layout/footer.php';
     }
 
+    public function delete(){
+        if ($this->member_model->isConnected()) {
+            $pseudo = $this->member_model->getPseudo();
+            $this->member_model->delete($pseudo);
+            header("Location: /");
+        }
+    }
+
     public function password_lost() {
         if ($this->member_model->isConnected()) {
             header('Location: /');
@@ -119,7 +127,7 @@ class Member extends Controller
                     $mail->isHTML(true);
                     $mail->Subject = 'Flix Advisor : Nouveau password';
                     $mail->Body = "Bonjour " .  $member["pseudo"] .",
-                                Vous avez demander un nouveau de votre mot de passe.<br>
+                                Vous avez fait une demande de nouveau mot de passe.<br>
                                 Votre nouveau mot de passe : " . $newPassword .
                                 "<br>A bientôt,<br>
                                 L'équipe Flix Advisor<br>

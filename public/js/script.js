@@ -184,7 +184,7 @@ function uploadImage() {
         }
     }
     ajax.open("POST", "https://flixadvisor.fr/upload.php", true);
-    ajax.send(formData); // send the form data
+    ajax.send(formData);
 
 }
 function uploadError(error) {
@@ -195,4 +195,10 @@ function uploadError(error) {
 function showImage(url) {
     previewImage.src = url;
     uploadingText.style.display = "none";
+}
+
+function confirmAccountDelete(url){
+    if (window.confirm("Voulez-vous vraiment supprimer votre compte ?")) {
+        window.location = url;
+    }
 }
