@@ -1554,3 +1554,19 @@ function getMessages($email1, $email2)
     }
     return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function sendMessage($sender, $reciever, $message)
+{
+    $pdo = connectDB();
+    $query = "insert into flixadvisor.MESSAGE (date_message, text_message, sending_member, receiving_member, type) VALUES (curdate(),:message,:sender,:reciever,'message')";
+    $queryPrepared = $pdo->prepare($query);
+    $queryPrepared->execute([
+        ":message" => $message,
+        ":sender" => $sender,
+        ":reciever" => $reciever
+    ]);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de l'ajout du message.");
+    }
+}
