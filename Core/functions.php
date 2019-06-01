@@ -1529,7 +1529,7 @@ function getListContent($idList)
 function listMemberMessages($email)
 {
     $pdo = connectDB();
-    $query = "select CASE when receiving_member = :email then sending_member else receiving_member end as correspondant from MESSAGE where 1 group by correspondant";
+    $query = "select CASE when receiving_member = :email then sending_member else receiving_member end as correspondant from MESSAGE where receiving_member = :email or sending_member = :email group by correspondant";
     $queryPrepared = $pdo->prepare($query);
     $queryPrepared->execute([":email" => $email]);
     if ($queryPrepared->errorCode() != '00000') {

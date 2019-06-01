@@ -71,4 +71,12 @@ class Profil extends Controller
         } else
             header('Location: /');
     }
+
+    public function sendMessage()
+    {
+        if (!$this->member_model->isConnected() || !isset($_POST['pseudo']) || !isset($_POST['message']))
+            header('Location: /');
+        sendMessage($_SESSION['email'], getMemberByPseudo($_POST['pseudo'])['email'], $_POST['message']);
+        header('Location: /messages');
+    }
 }
