@@ -1,6 +1,6 @@
 <div class="col-md-9 col-lg-10 align-self">
     <h1>Flixadvisor</h1>
-    <h2>Les plus vues</h2>
+    <h2>Les séries les plus vues</h2>
     <div id="slider_most_viewed">
         <?php foreach ($most_followeds as $most_followed): ?>
             <div class="white-card">
@@ -11,7 +11,7 @@
             </div>
         <?php endforeach; ?>
     </div>
-    <h2>Les mieux notées</h2>
+    <h2>Les séries les mieux notées</h2>
     <div id="highest_rated">
         <?php foreach ($best_shows as $best_show): ?>
             <div class="white-card">
@@ -22,7 +22,7 @@
             </div>
         <?php endforeach; ?>
     </div>
-    <h2>Les plus recents</h2>
+    <h2>Les séries les plus récentes</h2>
     <div id="most_recent">
         <?php foreach ($last_updateds as $last_updated): ?>
             <div class="white-card">

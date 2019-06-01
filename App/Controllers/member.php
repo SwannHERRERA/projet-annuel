@@ -38,7 +38,7 @@ class Member extends Controller
             $result = $this->member_model->get_columns_where(['password', 'account_status'], ['email' => $_POST['email_modal']]);
             if (password_verify($_POST["password_modal"], $result[0]["password"])) {
                 if ($result[0]["account_status"] != 'actif') {
-                    $_SESSION['login_modal'][] = "Veuillez valider votre email avant de vous connecter";
+                    $_SESSION['login_modal'][] = "Veuillez valider votre e-mail avant de vous connecter";
                     header("Location: /#modal");
                 } else {
                     $this->member_model->login($_POST['email_modal']);
@@ -127,16 +127,16 @@ class Member extends Controller
                     // Content
                     $mail->isHTML(true);
                     $mail->Subject = 'Flix Advisor : Nouveau password';
-                    $mail->Body = "Bonjour " .  $member["pseudo"] .",
+                    $mail->Body = "Bonjour " .  $member["pseudo"] .",<br>
                                 Vous avez fait une demande de nouveau mot de passe.<br>
-                                Votre nouveau mot de passe : " . $newPassword .
+                                Votre nouveau mot de passe est : " . $newPassword .
                                 "<br>A bientôt,<br>
                                 L'équipe Flix Advisor<br>
                                 https://flixadvisor.fr";
                     //$mail->AltBody = 'non-HTML mail clients';
 
                     if ($mail->send()) {
-                        $_SESSION['success-message'][] = 'Un email vous a été envoyer veuillez consulté votre boîte mail';
+                        $_SESSION['success-message'][] = 'Un e-mail de confirmation vous a été envoyé : merci de cliquer sur le lien afin de confirmer votre adresse et terminer votre inscription.';
                     }
                 } catch (Exception $e) {
                     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";

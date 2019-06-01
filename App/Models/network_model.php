@@ -18,7 +18,7 @@ class Network_model extends My_model
         $queryPrepared->execute([":id" => $idShow]);
         if ($queryPrepared->errorCode() != '00000') {
             var_dump($queryPrepared->errorInfo());
-            die("Une erreur est survenue lors de la recuperation des chaines de la serie.");
+            die("Une erreur est survenue lors de la récupération des chaînes de diffusion de la série.");
         }
 
         return $queryPrepared->fetchAll();
@@ -35,7 +35,7 @@ class Network_model extends My_model
         $queryPrepared = $this->pdo->query($query);
         if ($queryPrepared->errorCode() != '00000') {
             var_dump($queryPrepared->errorInfo());
-            die("Une erreur est survenue lors de la recuperation des chaines.");
+            die("Une erreur est survenue lors de la récuperation des chaînes.");
         }
 
         return $queryPrepared->fetchAll();

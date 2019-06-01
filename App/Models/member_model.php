@@ -29,13 +29,13 @@ class Member_model extends My_model
             $form_validation->set_rules('captcha', 'captcha', ['trim']);
             $captcha = strtolower($_POST['captcha']);
             if ($_SESSION['captcha'] != $captcha) {
-                $_SESSION['register'][] = 'Le captcha ne corespond pas';
+                $_SESSION['register'][] = 'Le captcha est incorrect';
             }
             $query = $this->pdo->prepare("SELECT pseudo FROM MEMBER WHERE pseudo = :pseudo");
             $result = $query->execute([':pseudo' => $_POST['pseudo']]);
             $result = $query->fetch();
             if (!empty($result['pseudo'])) {
-                $_SESSION['register'][] = 'Le pseudo existe déjà';
+                $_SESSION['register'][] = 'Le pseudonyme existe déjà';
             }
             $query = $this->pdo->prepare("SELECT email FROM MEMBER WHERE email = :email");
             $result = $query->execute([':email' => $_POST['email']]);
@@ -94,7 +94,7 @@ class Member_model extends My_model
             // Content
             $mail->isHTML(true);
             $mail->Subject = 'Flix Advisor : confirmation d\'adresse e-mail';
-            $mail->Body = "Bonjour " . $_POST["pseudo"] . ",
+            $mail->Body = "Bonjour " . $_POST["pseudo"] . ",<br>
                         Vous venez de créer un compte sur FlixAdvisor.fr : merci d'avoir rejoint notre communauté !<br>
                         Terminez la création de votre compte et validez votre adresse e-mail<br>
                         en cliquant sur le lien suivant : https://flixadvisor.fr/member/verify?link=" . $lien .
@@ -127,7 +127,7 @@ class Member_model extends My_model
         $result = $query->execute([':pseudo' => $_POST['pseudo']]);
         $result = $query->fetch();
         if ($_POST['pseudo'] != $member && !empty($result['pseudo'])) {
-            $_SESSION['gestion_membre'][] = 'Le pseudo existe déjà';
+            $_SESSION['gestion_membre'][] = 'Le pseudonyme existe déjà';
         }
 
         if (empty($_SESSION['gestion_membre'])) {
@@ -292,7 +292,7 @@ class Member_model extends My_model
             $role = $this->get_columns_where(['account_role'], ['email' => $_SESSION['email']]);
         }
         if ($role[0]['account_role'] != 'admin') {
-            $_SESSION['login_modal'][] = 'Vous n\'être pas autorisé a aller dans cette partie du site';
+            $_SESSION['login_modal'][] = 'Vous n\'êtes pas autorisé à accéder à cette partie du site';
             header('Location: /#modal');
         }
     }
@@ -347,7 +347,7 @@ class Member_model extends My_model
         ]);
         if ($queryPrepared->errorCode() != '00000') {
             var_dump($queryPrepared->errorInfo());
-            die("Une erreur est survenue lors du banissement d'un membre.");
+            die("Une erreur est survenue lors du bannissement d'un membre.");
         }
     }
 
@@ -358,7 +358,7 @@ class Member_model extends My_model
         $queryPrepared->execute([":pseudo" => $pseudo]);
         if ($queryPrepared->errorCode() != '00000') {
             var_dump($queryPrepared->errorInfo());
-            die("Une erreur est survenue lors du débanissement d'un membre.");
+            die("Une erreur est survenue lors du débannissement d'un membre.");
         }
     }
 
@@ -379,7 +379,7 @@ class Member_model extends My_model
         $queryPrepared = $this->pdo->query($query);
         if ($queryPrepared->errorCode() != '00000') {
             var_dump($queryPrepared->errorInfo());
-            die("Une erreur est survenue lors de la récupération des stats des genres.");
+            die("Une erreur est survenue lors de la récupération des statistiques des genres.");
         }
         return $queryPrepared->fetchAll();
     }
@@ -412,7 +412,7 @@ class Member_model extends My_model
         $queryPrepared = $this->pdo->query($query);
         if ($queryPrepared->errorCode() != '00000') {
             var_dump($queryPrepared->errorInfo());
-            die("Une erreur est survenue lors de la récupération de l'age des membres.");
+            die("Une erreur est survenue lors de la récupération de l'âge des membres.");
         }
         return $queryPrepared->fetchAll();
     }
@@ -423,7 +423,7 @@ class Member_model extends My_model
         $queryPrepared = $this->pdo->query($query);
         if ($queryPrepared->errorCode() != '00000') {
             var_dump($queryPrepared->errorInfo());
-            die("Une erreur est survenue lors de la récupération des stats des date d'inscription des membres.");
+            die("Une erreur est survenue lors de la récupération des statistiques des date d'inscription des membres.");
         }
         return $queryPrepared->fetchAll();
     }
@@ -486,7 +486,7 @@ class Member_model extends My_model
         $queryPrepared->execute([":name" => $nameMember]);
         if ($queryPrepared->errorCode() != '00000') {
             var_dump($queryPrepared->errorInfo());
-            die("Une erreur est survenue lors de la recherhce des series.");
+            die("Une erreur est survenue lors de la recherhce des séries.");
         }
         return $queryPrepared->fetchAll();
     }

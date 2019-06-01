@@ -18,7 +18,7 @@ class Season_model extends My_model
         $queryPrepared->execute([":id" => $idShow]);
         if ($queryPrepared->errorCode() != '00000') {
             var_dump($queryPrepared->errorInfo());
-            die("Une erreur est survenue lors de la recuperation du nombre de saisons de la serie.");
+            die("Une erreur est survenue lors de la récuperation du nombre de saisons de la série.");
         }
         return $queryPrepared->fetch()[0];
     }

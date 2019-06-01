@@ -72,7 +72,8 @@ body {
   line-height: 1.5;
   color: #fff;
   text-align: left;
-  background-color: #282c35;
+  /*background-color: #282c35;*/
+  background-color: #0D0D0D;
 }
 
 [tabindex="-1"]:focus {
@@ -17317,7 +17318,6 @@ h3 {
   font-size: 30px;
   line-height: 35px;
   padding: 10px 0px;
-  text-transform: capitalize;
 }
 .h3:after, h2:after,
 .h2:after, h1:after, footer h3:after, .modal h5:after {
@@ -17439,7 +17439,8 @@ h3 {
 
 aside {
   z-index: 100;
-  background-color: #111035;
+  /*background-color: #111035;*/
+  background-color: rgba(75,0,130,0.5);
   padding: 30px 0;
 }
 aside ul li {
