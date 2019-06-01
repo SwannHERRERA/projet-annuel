@@ -1,6 +1,7 @@
 <?php
 !defined(BASEPATH) or exit();
 require_once BASEPATH . DIRECTORY_SEPARATOR . "Core" . DIRECTORY_SEPARATOR . "My_model.php";
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -11,8 +12,8 @@ class Member_model extends My_model
     //ici on met les methode propre a la table
 
     /**
-    * INSERT a user via front
-    */
+     * INSERT a user via front
+     */
     public function register()
     {
         if (!empty($_POST)) {
@@ -43,14 +44,14 @@ class Member_model extends My_model
                 $_SESSION['register'][] = 'L\'email existe déjà';
             }
             if (empty($_SESSION['register'])) {
-                $lien = substr(md5($_POST['email'].time().uniqid()), 0, 30);
+                $lien = substr(md5($_POST['email'] . time() . uniqid()), 0, 30);
                 $query = $this->pdo->prepare('INSERT INTO ' . $this->_table . ' (email, pseudo, gender, birth_date, photo, city, country, password,account_status, account_role, date_inscription, verified_email)
                 VALUES (:email,:pseudo, :gender, :birth_date, :photo, :city, :country, :password, "non-active", "user", :date_inscription, :verified_email)');
                 $query->execute([
                     ':email' => $_POST['email'],
                     ':pseudo' => $_POST['pseudo'],
                     ':gender' => $_POST['genre'],
-                    ':birth_date' => ($_POST['dateNaissance'] == "")? null : $_POST['dateNaissance'],
+                    ':birth_date' => ($_POST['dateNaissance'] == "") ? null : $_POST['dateNaissance'],
                     ':photo' => 'https://flixadvisor.fr/images/default_pp.jpg',
                     ':city' => $_POST['city'],
                     ':country' => $_POST['country'],
@@ -67,8 +68,8 @@ class Member_model extends My_model
     }
 
     /**
-    *Fonction d'envoie d'email
-    */
+     *Fonction d'envoie d'email
+     */
     public function sendMail($lien)
     {
         require_once BASEPATH . DIRECTORY_SEPARATOR . "vendor/autoload.php";
@@ -93,11 +94,11 @@ class Member_model extends My_model
             // Content
             $mail->isHTML(true);
             $mail->Subject = 'Flix Advisor : confirmation d\'adresse e-mail';
-            $mail->Body = "Bonjour " .  $_POST["pseudo"] .",
+            $mail->Body = "Bonjour " . $_POST["pseudo"] . ",
                         Vous venez de créer un compte sur FlixAdvisor.fr : merci d'avoir rejoint notre communauté !<br>
                         Terminez la création de votre compte et validez votre adresse e-mail<br>
                         en cliquant sur le lien suivant : https://flixadvisor.fr/member/verify?link=" . $lien .
-                        "<br>A bientôt,<br>
+                "<br>A bientôt,<br>
                         L'équipe Flix Advisor<br>
                         https://flixadvisor.fr";
             //$mail->AltBody = 'non-HTML mail clients';
@@ -107,10 +108,11 @@ class Member_model extends My_model
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
     }
+
     /**
-    * Back INSERT /UPDATE User
-    * @param STRING $member = pseudo
-    */
+     * Back INSERT /UPDATE User
+     * @param STRING $member = pseudo
+     */
     public function back_insert($member = null)
     {
         $arr_of_post = [];
@@ -125,7 +127,7 @@ class Member_model extends My_model
         $result = $query->execute([':pseudo' => $_POST['pseudo']]);
         $result = $query->fetch();
         if ($_POST['pseudo'] != $member && !empty($result['pseudo'])) {
-            $_SESSION['gestion_membre'][] =  'Le pseudo existe déjà';
+            $_SESSION['gestion_membre'][] = 'Le pseudo existe déjà';
         }
 
         if (empty($_SESSION['gestion_membre'])) {
@@ -138,7 +140,7 @@ class Member_model extends My_model
                 ":role" => $_POST['role']
             ];
             if (isset($member)) {
-                $str= "UPDATE " . $this->_table . " SET
+                $str = "UPDATE " . $this->_table . " SET
                 pseudo = :pseudo,
                 gender = :genre,
                 birth_date = :dateNaissance,
@@ -156,7 +158,7 @@ class Member_model extends My_model
                 $update->execute($arr_of_post);
                 header('Location: /back/member/gestion');
             } else {
-                $str= "INSERT INTO " . $this->_table . "
+                $str = "INSERT INTO " . $this->_table . "
                 (email, pseudo, gender, birth_date, city, country, account_role, password, date_inscription, verified_email, account_status)
                 VALUES (:email,:pseudo,:genre,:dateNaissance,:ville,:pays,:role, :pwd, :date_inscription, :verified_email, :account_status)";
 
@@ -177,53 +179,80 @@ class Member_model extends My_model
 
 
     /**
-    * @param STRING $email
-    * @param STRING $newPassword
-    */
-    public function update_pass($email, $newPassword) {
+     * @param STRING $email
+     * @param STRING $newPassword
+     */
+    public function update_pass($email, $newPassword)
+    {
         $query = $this->pdo->prepare('UPDATE ' . $this->_table . ' SET password=:password WHERE email=:email');
         $query->execute([":password" => password_hash($newPassword, PASSWORD_DEFAULT), ":email" => $email]);
     }
 
     /**
-    * login
-    * @param STRING $email = primary_key
-    */
+     * login
+     * @param STRING $email = primary_key
+     */
     public function login($email)
     {
-        $token = md5($email."cfcccfde;".time().uniqid());
+        $token = md5($email . "cfcccfde;" . time() . uniqid());
         $token = substr($token, 0, rand(15, 20));
         //On la refera avec le My_model
         $query = $this->pdo->prepare("UPDATE " . $this->_table . " SET token=:token WHERE email=:email AND verified_email IS NULL");
-        $query->execute([":token"=>$token,":email"=>$email]);
+        $query->execute([":token" => $token, ":email" => $email]);
         $_SESSION["token"] = $token;
         $_SESSION["email"] = $email;
         header("Location: /");
     }
 
     /**
-    * logout
-    * @param STRING $email = primary_key
-    */
+     * logout
+     * @param STRING $email = primary_key
+     */
     public function logout($email)
     {
         $queryPrepared = $this->pdo->prepare("UPDATE " . $this->_table . " SET token=null WHERE email=:email ");
-        $queryPrepared->execute([":email"=>$email]);
+        $queryPrepared->execute([":email" => $email]);
     }
 
     /**
-    * DELETE a user
-    * @param STRING $pseudo = UNIQUE AND NOT NULL
-    */
+     * DELETE a user
+     * @param STRING $pseudo = UNIQUE AND NOT NULL
+     */
     public function delete($pseudo)
     {
-        $queryPrepared = $this->pdo->prepare("DELETE FROM " . $this->_table . " WHERE pseudo=:pseudo");
-        $queryPrepared->execute([":pseudo"=>$pseudo]);
+        $email = $this->getMember($pseudo)['email'];
+        $query = "delete from BADGED_MEMBER where member = :email; ";
+        $query .= "delete from BLOCKED_MEMBER where blocked_member = :email or blocking_member = :email; ";
+        $query .= "delete from REPORTED_MEMBER where reported_member =:email or reporting_member = :email; ";
+        $query .= "delete from SUGGESTION where suggester = :email; ";
+        $query .= "delete from MESSAGE where receiving_member = :email or sending_member = :email; ";
+        $query .= "delete from REPORTED_REPLY where member = :email; ";
+        $query .= "delete from REPLY where member = :email; ";
+        $query .= "delete from LIKED_COMMENT where member = :email; ";
+        $query .= "delete from REPORTED_COMMENT where member = :email; ";
+        $query .= "delete from COMMENT where member = :email; ";
+        $query .= "delete from FOLLOWED_MEMBER where followed_member = :email or following_member = :email; ";
+        $query .= "delete from IN_LIST where list in (select id_list from LIST where member = :email); ";
+        $query .= "delete from LIST where member = :email; ";
+        $query .= "delete from FOLLOWED_SHOW where member = :email; ";
+        $query .= "delete from WATCHED_EPISODES where member = :email; ";
+        $query .= "delete from VOTED_RECO where member = :email; ";
+        $query .= "delete from RECOMMENDATION where member =:email; ";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([":email" => $email]);
+    }
+
+    public function getMember($pseudo)
+    {
+        $query = "select * from flixadvisor.MEMBER where pseudo = :pseudo";
+        $queryPrepared = $this->pdo->prepare($query);
+        $queryPrepared->execute([":pseudo" => $pseudo]);
+        return $queryPrepared->fetch(PDO::FETCH_ASSOC);
     }
 
     /**
-    * check is connected
-    */
+     * check is connected
+     */
     public function isConnected()
     {
         if (!empty($_SESSION['email']) && !empty($_SESSION['token'])) {
@@ -231,8 +260,8 @@ class Member_model extends My_model
             $token = $_SESSION['token'];
             $queryPrepared = $this->pdo->prepare("SELECT email FROM " . $this->_table . " WHERE email=:email AND token=:token");
             $queryPrepared->execute([
-                ":email"=>$email,
-                ":token"=>$token
+                ":email" => $email,
+                ":token" => $token
             ]);
             if (!empty($queryPrepared->fetch())) {
                 return true;
@@ -241,9 +270,20 @@ class Member_model extends My_model
         return false;
     }
 
+    public function getPseudo()
+    {
+        if (!empty($_SESSION['email']) && !empty($_SESSION['token'])) {
+            $email = $_SESSION['email'];
+            $queryPrepared = $this->pdo->prepare("SELECT pseudo FROM " . $this->_table . " WHERE email=:email");
+            $queryPrepared->execute([":email" => $email]);
+            return $queryPrepared->fetch()[0];
+        }
+        return "";
+    }
+
     /**
-    * check is admin and redirect if is not admin to modal of connection
-    */
+     * check is admin and redirect if is not admin to modal of connection
+     */
     public function check_is_admin()
     {
         $role = '';
@@ -265,9 +305,9 @@ class Member_model extends My_model
     }
 
     /**
-    * get link for validate the user
-    * @param STRING $link = hash
-    */
+     * get link for validate the user
+     * @param STRING $link = hash
+     */
     public function get_link($link)
     {
         $query = $this->pdo->prepare('SELECT email FROM ' . $this->_table . ' WHERE verified_email = :link');
@@ -276,9 +316,9 @@ class Member_model extends My_model
     }
 
     /**
-    * UPDATE the user to validate
-    * @param STRING $email = primary_key
-    */
+     * UPDATE the user to validate
+     * @param STRING $email = primary_key
+     */
     public function valid_member($email)
     {
         $query = $this->pdo->prepare("UPDATE " . $this->_table . " SET verified_email = NULL, account_status = 'actif' where email = :email");
@@ -286,8 +326,8 @@ class Member_model extends My_model
     }
 
     /**
-    * @return ARRAY of int with the nb of user connected for stat in BO
-    */
+     * @return ARRAY of int with the nb of user connected for stat in BO
+     */
     public function get_nb_user_connected()
     {
         $query = $this->pdo->query("SELECT count(*) FROM " . $this->_table . " WHERE TOKEN IS NOT NULL");
@@ -435,9 +475,9 @@ class Member_model extends My_model
     }
 
     /**
-    * @param $nameMember string (pseuso du membre, recherche flexible : ma => marie, manon,...)
-    * @return array[array[email,pseudo],...]
-    */
+     * @param $nameMember string (pseuso du membre, recherche flexible : ma => marie, manon,...)
+     * @return array[array[email,pseudo],...]
+     */
     public function searchMember($nameMember)
     {
         $query = "select email, pseudo from flixadvisor.MEMBER where instr(pseudo, :name) >0";
