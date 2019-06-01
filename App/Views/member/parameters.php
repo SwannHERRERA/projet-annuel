@@ -18,16 +18,7 @@
     <form method="POST" class='mt-50 mb-65' onchange="submitForm(event)" enctype='multipart/form-data'>
         <div class="form-row mt-5">
             <div class="form-group col-md-6" style="text-align: center;">
-                <?php
-                $image = imagecreatefromjpeg($current_param['photo']);
-                $size = min(imagesx($image), imagesy($image));
-                $im2 = imagecrop($image, ['x' => 0, 'y' => 0, 'width' => $size, 'height' => $size]);
-                if ($im2 !== FALSE) {
-                    $test = imagepng($im2, 'example-cropped.png');
-                }
-                ?>
-                
-                <img id="preview" width="auto" src="<?= $test ?>">
+                <img id="preview" width="auto" src="<?= $current_param['photo'] ?>">
             </div>
             <div class="form-group col-md-6">
                 <p><b>Changer ma photo de profil :</b><br>
