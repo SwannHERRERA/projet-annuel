@@ -12,6 +12,8 @@
             <p>Membre depuis le <?= date('d-m-Y', strtotime($memberProfil['date_inscription'])) ?>
             <br><br>
             Rôle : <?= $memberProfil['account_role'] == 'admin' ? 'Administrateur' : 'Utilisateur' ?></p>
+            <br><br>
+
         </div>
         <div class="col-12">
             <hr>
@@ -24,10 +26,10 @@
                     <a class="nav-link" id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list"
                        aria-selected="false">Listes</a>
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                     <a class="nav-link" id="list-tab" data-toggle="tab" href="#activity" role="tab"
                        aria-controls="activity" aria-selected="false">Activités</a>
-                </li>
+                </li>-->
                 <li class="nav-item">
                     <a class="nav-link" id="stats-tab" data-toggle="tab" href="#stats" role="tab" aria-controls="list"
                        aria-selected="false">Statistiques</a>
@@ -59,7 +61,7 @@
                                 <?php
                                 $shows = getMemberFollowedShow($memberProfil['pseudo']);
                                 foreach ($shows as $show) { ?>
-                                    <div id="<?= $show['name_show'] ?>" class="col-6 col-sm-3 col-md-4 col-lg-3 mb-20">
+                                    <div id="<?= $show['name_show'] ?>" class="col-6 col-sm-3 col-md-4 col-lg-3 mb-20 followedShow">
                                         <a href="<?= '/show?show=' . $show['id_show'] ?>" target="_blank">
                                             <div class="white-card">
                                                 <img class="card-img-top" src="<?= $show['image_show'] ?>"
@@ -111,7 +113,7 @@
                                     <th scope="col">Nom</th>
                                     <th scope="col">Description</th>
                                     <th scope="col">Visibilité</th>
-                                    <th scope="col">Options</th>
+                                    <th scope="col">Supprimer</th>
                                 </tr>
                                 </thead>
                                 <tbody id="lists">

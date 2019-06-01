@@ -1,6 +1,6 @@
 function getMemberFollowedShow() {
     const element = document.getElementById("followedShows");
-    const cards = element.getElementsByClassName("col-6 col-sm-3 col-md-4 col-lg-2 mt-20");
+    const cards = element.getElementsByClassName("followedShow");
     for (let i = 0; i < cards.length; i++) {
         cards[i].style.display = "";
     }
@@ -8,7 +8,7 @@ function getMemberFollowedShow() {
 
 function getMemberWatchingShow() {
     const element = document.getElementById("followedShows");
-    const cards = element.getElementsByClassName("col-6 col-sm-3 col-md-4 col-lg-2 mt-20");
+    const cards = element.getElementsByClassName("followedShow");
     for (let i = 0; i < cards.length; i++) {
         if (cards[i].getElementsByTagName("h6")[0].innerHTML.indexOf("en cours") > -1) {
             cards[i].style.display = "";
@@ -20,7 +20,7 @@ function getMemberWatchingShow() {
 
 function getMemberCompletedShow() {
     const element = document.getElementById("followedShows");
-    const cards = element.getElementsByClassName("col-6 col-sm-3 col-md-4 col-lg-2 mt-20");
+    const cards = element.getElementsByClassName("followedShow");
     for (let i = 0; i < cards.length; i++) {
         if (cards[i].getElementsByTagName("h6")[0].innerHTML.indexOf("terminée") > -1) {
             cards[i].style.display = "";
@@ -32,7 +32,7 @@ function getMemberCompletedShow() {
 
 function getMemberPlanToWatchShow() {
     const element = document.getElementById("followedShows");
-    const cards = element.getElementsByClassName("col-6 col-sm-3 col-md-4 col-lg-2 mt-20");
+    const cards = element.getElementsByClassName("followedShow");
     for (let i = 0; i < cards.length; i++) {
         if (cards[i].getElementsByTagName("h6")[0].innerHTML.indexOf("à voir") > -1) {
             cards[i].style.display = "";
@@ -65,7 +65,7 @@ function filterFollowing() {
 
 function searchFollowing() {
     const input = document.getElementById("searchFollowing").value.toUpperCase();
-    const list = document.getElementById("followedShows").getElementsByClassName("col-6 col-sm-3 col-md-4 col-lg-2 mt-20");
+    const list = document.getElementById("followedShows").getElementsByClassName("followedShow");
     for (let i = 0; i < list.length; i++) {
         if (list[i].id.toUpperCase().indexOf(input) > -1) {
             list[i].style.display = "";
@@ -90,7 +90,7 @@ function addList() {
             }
         };
         request.open('POST', '/profil/createList');
-        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         request.send(
             'name=' + name.value +
             '&description=' + description.value +
@@ -100,15 +100,17 @@ function addList() {
 }
 
 function removeList(idList) {
-    const request = new XMLHttpRequest();
-    request.open('GET', '/show/deleteList?list=' + idList);
-    request.onreadystatechange = function () {
-        if (request.readyState === 4) {
-            if (request.status === 200) {
-                const list = document.getElementById("list" + idList);
-                list.remove();
+    if (confirm("Voulez vous vraiment supprimer cette liste ?")) {
+        const request = new XMLHttpRequest();
+        request.open('GET', '/show/deleteList?list=' + idList);
+        request.onreadystatechange = function () {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
+                    const list = document.getElementById("list" + idList);
+                    list.remove();
+                }
             }
-        }
-    };
-    request.send();
+        };
+        request.send();
+    }
 }
