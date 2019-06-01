@@ -19,13 +19,14 @@ $categories = ['member' => 'Membre', 'tv_show' => 'Tv_show','ticket' => 'Ticket'
 <body class='containter-fluid'>
   <div class='row no-gutters vh-100'>
     <aside class='col-md-2'>
-      <ul class='pt-20'>
+      <ul class='pt-20 mb-30'>
         <?php foreach ($categories as $controller => $categorie) :?>
         <li class='text-center'><a href="<?= $site_url . "/back/" . $controller?>"
             class="<?php if ($uri_segments[2] == $controller) echo "active"; ?>"><?= $categorie?></a>
         </li>
         <?php endforeach;?>
       </ul>
+      <p class="text-center"><a class="btn btn-danger" href="/">Front</a></p>
     </aside>
     <div class="col-md-10">
       <main class="container">

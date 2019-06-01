@@ -59,8 +59,8 @@ class Page extends Controller
             !empty($_GET['runtimes']) ||
             !empty($_GET['gender']) ||
             !empty($_GET['actor'])) {
-            if (isset($_SESSION["token_csrf"])) {
-                if ($_SESSION["token_csrf"] == $_GET['token_csrf']) {
+            /*if (isset($_SESSION["token_csrf"])) {
+                if ($_SESSION["token_csrf"] == $_GET['token_csrf']) {*/
                     $tv_shows = $this->tv_show_model->searchTVShowAdvanced(
                         $_GET['search'] ?? '',
                         $_GET['minimum_rating'] ?? '',
@@ -71,11 +71,11 @@ class Page extends Controller
                         $_GET['gender'] ?? '',
                         $_GET['actor'] ?? ''
                     );
-                }
-            }
+                /*}
+            }*/
         }
-        $token = substr(sha1(uniqid() . 'riejrozjeioj'), 0, 10);
-        $_SESSION["token_csrf"] = $token;
+        /*$token = substr(sha1(uniqid() . 'riejrozjeioj'), 0, 10);
+        $_SESSION["token_csrf"] = $token; */
         $genders = $category_model->getCategoryList();
         $networks = $network_model->getNetworkList();
 

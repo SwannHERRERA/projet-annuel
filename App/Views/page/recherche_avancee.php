@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-12">
             <form class="mt-30">
-                <input type="hidden" name="token_csrf" value="<?= $token ?>">
+                <!--<input type="hidden" name="token_csrf" value="<?php //echo $token ?>"> -->
                 <div class="form-group">
                     <label for="advanced_search">Séries</label>
                     <input type="text" name="search" id="advanced_search" class="form-control" value="">
@@ -109,7 +109,7 @@
                     <div class="card mb-30">
                         <div class="card-content">
                             <div class="card-header">
-                                <a href="<?= $site_url . '/show?' . $tv_show['id_show']?>"><h5 class="card-title"><?= $tv_show['name_show'] ?></h5></a>
+                                <a href="<?= $site_url . '/show?show=' . $tv_show['id_show']?>"><h5 class="card-title"><?= $tv_show['name_show'] ?></h5></a>
                             </div>
                             <div class="card-body">
                                 <div class="row">

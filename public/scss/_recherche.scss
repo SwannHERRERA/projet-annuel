@@ -120,6 +120,7 @@
   ul {
     margin: 0px;
     li {
+      @extend %unselectable;
       border: 1px solid $light-dark;
       border-top: none;
       padding: 6px 10px 6px 25px;

@@ -17336,7 +17336,7 @@ h3 {
   padding-left: 0;
 }
 
-#years_pickers label,
+#result ul li, #years_pickers label,
 #time_pickers label, #ajax_result ul li, .switch {
   user-select: none;
   -moz-user-select: none;

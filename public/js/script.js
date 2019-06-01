@@ -83,16 +83,18 @@ const createList = function(ajax){
     const ul = document.createElement('ul');
     for (let i = 0; i < ajax.length && i < 5; i++){
         const li = document.createElement('li');
+        const a =  document.createElement('a');
         if (ajax[i].hasOwnProperty("id_show")){
-            const a =  document.createElement('a');
             a.setAttribute("href","https://flixadvisor.fr/show?show=" +  ajax[i]['id_show']);
             a.innerHTML = ajax[i]['name_show'];
-            li.appendChild(a);
-        }else if (ajax[i].hasOwnProperty("id_show")){
-            li.innerHTML = ajax[i]["name_actor"];
+        }else if (ajax[i].hasOwnProperty("id_actor")){
+            a.setAttribute("href","https://flixadvisor.fr/recherche_avancee?actor%5B%5D=" +  ajax[i]['id_actor']);
+            a.innerHTML = ajax[i]["name_actor"];
         }else {
-            li.innerHTML = ajax[i][1];
+            a.setAttribute("href","https://flixadvisor.fr/profil?user=" +  ajax[i][1]);
+            a.innerHTML = ajax[i][1];
         }
+        li.appendChild(a);
         ul.appendChild(li);
     }
     parent.appendChild(ul);
@@ -138,7 +140,7 @@ const search = document.getElementById('search');
 if (search != undefined) {
     search.addEventListener('keyup', function() {
         if (search.value.length > 2) {
-            makeRequest(search.value, "https://flixadvisor.fr/recherche", createList);
+            makeRequest(search.value, "http://localhost/recherche", createList);
         } else {
             document.getElementById('result').innerHTML = "";
         }

@@ -11,7 +11,7 @@
                         <?php endforeach; ?>
                     </ul>
                 </div>
-            <? endif ?>
+            <? endif; ?>
             <? if (!empty($_SESSION['password_lost'])): ?>
                 <div class="alert alert-danger">
                     <ul>
@@ -20,7 +20,7 @@
                         <?php endforeach; ?>
                     </ul>
                 </div>
-            <? endif ?>
+            <? endif; ?>
             <form class="card bg-tertiary" method="POST" action="">
                 <div class="card-body pt-40">
                     <div class="form-group ">

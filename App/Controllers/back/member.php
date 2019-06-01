@@ -20,7 +20,7 @@ class Member extends Controller
     {
         $page_title = 'Gestion des membres';
         $sous_categories = ['Gestion des membre' => 'gestion', 'Création d\'une membre' => 'creation', 'Membres bannis' => 'ban'];
-        $members = $this->member_model->get_columns(['email','pseudo','date_inscription','account_role']);
+        $members = $this->member_model->get_columns_where(['email','pseudo','date_inscription','account_role'], ['account_status' => 'actif']);
 
         require self::VIEW_PATH . 'back/layout/header.php';
         require self::VIEW_PATH . 'back/member/gestion.php';

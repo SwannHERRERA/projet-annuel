@@ -407,10 +407,10 @@ $show = getTVShow($idShow);
                             ?>
                             <div class="col-xl-4 col-sm-6">
                                 <div class="card  mb-20">
-                                    <img class="card-img-top" alt="Actor photo"
-                                        src=<?= '"' . $actor['photo_actor'] . '"'; ?>>
+                                    <a href="<?= $site_url . '/recherche_avancee?actor%5B%5D=' . $actor['id_actor'] ?>"><img class="card-img-top" alt="Actor photo"
+                                        src=<?= '"' . $actor['photo_actor'] . '"'; ?>></a>
                                     <div class="card-body">
-                                        <h5 class="card-title"><?= $actor['name_actor']; ?></h5>
+                                        <a href="<?= $site_url . '/recherche_avancee?actor%5B%5D=' . $actor['id_actor'] ?>"><h5 class="card-title"><?= $actor['name_actor']; ?></h5></a>
                                         <div>Role : <?= $actor['role_actor']; ?></div>
                                     </div>
                                 </div>
