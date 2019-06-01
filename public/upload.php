@@ -57,7 +57,7 @@ try {
     if (move_uploaded_file($image['tmp_name'], $destination)) {
         // Création de l'URL finale de l'image
         //$protocol = $_SERVER['HTTPS'] ? 'https://' : 'http://';
-        $protocol = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://')
+        $protocol = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://');
         $domain = $protocol . $_SERVER['SERVER_NAME'];
         $url = $domain.$path;
 
