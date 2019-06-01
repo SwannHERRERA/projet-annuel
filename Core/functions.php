@@ -322,6 +322,7 @@ function getTVShowActors($idShow)
 {
     $pdo = connectDB();
     $query = "SELECT ACTOR.id_actor, ACTOR.name_actor, CASTING.role_actor, CASTING.photo_actor FROM flixadvisor.ACTOR, flixadvisor.CASTING WHERE CASTING.actor = ACTOR.id_actor AND CASTING.tv_show = :id order by name_actor";
+    $query = "SELECT ACTOR.name_actor, CASTING.role_actor, CASTING.photo_actor FROM flixadvisor.ACTOR, flixadvisor.CASTING WHERE CASTING.actor = ACTOR.id_actor AND CASTING.tv_show = :id order by name_actor";
     $queryPrepared = $pdo->prepare($query);
     $queryPrepared->execute([":id" => $idShow]);
     if ($queryPrepared->errorCode() != '00000') {
@@ -329,6 +330,7 @@ function getTVShowActors($idShow)
         die("Une erreur est survenue lors de la recuperation des acteurs de la serie.");
     }
     return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
+    return $queryPrepared->fetchAll();
 }
 
 /**

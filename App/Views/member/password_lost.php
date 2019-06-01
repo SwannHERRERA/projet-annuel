@@ -1,9 +1,9 @@
 <div class="col-md-9 col-lg-10 align-self">
     <h1 class="mb-50">Mot de passe oublié</h1>
-    <p class="mb-50">Nous vous enverons un mot de passe par email</p>
+    <p class="mb-50">Nous vous enverrons un mot de passe par email</p>
     <div class="row align-self-center">
         <div class="col-md-6 offset-md-3">
-            <? if (!empty($_SESSION['success-message'])): ?>
+            <?php if (!empty($_SESSION['success-message'])): ?>
                 <div class="alert alert-success">
                     <ul>
                         <?php foreach ($_SESSION['success-message'] as $message): ?>
@@ -11,8 +11,8 @@
                         <?php endforeach; ?>
                     </ul>
                 </div>
-            <? endif; ?>
-            <? if (!empty($_SESSION['password_lost'])): ?>
+            <?php endif; ?>
+            <?php if (!empty($_SESSION['password_lost'])): ?>
                 <div class="alert alert-danger">
                     <ul>
                         <?php foreach ($_SESSION['password_lost'] as $message): ?>
@@ -20,7 +20,7 @@
                         <?php endforeach; ?>
                     </ul>
                 </div>
-            <? endif; ?>
+            <?php endif; ?>
             <form class="card bg-tertiary" method="POST" action="">
                 <div class="card-body pt-40">
                     <div class="form-group ">
