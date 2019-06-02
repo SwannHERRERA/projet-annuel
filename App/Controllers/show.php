@@ -107,6 +107,9 @@ class show extends Controller
 
     public function submitComment()
     {
+        $site_url = (isset($_SERVER['HTTPS'])) ? 'https://' : 'http://';
+        $site_url .= $_SERVER['HTTP_HOST'];
+
         if (!isset($_POST['show']) || !isset($_POST['comment']) || !$this->member_model->isConnected()) {
             header('Location: /');
         }
@@ -114,8 +117,9 @@ class show extends Controller
         $str = $_POST['comment'];
 
         preg_match_all($re, $str, $matches, PREG_SET_ORDER, 0);
-        foreach ($matches as $value) {
-            $result = '<span class="spoiler">' . $value[1] . '</span>';
+        foreach ($matches as $key => $value) {
+            $unhideSpoiler = 'unhideSpoiler(\'' . 'spoiler' . $key . '\')';
+            $result = '<span class="spoiler" id="spoiler' . $key . '" onclick="' .$unhideSpoiler . '">' . $value[1] . '</span>';
             $str = preg_replace($re, $result, $str, 1);
         }
 

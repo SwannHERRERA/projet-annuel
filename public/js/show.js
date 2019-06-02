@@ -356,3 +356,9 @@ function hideSpoiler(textareaId) {
         comment.setSelectionRange(beforeSelectedText.length + startTag.length, beforeSelectedText.length + startTag.length + selectedText.length);
     }
 }
+
+function unhideSpoiler(id) {
+    let span = document.getElementById(id);
+    span.style.color = "#fff";
+    span.style.backgroundColor = "rgba(75,0,130,0.5)";
+}
