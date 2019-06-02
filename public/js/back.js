@@ -56,3 +56,15 @@ function sendMessage() {
         );
     }
 }
+
+function filterContact() {
+    const filter = document.getElementById('filter').value.toUpperCase();
+    const elements = document.getElementById('list-tab').getElementsByTagName('a');
+    for (let i = 0; i < elements.length; i++) {
+        if (elements[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+            elements[i].style.display = "";
+        } else {
+            elements[i].style.display = "none";
+        }
+    }
+}

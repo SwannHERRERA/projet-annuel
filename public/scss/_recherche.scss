@@ -105,10 +105,11 @@
     }
   }
   &.visible {
+    position: absolute;
+    z-index: $zindex-dropdown;
     .items {
       display: block;
     }
-    margin-bottom: 20px;
   }
 }
 

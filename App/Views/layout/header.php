@@ -57,7 +57,7 @@ require_once BASEPATH . '/Core/functions.php';
             <li><a href="<?= $site_url . '/recherche_avancee' ?>" class="link"><i class="fas fa-search"></i>&nbsp;Recherche
                     avancée</a>
             <li><a href="<?= $site_url . '/show?show='.getRandomShowId()[0] ?>" class="link"><i class="fas fa-dice"></i>&nbsp;Surprenez-moi !</a>
-            <li><a href="#" class="link"><i class="fas fa-address-book"></i>&nbsp; Contact</a>
+            <li><a href="mailto:contact@flixadvisor.fr" class="link"><i class="fas fa-address-book"></i>&nbsp; Contact</a>
         </ul>
         <?php if ($this->member_model->isConnected()): ?>
             <p class="text-center">
@@ -68,29 +68,12 @@ require_once BASEPATH . '/Core/functions.php';
                 <a href="<?= $site_url . '/messages' ?>" class="btn btn-secondary"><i
                             class="fas fa-envelope"></i></a>
             </p>
-        <p class="text-center">
-            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#sendMessage">Contactez nous</button>
-        </p>
-            <div class="modal fade" id="sendMessage" tabindex="-1" role="dialog"
-                 aria-labelledby="sendMessage" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Envoyer un message</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="<?= '/member/submit_contact' ?>" method="post">
-                                <label for="message">Message :</label>
-                                <textarea class="form-control" name="message" id="message"></textarea>
-                                <button type="submit" class="btn btn-primary mt-20">Envoyer</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <p class="text-center">
+                <a href="<?= $site_url . '/member/contact' ?>" class="btn btn-secondary">
+                    Contactez nous
+                </a>
+
+            </p>
         <?php endif;
         if ($this->member_model->is_admin()): ?>
             <p class="text-center"><a class="btn btn-success" href="<?= $site_url . '/back/member/gestion' ?>">Back
