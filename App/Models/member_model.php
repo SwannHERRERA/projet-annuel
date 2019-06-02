@@ -31,6 +31,10 @@ class Member_model extends My_model
             if ($_SESSION['captcha'] != $captcha) {
                 $_SESSION['register'][] = 'Le captcha est incorrect';
             }
+            if (!preg_match("#[a-z]#", $_POST['password']) || !preg_match("#[A-Z]#", $_POST['password']) || preg_match("#\d#", $_POST['password'])) {
+                $_SESSION['register'][] = "Le mot de passe doit faire entre 8 et 50 caractères avec des majuscules, des minuscules et des chiffres";
+            }
+
             $query = $this->pdo->prepare("SELECT pseudo FROM MEMBER WHERE pseudo = :pseudo");
             $result = $query->execute([':pseudo' => $_POST['pseudo']]);
             $result = $query->fetch();
@@ -43,6 +47,7 @@ class Member_model extends My_model
             if (!empty($result['email'])) {
                 $_SESSION['register'][] = 'L\'email existe déjà';
             }
+
             if (empty($_SESSION['register'])) {
                 $lien = substr(md5($_POST['email'] . time() . uniqid()), 0, 30);
                 $query = $this->pdo->prepare('INSERT INTO ' . $this->_table . ' (email, pseudo, gender, birth_date, photo, city, country, password,account_status, account_role, date_inscription, verified_email)
