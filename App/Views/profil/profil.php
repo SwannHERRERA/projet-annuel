@@ -150,7 +150,13 @@
                                 </tr>
                                 </thead>
                                 <tbody id="lists">
-                                <?php foreach (getMemberLists($memberProfil['email']) as $list) { ?>
+
+                                <?php
+                                if (isset($_SESSION['email'])) {
+                                    $user = getMember($_SESSION['email']);
+
+                                }
+                                foreach (getMemberLists($memberProfil['email']) as $list) { ?>
                                 <tr id="list<?= $list['id_list'] ?>">
                                     <th scope="row"><a
                                                 href="<?= $site_url . '/profil/profilList?list=' . $list['id_list'] ?>"><?= $list['name_list'] ?></a>
@@ -160,7 +166,6 @@
                                     <td>
                                     <?php
                                     if (isset($_SESSION['email'])) {
-                                        $user = getMember($_SESSION['email']);
                                         if ($user['email'] === $memberProfil['email'] || $user['account_status'] == 'admin') {
                                             ?>
                                             <button onclick="removeList(<?= $list['id_list'] ?>)"
