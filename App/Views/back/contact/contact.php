@@ -1,5 +1,5 @@
 <script src="<?= $site_url . '/js/back.js' ?>"></script>
-<div class="col-md-9 col-lg-10 align-self">
+<div class="col-md-10 col-lg-12 align-self">
     <div class="row">
         <div class="col-sm-4 border-right">
             <label for="filter">Recherche :</label>
