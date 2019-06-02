@@ -4,13 +4,13 @@
             <form class="mt-30">
                 <!--<input type="hidden" name="token_csrf" value="<?php //echo $token ?>"> -->
                 <div class="form-group">
-                    <label for="advanced_search">Séries</label>
+                    <label for="advanced_search">Nom</label>
                     <input type="text" name="search" id="advanced_search" class="form-control" value="">
                 </div>
                 <div class="row mb-20">
                     <div class="col-4">
                         <div class="form-group">
-                            <label for="minimum_rating">Note minimal</label>
+                            <label for="minimum_rating">Note minimale</label>
                             <select class="form-control" name="minimum_rating" id="minimum_rating">
                                 <option></option>
                                 <option>1</option>
@@ -26,7 +26,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <button type="button" id="runtime" class="btn btn-block btn-primary">Durée (en min)</button>
+                            <button type="button" id="runtime" class="btn btn-block btn-primary">Durée (en minutes)</button>
                             <div id="time_pickers" style="display: none;">
                                 <? for ($i = 0; $i <= 120; $i += 5): ?>
                                 <input type="checkbox" id="runtime<?= $i ?>" value="<?= $i ?>" name="runtimes[]" style="display: none;">
@@ -39,7 +39,7 @@
                             </div>
                         </div>
                         <div id="network" class="dropdown-check-list" tabindex="100">
-                            <span class="anchor">Network</span>
+                            <span class="anchor">Chaîne</span>
                             <ul class="items">
                                 <?php foreach ($networks as $network) : ?>
                                     <li><input type="checkbox" value="<?= $network['id_network'] ?>" id="<?= $network['name_network'] ?>" name="networks[]"/><label for="<?= $network['name_network'] ?>">&nbsp;<?= $network['name_network'] ?></label></li>
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                     <div class="col-4">
-                            <button type="button" id="first_aired_years" class="btn btn-block btn-primary">Date de premère diffusion</button>
+                            <button type="button" id="first_aired_years" class="btn btn-block btn-primary">Année de première diffusion</button>
                             <div id="years_pickers" style="display: none;">
                                 <? for ($i = 1999; $i < 2019; $i++): ?>
                                 <input type="checkbox" id="year<?= $i ?>" value="<?= $i ?>" name="years[]" style="display: none;">
@@ -91,13 +91,13 @@
                                 <? endfor ?>
                             </div>
                         <div id="valid_result"></div>
-                        <label for="search_actor">Acteur</label>
+                        <label for="search_actor">Acteur / Actrice</label>
                         <input type="text" id="search_actor" class="form-control">
                         <div id="ajax_result"></div>
                     </div>
                     <div class="col-12">
                         <p class="text-center">
-                            <button type="submit" class="btn btn-primary" name="">Submit</button>
+                            <button type="submit" class="btn btn-gold" name="">Chercher</button>
                         </p>
                 </div>
             </form>

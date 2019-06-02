@@ -32,7 +32,7 @@
             <table class="table table-striped table-bordered text-center mb-20">
                 <thead>
                     <tr>
-                        <th>Nombre de productions</th>
+                        <th>Nombre de chaines</th>
                     </tr>
                 </thead>
                 <tbody>

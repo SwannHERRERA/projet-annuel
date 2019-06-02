@@ -14,7 +14,6 @@ body {
   font-family: "lato";
   font-weight: 400;
   min-height: 100vh;
-  background-color: #0d0d0d;
 }
 
 a:hover {
@@ -142,6 +141,6 @@ form span.require {
 
 .btn-gold:hover {
   background-color: #ffc400;
-  color: black;
-  font-weight: bolder;
+
+  color: $black;
 }
