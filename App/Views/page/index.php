@@ -42,6 +42,7 @@
     </div>
     <?php if (isset($_SESSION['email'])) {
         $personnalisedShows = getMemberPersonnalisedShows($_SESSION['email']);
+        echo '<hr>';
         echo "<h2>Recommandations personnalisées</h2>";
         echo '<div id="recommandations">';
         foreach ($personnalisedShows as $show) { ?>

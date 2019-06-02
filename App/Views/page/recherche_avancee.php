@@ -5,8 +5,10 @@
                 <!--<input type="hidden" name="token_csrf" value="<?php //echo $token ?>"> -->
                 <div class="row mb-20">
                     <div class="col-md-6">
-                        <label for="advanced_search".<b>Nom</b></label>
-                        <input type="text" name="search" id="advanced_search" class="form-control" value="">
+                        <div class="form-group">
+                            <label for="advanced_search".<b>Nom</b></label>
+                            <input type="text" name="search" id="advanced_search" class="form-control" value="">
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <label for="search_actor"><b>Acteur / Actrice</b></label>
@@ -48,7 +50,7 @@
 
                 <div class="row mb-20">
                     <div class="col-md-6">
-                        <div id="network" class="dropdown-check-list" tabindex="100">
+                        <div id="network" class="dropdown-check-list mb-20" tabindex="100">
                             <span class="anchor">Chaîne</span>
                             <ul class="items">
                                 <?php foreach ($networks as $network) : ?>
@@ -71,6 +73,7 @@
 
                 <div class="row mb-20">
                     <div class="col-md-6">
+                        <div class="form-group">
                             <label for="minimum_rating">Note minimale</label>
                             <select class="form-control" name="minimum_rating" id="minimum_rating">
                                 <option></option>
@@ -85,6 +88,7 @@
                                 <option>9</option>
                                 <option>10</option>
                             </select>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="white-card text-dark mb-20 p-10">
