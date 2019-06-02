@@ -1,5 +1,6 @@
 <?php
 require_once BASEPATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Controller.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -23,6 +24,7 @@ class Member extends Controller
         require self::VIEW_PATH . 'member/register.php';
         require self::VIEW_PATH . 'layout/footer.php';
     }
+
     public function login()
     {
         if (!empty($_POST['email_modal'])) {
@@ -52,6 +54,7 @@ class Member extends Controller
             header("Location: /#modal");
         }
     }
+
     public function logout()
     {
         if (isset($_SESSION['email'])) {
@@ -61,6 +64,7 @@ class Member extends Controller
         }
         header("Location: /");
     }
+
     public function verify()
     {
         //SELECT email FROM MEMBER WHERE verified_email = $link
@@ -71,7 +75,8 @@ class Member extends Controller
         header("Location: /#modal");
     }
 
-    public function parameters() {
+    public function parameters()
+    {
         if (!$this->member_model->isConnected()) {
             header('Location: /');
         }
@@ -84,7 +89,8 @@ class Member extends Controller
         require self::VIEW_PATH . 'layout/footer.php';
     }
 
-    public function delete(){
+    public function delete()
+    {
         if ($this->member_model->isConnected()) {
             $pseudo = $this->member_model->getPseudo();
             $this->member_model->delete($pseudo);
@@ -93,7 +99,8 @@ class Member extends Controller
         }
     }
 
-    public function password_lost() {
+    public function password_lost()
+    {
         if ($this->member_model->isConnected()) {
             header('Location: /');
         }
@@ -127,10 +134,10 @@ class Member extends Controller
                     // Content
                     $mail->isHTML(true);
                     $mail->Subject = 'Flix Advisor : Nouveau password';
-                    $mail->Body = "Bonjour " .  $member["pseudo"] .",<br>
+                    $mail->Body = "Bonjour " . $member["pseudo"] . ",<br>
                                 Vous avez fait une demande de nouveau mot de passe.<br>
                                 Votre nouveau mot de passe est : " . $newPassword .
-                                "<br>A bientôt,<br>
+                        "<br>A bientôt,<br>
                                 L'équipe Flix Advisor<br>
                                 https://flixadvisor.fr";
                     //$mail->AltBody = 'non-HTML mail clients';
@@ -150,5 +157,13 @@ class Member extends Controller
         require self::VIEW_PATH . 'layout/footer.php';
         unset($_SESSION['success-message']);
         unset($_SESSION['password_lost']);
+    }
+
+    public function submit_contact()
+    {
+        if ($this->member_model->isConnected() || !isset($_POST['message']) || strlen($_POST['message']))
+            header('Location: /');
+        sendMessage($_SESSION['email'], 'admin@admin.fr', $_POST['message']);
+        header('Location: /');
     }
 }

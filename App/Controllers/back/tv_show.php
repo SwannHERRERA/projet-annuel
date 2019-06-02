@@ -35,7 +35,7 @@ class Tv_show extends Controller
     public function gestion()
     {
         $page_title = 'Gestion des Séries';
-        $sous_categories = ['Gestion des seriés' => 'gestion', 'Création d\'une serie' => 'add', 'Propositions de séries' => 'proposition'];
+        $sous_categories = ['Gestion des series' => 'gestion', 'Création d\'une serie' => 'add'];
 
         $tv_shows = $this->tv_show_model->getTVShowList();
         require self::VIEW_PATH . 'back/layout/header.php';
@@ -50,7 +50,7 @@ class Tv_show extends Controller
         }
 
         $page_title = 'Création d\'une serie';
-        $sous_categories = ['Gestion des seriés' => 'gestion', 'Création d\'une serie' => 'add', 'Propositions de séries' => 'proposition'];
+        $sous_categories = ['Gestion des series' => 'gestion', 'Création d\'une serie' => 'add'];
 
         require self::VIEW_PATH . 'back/layout/header.php';
         require self::VIEW_PATH . 'back/tv_show/add.php';
@@ -60,7 +60,7 @@ class Tv_show extends Controller
     public function liste()
     {
         $page_title = 'Création d\'une serie';
-        $sous_categories = ['Gestion des seriés' => 'gestion', 'Création d\'une serie' => 'add', 'Propositions de séries' => 'proposition'];
+        $sous_categories = ['Gestion des series' => 'gestion', 'Création d\'une serie' => 'add'];
 
         /* Obtention du token */
         $this->api->authenticate();
@@ -79,10 +79,10 @@ class Tv_show extends Controller
             $serie = $this->api->series($_GET['idserie']);
 
             $result = $this->tv_show_model->insertTV($serie->id, $serie, $this->api, $this->imurl, true);
-            header("Location: " . $site_url . "/back/tv_show/add");
+            header("Location: /back/tv_show/add");
         } else {
             $page_title = 'Création d\'une serie';
-            $sous_categories = ['Gestion des seriés' => 'gestion', 'Création d\'une serie' => 'add', 'Propositions de séries' => 'proposition'];
+            $sous_categories = ['Gestion des series' => 'gestion', 'Création d\'une serie' => 'add'];
             $categorie_active = 'add';
             if (empty($_GET['idserie'])) {
                 echo 'L\'id de la série n\'est pas renseignée';
@@ -99,14 +99,6 @@ class Tv_show extends Controller
                 }
             }
         }
-    }
-
-    public function Proposition()
-    {
-        $page_title = 'Proposition de séries';
-        $sous_categories = ['Gestion des seriés' => 'gestion', 'Création d\'une serie' => 'add', 'Propositions de séries' => 'proposition'];
-        require self::VIEW_PATH . 'back/layout/footer.php';
-        require self::VIEW_PATH . 'back/layout/header.php';
     }
 
     public function remove()
@@ -129,7 +121,7 @@ class Tv_show extends Controller
         $tv_show = $this->tv_show_model->getTVShow($_GET['id']);
 
         $page_title = 'Modification d\'une serie';
-        $sous_categories = ['Gestion des seriés' => 'gestion', 'Création d\'une serie' => 'add', 'Propositions de séries' => 'proposition'];
+        $sous_categories = ['Gestion des series' => 'gestion', 'Création d\'une serie' => 'add'];
         require self::VIEW_PATH . 'back/layout/header.php';
         require self::VIEW_PATH . 'back/tv_show/form.php';
         require self::VIEW_PATH . 'back/layout/footer.php';

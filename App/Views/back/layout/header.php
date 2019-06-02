@@ -6,7 +6,7 @@ $site_url = (isset($_SERVER['HTTPS'])) ? 'https://' : 'http://';
 $site_url .= $_SERVER['HTTP_HOST'];
 $uri_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri_segments = explode('/', $uri_path);
-$categories = ['member' => 'Membre', 'tv_show' => 'Tv_show','ticket' => 'Ticket', 'statistics' => 'Statistique'];
+$categories = ['member' => 'Membre', 'tv_show' => 'Series','ticket' => 'Contact', 'statistics' => 'Statistique'];
 ?>
 <head>
   <meta charset="UTF-8">
