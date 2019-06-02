@@ -3,8 +3,10 @@
     <h1 class="h1 ml-20 mt-20">Messages</h1><br>
     <hr>
     <div class="row">
-        <div class="col-3 border-right">
-            <div class="list-group" id="list-tab" role="tablist">
+        <div class="col-sm-3 border-right">
+            <label for="filter">Recherche :</label>
+            <input class="form-control mb-20" type="text" id="filter" onkeyup="filter()">
+            <div class="list-group h-auto pre-scrollable" id="list-tab" role="tablist">
                 <?php
                 $correspondants = listMemberMessages($_SESSION['email']);
                 foreach ($correspondants as $key => $correspondant) {
@@ -25,9 +27,9 @@
                 ?>
             </div>
         </div>
-        <div class="col-8">
-            <div class="row">
-                <div class="col-12" id="messages">
+        <div class="col-sm-8">
+            <div class="row ">
+                <div class="col-12 h-auto pre-scrollable" id="messages">
                     <?php $messages = getMessages($correspondants[0]['correspondant'], $_SESSION['email']);
                     foreach ($messages as $message) {
                         if ($message['sending_member'] == $_SESSION['email']) { ?>

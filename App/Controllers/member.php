@@ -10,6 +10,7 @@ class Member extends Controller
 
     public function __construct()
     {
+        require_once BASEPATH . '/Core/functions.php';
         require self::MODEL_PATH . 'member_model.php';
         $this->member_model = new Member_model;
         parent::__construct(__CLASS__);
@@ -161,9 +162,19 @@ class Member extends Controller
 
     public function submit_contact()
     {
-        if ($this->member_model->isConnected() || !isset($_POST['message']) || strlen($_POST['message']))
+        if (!$this->member_model->isConnected() || !isset($_POST['message']) || strlen($_POST['message']) < 1)
             header('Location: /');
         sendMessage($_SESSION['email'], 'admin@admin.fr', $_POST['message']);
         header('Location: /');
+    }
+
+    public function contact()
+    {
+        if (!$this->member_model->isConnected())
+            header('Location: /');
+        require self::VIEW_PATH . 'layout/header.php';
+        require self::VIEW_PATH . 'member/contact.php';
+        require self::VIEW_PATH . 'layout/footer.php';
+
     }
 }
