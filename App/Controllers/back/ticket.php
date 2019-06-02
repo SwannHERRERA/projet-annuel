@@ -75,7 +75,7 @@ class Ticket extends Controller
         ?>
         <div class="row justify-content-end mt-20">
             <div class="col-md-6">
-                <div class="card bg-secondary">
+                <div class="card bg-primary text-light">
                     <div class="card-header ">
                         Envoyé le : <?= date('d-m-Y') ?>
                     </div>

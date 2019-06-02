@@ -1,8 +1,10 @@
 <script src="<?= $site_url . '/js/back.js' ?>"></script>
-<div class="col-md-9 col-lg-10 align-self">
+<div class="col-md-10 col-lg-12 align-self">
     <div class="row">
-        <div class="col-4 border-right">
-            <div class="list-group" id="list-tab" role="tablist">
+        <div class="col-sm-4 border-right">
+            <label for="filter">Recherche :</label>
+            <input class="form-control mb-20" type="text" id="filter" onkeyup="filterContact()">
+            <div class="list-group h-auto pre-scrollable" id="list-tab" role="tablist">
                 <?php
                 $correspondants = listContactMessages();
                 foreach ($correspondants as $key => $correspondant) {
@@ -23,9 +25,9 @@
                 ?>
             </div>
         </div>
-        <div class="col-8">
+        <div class="col-sm-8">
             <div class="row">
-                <div class="col-12" id="messages">
+                <div class="col-12 pre-scrollable" id="messages">
                     <?php $messages = getMessages($correspondants[0]['correspondant'], 'admin@admin.fr');
                     foreach ($messages as $message) {
                         if ($message['sending_member'] == 'admin@admin.fr') { ?>

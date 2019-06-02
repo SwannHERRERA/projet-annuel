@@ -36,8 +36,8 @@ function getMessages(pseudo) {
 function sendMessage() {
     const pseudo = document.getElementsByClassName("list-group-item list-group-item-action active")[0].innerHTML.split("<br>")[0];
     const element = document.getElementById("messages");
-    const message = document.getElementById("newMessage").value;
-    if (message.length > 0) {
+    const message = document.getElementById("newMessage");
+    if (message.value.length > 0) {
         console.log(pseudo);
         const request = new XMLHttpRequest();
         request.onreadystatechange = function () {
@@ -52,7 +52,19 @@ function sendMessage() {
         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         request.send(
             'pseudo=' + pseudo +
-            '&message=' + message
+            '&message=' + message.value
         );
+    }
+}
+
+function filterContact() {
+    const filter = document.getElementById('filter').value.toUpperCase();
+    const elements = document.getElementById('list-tab').getElementsByTagName('a');
+    for (let i = 0; i < elements.length; i++) {
+        if (elements[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+            elements[i].style.display = "";
+        } else {
+            elements[i].style.display = "none";
+        }
     }
 }

@@ -3,7 +3,7 @@
         <div class="col-12">
             <h1><?= $serie->seriesName?></h1>
             <form method="POST">
-                <input type="submit" class="btn btn-secondary" name="insert" id="insert" value="Ajouter² / Actualiser" />
+                <input type="submit" class="btn btn-secondary" name="insert" id="insert" value="Ajouter / Actualiser" />
             </form>
         </div>
     </div>
