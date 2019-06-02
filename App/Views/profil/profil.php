@@ -158,7 +158,7 @@
                                 }
                                 foreach (getMemberLists($memberProfil['email']) as $list) {
                                     if (($list['visibility_list'] == 'private' && isset($_SESSION['email']) &&
-                                            ($_SESSION['email'] == $list['member'] || $user['account_status'] == 'admin'))
+                                            ($_SESSION['email'] == $list['member'] || $user['account_role'] == 'admin'))
                                         || $list['visibility_list'] == 'public') { ?>
                                     <tr id="list<?= $list['id_list'] ?>">
                                         <th scope="row"><a
@@ -169,7 +169,7 @@
                                         <td>
                                         <?php
                                         if (isset($_SESSION['email'])) {
-                                            if ($user['email'] === $memberProfil['email'] || $user['account_status'] == 'admin') {
+                                            if ($user['email'] === $memberProfil['email'] || $user['account_role'] == 'admin') {
                                                 ?>
                                                 <button onclick="removeList(<?= $list['id_list'] ?>)"
                                                         class="btn btn-warning"><i

@@ -6,7 +6,7 @@
                     href="<?= '/profil?user=' . getMember($list['member'])['pseudo'] ?>"><?= ucfirst(getMember($list['member'])['pseudo']) ?></a>
             <?php if (isset($_SESSION['email'])) {
                 $user = getMember($_SESSION['email']);
-                if ($user['email'] === $list['member'] || $user['account_status'] == 'admin') {
+                if ($user['email'] === $list['member'] || $user['account_role'] == 'admin') {
                     ?>
                     <button type="button" class="btn btn-primary ml-20" data-toggle="modal" data-target="#updateList">
                         <i
@@ -93,7 +93,7 @@
                     <?php
                     if (isset($_SESSION['email'])) {
                         $user = getMember($_SESSION['email']);
-                        if ($user['email'] === $list['member'] || $user['account_status'] == 'admin') {
+                        if ($user['email'] === $list['member'] || $user['account_role'] == 'admin') {
                             ?>
                             <button onclick="removeShowList(<?= $show['id_show'] . ',' . $list['id_list'] ?>)"
                                     class="btn btn-warning"><i
