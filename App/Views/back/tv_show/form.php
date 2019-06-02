@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-group">
                     <label for="id_show">id show</label>
-                    <input type="text" name="id_show" id="id_show" class="form-control" value="<?= $_POST['id_show'] ?? $tv_show['id_show'] ?? '' ?>">
+                    <input type="text" name="id_show" id="id_show" class="form-control" disabled value="<?= $_POST['id_show'] ?? $tv_show['id_show'] ?? '' ?>">
                 </div>
             </div>
 

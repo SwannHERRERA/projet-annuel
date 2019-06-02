@@ -114,7 +114,7 @@
 
                     <div class="col-12">
                         <p class="text-center">
-                            <button type="submit" class="btn btn-gold" name="">Chercher</button>
+                            <button type="submit" class="btn btn-primary" name="">Chercher</button>
                         </p>
                 </div>
             </form>

@@ -37,11 +37,7 @@ function init() {
 
 function updateCanvasOffset() {
     canvasOffset = canvas.getBoundingClientRect();
-    console.log(canvasOffset);
-    console.log('-----');
 }
-//canvasOffset = canvas.getBoundingClientRect();
-// Crée une fonction pour redefinir canvasOffset
 
 function color(obj) {
     switch (obj.id) {
@@ -89,12 +85,14 @@ function erase() {
     }
 }
 
-/* function save() {
-     document.getElementById("canvasimg").style.border = "2px solid";
-     var dataURL = canvas.toDataURL();
-     document.getElementById("canvasimg").src = dataURL;
-     document.getElementById("canvasimg").style.display = "inline";
- }*/
+function save() {
+    document.getElementById("canvasimg").style.border = "2px solid";
+    var dataURL = canvas.toDataURL();
+    document.getElementById("canvasimg").src = dataURL;
+    document.getElementById("canvasimg").style.display = "block";
+    download(dataURL , "flixadvisor.png", "image/png");
+    window.location.reload();
+}
 
 function findxy(res, e) {
     if (res == 'down') {
