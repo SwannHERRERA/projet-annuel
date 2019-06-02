@@ -31,7 +31,7 @@ $show = getTVShow($idShow);
     <br>
     <div class="row mt-20">
         <div class="col-lg-3">
-            <img alt="image show" class="img-fluid mx-auto d-block" style="padding:1px; border:1px solid rgba(255,215,0,0.9);;" src=<?= '"' . $show['image_show'] . '"' ?>>
+            <img alt="image show" class="img-fluid mx-auto d-block" style="padding:1px; border:1px solid rgba(255,215,0,0.9);" src=<?= '"' . $show['image_show'] . '"' ?>>
             <div class="row pt-10">
                 <?php if ($this->member_model->isConnected()) { ?>
                     <?php if (isFollowing($_SESSION['email'], $idShow)) {

@@ -1560,12 +1560,24 @@ function getListContent($idList)
 function listMemberMessages($email)
 {
     $pdo = connectDB();
-    $query = "select CASE when receiving_member = :email then sending_member else receiving_member end as correspondant from MESSAGE where receiving_member = :email or sending_member = :email group by correspondant order by correspondant asc";
+    $query = "select CASE when receiving_member = :email then sending_member else receiving_member end as correspondant from MESSAGE where receiving_member = :email or sending_member = :email group by correspondant order by id_message desc";
     $queryPrepared = $pdo->prepare($query);
     $queryPrepared->execute([":email" => $email]);
     if ($queryPrepared->errorCode() != '00000') {
         var_dump($queryPrepared->errorInfo());
         die("Une erreur est survenue lors de la recuperation de la liste des messages.");
+    }
+    return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function listContactMessages()
+{
+    $pdo = connectDB();
+    $query = "select sending_member as correspondant from MESSAGE where type = 'contact' group by sending_member order by id_message desc ";
+    $queryPrepared = $pdo->query($query);
+    if ($queryPrepared->errorCode() != '00000') {
+        var_dump($queryPrepared->errorInfo());
+        die("Une erreur est survenue lors de la recuperation de la liste des contacts.");
     }
     return $queryPrepared->fetchAll(PDO::FETCH_ASSOC);
 }
