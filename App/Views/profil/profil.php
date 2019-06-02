@@ -12,38 +12,38 @@
             <p>Membre depuis le <?= date('d-m-Y', strtotime($memberProfil['date_inscription'])) ?>
                 <br><br>
                 Rôle : <?= $memberProfil['account_role'] == 'admin' ? 'Administrateur' : 'Utilisateur' ?>
-            <?php
-            if (isset($_SESSION['email']) && $memberProfil['email'] != $_SESSION['email']) {
+                <?php
+                if (isset($_SESSION['email']) && $memberProfil['email'] != $_SESSION['email']) {
                 ?>
                 <br><br>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sendMessage">
                     <i
                             class="fas fa-envelope"></i>
                 </button>
-                <div class="modal fade" id="sendMessage" tabindex="-1" role="dialog"
-                     aria-labelledby="sendMessage" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Envoyer un message</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="<?= '/profil/sendMessage' ?>" method="post">
-                                    <input type="hidden" name="pseudo" value="<?=$memberProfil['pseudo']?>">
-                                    <label for="message">Message :</label>
-                                    <textarea class="form-control" name="message" id="message"></textarea>
-                                    <button type="submit" class="btn btn-primary mt-20">Envoyer</button>
-                                </form>
-                            </div>
+            <div class="modal fade" id="sendMessage" tabindex="-1" role="dialog"
+                 aria-labelledby="sendMessage" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Envoyer un message</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="<?= '/profil/sendMessage' ?>" method="post">
+                                <input type="hidden" name="pseudo" value="<?= $memberProfil['pseudo'] ?>">
+                                <label for="message">Message :</label>
+                                <textarea class="form-control" name="message" id="message"></textarea>
+                                <button type="submit" class="btn btn-primary mt-20">Envoyer</button>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <?php
+            </div>
+            <?php
             }
-                ?>
+            ?>
             </p>
         </div>
         <div class="col-12">
@@ -156,25 +156,29 @@
                                     $user = getMember($_SESSION['email']);
 
                                 }
-                                foreach (getMemberLists($memberProfil['email']) as $list) { ?>
-                                <tr id="list<?= $list['id_list'] ?>">
-                                    <th scope="row"><a
-                                                href="<?= $site_url . '/profil/profilList?list=' . $list['id_list'] ?>"><?= $list['name_list'] ?></a>
-                                    </th>
-                                    <td><?= substr($list['description_list'], 0, 20) . (strlen($list['description_list']) > 20 ? '...' : '') ?></td>
-                                    <td><?= $list['visibility_list'] == 'public' ? 'publique' : 'privée' ?></td>
-                                    <td>
-                                    <?php
-                                    if (isset($_SESSION['email'])) {
-                                        if ($user['email'] === $memberProfil['email'] || $user['account_status'] == 'admin') {
-                                            ?>
-                                            <button onclick="removeList(<?= $list['id_list'] ?>)"
-                                                    class="btn btn-warning"><i
-                                                        class="fas fa-trash"></i>
-                                            </button>
-                                            </td>
-                                            </tr>
-                                        <?php }
+                                foreach (getMemberLists($memberProfil['email']) as $list) {
+                                    if (($list['visibility_list'] == 'private' && isset($_SESSION['email']) &&
+                                            ($_SESSION['email'] == $list['member'] || $user['account_status'] == 'admin'))
+                                        || $list['visibility_list'] == 'public') { ?>
+                                    <tr id="list<?= $list['id_list'] ?>">
+                                        <th scope="row"><a
+                                                    href="<?= $site_url . '/profil/profilList?list=' . $list['id_list'] ?>"><?= $list['name_list'] ?></a>
+                                        </th>
+                                        <td><?= substr($list['description_list'], 0, 20) . (strlen($list['description_list']) > 20 ? '...' : '') ?></td>
+                                        <td><?= $list['visibility_list'] == 'public' ? 'publique' : 'privée' ?></td>
+                                        <td>
+                                        <?php
+                                        if (isset($_SESSION['email'])) {
+                                            if ($user['email'] === $memberProfil['email'] || $user['account_status'] == 'admin') {
+                                                ?>
+                                                <button onclick="removeList(<?= $list['id_list'] ?>)"
+                                                        class="btn btn-warning"><i
+                                                            class="fas fa-trash"></i>
+                                                </button>
+                                                </td>
+                                                </tr>
+                                            <?php }
+                                        }
                                     }
                                 } ?>
                                 </tbody>
