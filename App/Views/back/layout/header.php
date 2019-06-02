@@ -35,15 +35,18 @@ $categories = ['member' => 'Membre', 'tv_show' => 'Series','ticket' => 'Contact'
             <h1 class="pt-30 pb-20"><?= $page_title; ?></h1>
             <hr>
             <?= '<ul class="onglet">'?>
-              <?php foreach ($sous_categories as $sous_categorie => $segment) :
-              echo '<li class="';
-              echo ($uri_segments[3] == $segment || $uri_segments[3] == $categorie_active) ? 'active' : '';?>"<?php echo '>';
-              echo '<a href="';
-              echo $site_url . '/back/' . $uri_segments[2] . '/' . $segment ;
-              echo '">';
-              echo $sous_categorie;
-              echo '</a>';
-              echo '</li>';
+              <?php
+              if (isset($sous_categories)) {
+              foreach ($sous_categories as $sous_categorie => $segment) :
+                  echo '<li class="';
+                  echo ($uri_segments[3] == $segment || $uri_segments[3] == $categorie_active) ? 'active' : '';?>"<?php echo '>';
+                  echo '<a href="';
+                  echo $site_url . '/back/' . $uri_segments[2] . '/' . $segment ;
+                  echo '">';
+                  echo $sous_categorie;
+                  echo '</a>';
+                  echo '</li>';
               endforeach;
               echo '</ul>';?>
+              }
           </div>
