@@ -18,7 +18,7 @@
             <table class="table table-striped table-bordered text-center mb-20">
                 <thead>
                     <tr>
-                        <th>Nombre de séries</th>
+                        <th>Nombre d'acteurs</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,7 +32,7 @@
             <table class="table table-striped table-bordered text-center mb-20">
                 <thead>
                     <tr>
-                        <th>Nombre de séries</th>
+                        <th>Nombre de Studio</th>
                     </tr>
                 </thead>
                 <tbody>

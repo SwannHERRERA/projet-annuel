@@ -21,7 +21,7 @@
                     </ul>
                 </div>
             <?php endif; ?>
-            <form class="card bg-tertiary" method="POST" action="">
+            <form class="card" method="POST" action="">
                 <div class="card-body pt-40">
                     <div class="form-group ">
                         <input class="form-control" id="email" name="email" placeholder="Votre email">

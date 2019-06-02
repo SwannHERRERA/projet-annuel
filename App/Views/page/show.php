@@ -12,10 +12,9 @@ if (!getTVShow($idShow)) {
 $show = getTVShow($idShow);
 ?>
 <script src="<?= $site_url . '/js/show.js' ?>"></script>
-<div class="col-md-9 col-lg-10 align-self">
-    <div class="row mt-20 ml-20">
-            <h1 class="h2" style="text-transform: uppercase;"><?= $show['name_show'] ?></h1>
-    </div>
+<div class="col-md-9 col-lg-10">
+    <h1 class="h2 text-center mb-30"><?= $show['name_show'] ?></h1>
+
     <div class="row banner-gold">
         <div class="col-md-4 align-self-baseline h3">
             <b>Rang : #<?= getShowRank($idShow) ?></b>
