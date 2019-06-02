@@ -211,7 +211,7 @@
                                             </select>
                                         </div>
                                         <div class="col-sm-1">
-                                            <button onclick="addList(<?= $list['id_list'] ?>)"
+                                            <button onclick="addList()"
                                                     class="btn btn-primary">
                                                 Ajouter
                                             </button>
