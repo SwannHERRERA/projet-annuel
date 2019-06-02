@@ -181,7 +181,7 @@
                             </table>
                         </div>
                         <?php if (isset($_SESSION['email'])) {
-                            if ($user['email'] === $memberProfil['email'] || $user['account_status'] == 'admin') {
+                            if ($user['email'] === $memberProfil['email'] || $user['account_role'] == 'admin') {
                                 ?>
                                 <div id="newList" class="col-12 align-self-center mb-20">
                                     <h5 class="h4">Créer une liste</h5>
