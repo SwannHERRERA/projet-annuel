@@ -49,6 +49,8 @@ class Statistics extends Controller
         $nb_studios = $network_model->get_columns(['count(*)']);
         $status_series = $category_model->getCategoriesStats();
         $TVYearStatusStats = $tv_show_model->getTVYearStatusStat();
+        $nb_episode = $tv_show_model->getTVShowsEpisodesCount();
+        $nb_saison = $tv_show_model->getTVShowsSeasonCount();
 
 
         require self::VIEW_PATH . 'back/layout/header.php';

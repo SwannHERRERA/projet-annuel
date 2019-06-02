@@ -44,6 +44,36 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-6">
+            <table class="table table-striped table-bordered text-center mb-20">
+                <thead>
+                    <tr>
+                        <th>Nombre d'épisode total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><?= $nb_episode ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6">
+            <table class="table table-striped table-bordered text-center mb-20">
+                <thead>
+                    <tr>
+                        <th>Nombre de saison total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><?= $nb_saison ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-12">
             <h3 class="mb-20">Genre des series</h3>
             <table class="table table-striped table-bordered text-center mb-20">

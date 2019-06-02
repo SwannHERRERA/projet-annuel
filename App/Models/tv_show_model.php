@@ -636,4 +636,19 @@ class Tv_show_model extends My_model
         $queryPrepared->execute($parameters);
         return $queryPrepared->fetchAll();
     }
+
+    function getTVShowsEpisodesCount()
+    {
+        $query = "select count(*) from EPISODE";
+        $queryPrepared = $this->pdo->query($query);
+        return $queryPrepared->fetch()[0];
+    }
+
+    function getTVShowsSeasonCount()
+    {
+        $query = "select count(*) from SEASON";
+        $queryPrepared = $this->pdo->query($query);
+        return $queryPrepared->fetch()[0];
+
+    }
 }
