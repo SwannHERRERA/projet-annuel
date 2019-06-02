@@ -367,6 +367,23 @@ function getTVShowRecommendations($idShow)
     return $queryPrepared->fetchAll();
 }
 
+function getTVShowsEpisodesCount()
+{
+    $pdo = connectDB();
+    $query = "select count(*) from EPISODE";
+    $queryPrepared = $pdo->query($query);
+    return $queryPrepared->fetch()[0];
+}
+
+function getTVShowsSeasonCount()
+{
+    $pdo = connectDB();
+    $query = "select count(*) from SEASON";
+    $queryPrepared = $pdo->query($query);
+    return $queryPrepared->fetch()[0];
+
+}
+
 /**
  * @param $idShow
  * @return mixed
