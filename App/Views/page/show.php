@@ -46,7 +46,7 @@ $show = getTVShow($idShow);
                             <script type="text/javascript">statusShow(<?='"' . $status . '",' . $idShow?>)</script>
                         </div>
                         <div class="col-12 mt-10 mb-10 text-center">
-                            <a href="/show/unfollow?show=<?= $idShow ?>" class="btn btn-gold pt-10 pb-10">Ne plus
+                            <a href="/show/unfollow?show=<?= $idShow ?>" class="btn btn-primary pt-10 pb-10">Ne plus
                                 suivre</a>
                             <?php if (isNotified($_SESSION['email'], $idShow) == "o") { ?>
                                 <button onclick="checkNotification(<?= $idShow ?>)" class="btn btn-info"><i
@@ -60,7 +60,7 @@ $show = getTVShow($idShow);
                         </div>
                     <?php } else { ?>
                         <div class="col-12 mt-10 mb-10 text-center">
-                            <button type="button" class="btn btn-gold pt-10 pb-10" data-toggle="modal"
+                            <button type="button" class="btn btn-primary pt-10 pb-10" data-toggle="modal"
                                     data-target="#addShowList" aria-hidden="true">Suivre cette série
                             </button>
                             <div class="modal fade" id="addShowList" tabindex="-1" role="dialog"
@@ -166,7 +166,7 @@ $show = getTVShow($idShow);
                         </div>
                     <?php } ?>
                     <div class="col-12 mt-10 mb-10 text-center">
-                        <button type="button" class="btn btn-gold pt-10 pb-10" data-toggle="modal"
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
                                 data-target="#addUserShowList" aria-hidden="true">Ajouter à une liste
                         </button>
                         <div class="modal fade" id="addUserShowList" tabindex="-1" role="dialog"

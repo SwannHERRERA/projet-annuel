@@ -134,13 +134,7 @@ form span.require {
   padding: 20px;
   margin: 0px;
 }
-.btn-gold {
-  background-color: rgb(255, 215, 0);
-  color: black;
-}
 
-.btn-gold:hover {
-  background-color: #ffc400;
-
+.list-group-item.list-group-item-action.active {
   color: $black;
 }
