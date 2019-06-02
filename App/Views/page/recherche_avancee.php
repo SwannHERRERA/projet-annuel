@@ -20,28 +20,28 @@
                     <div class="col-md-6">
                         <button type="button" id="runtime" class="btn btn-block btn-primary">Durée en minutes</button>
                         <div id="time_pickers" style="display: none;">
-                            <? for ($i = 0; $i <= 120; $i += 5): ?>
+                            <?php for ($i = 0; $i <= 120; $i += 5): ?>
                                 <input type="checkbox" id="runtime<?= $i ?>" value="<?= $i ?>" name="runtimes[]" style="display: none;">
                                 <label for="runtime<?= $i ?>">
                                     <div>
                                         <?= $i ?>
                                     </div>
                                 </label>
-                            <? endfor ?>
+                            <?php endfor ?>
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <button type="button" id="first_aired_years" class="btn btn-block btn-primary">Année de première diffusion</button>
                         <div id="years_pickers" style="display: none;">
-                            <? for ($i = 1970; $i < 2019; $i++): ?>
+                            <?php for ($i = 1970; $i < 2019; $i++): ?>
                                 <input type="checkbox" id="year<?= $i ?>" value="<?= $i ?>" name="years[]" style="display: none;">
                                 <label for="year<?= $i ?>">
                                     <div>
                                         <?= $i ?>
                                     </div>
                                 </label>
-                            <? endfor ?>
+                            <?php endfor ?>
                         </div>
                     </div>
                 </div>
