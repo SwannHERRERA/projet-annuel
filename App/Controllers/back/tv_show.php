@@ -79,7 +79,7 @@ class Tv_show extends Controller
             $serie = $this->api->series($_GET['idserie']);
 
             $result = $this->tv_show_model->insertTV($serie->id, $serie, $this->api, $this->imurl, true);
-            header("Location: /back/tv_show/add");
+            header("Location: /back/tv_show/gestion");
         } else {
             $page_title = 'Création d\'une serie';
             $sous_categories = ['Gestion des series' => 'gestion', 'Création d\'une serie' => 'add'];
@@ -99,6 +99,27 @@ class Tv_show extends Controller
                 }
             }
         }
+    }
+
+    public function updateLight()
+    {
+        if (isset($_GET['show'])) {
+            $serie = $this->api->series($_GET['show']);
+            $this->tv_show_model->insertTV($serie->id, $serie, $this->api, $this->imurl, false);
+            header('Location: /back/tv_show/gestion');
+        }
+        header('Location: /back/tv_show/gestion');
+    }
+
+    public function updateHard()
+    {
+        if (isset($_GET['show'])) {
+            $serie = $this->api->series($_GET['show']);
+            $this->tv_show_model->insertTV($serie->id, $serie, $this->api, $this->imurl, true);
+            header('Location: /back/tv_show/gestion');
+        }
+        header('Location: /back/tv_show/gestion');
+
     }
 
     public function remove()
