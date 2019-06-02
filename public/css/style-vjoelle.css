@@ -72,7 +72,8 @@ body {
   line-height: 1.5;
   color: #fff;
   text-align: left;
-  background-color: #282c35;
+  /*background-color: #282c35;*/
+  background-color: #0D0D0D;
 }
 
 [tabindex="-1"]:focus {
@@ -2404,13 +2405,31 @@ textarea.form-control {
   border-radius: 0.25rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
+.banner-gold{
+  text-align: center;
+  color: #000;
+  background-color: rgba(255,215,0,0.9);
+  padding: 20px;
+  margin: 0px;
+}
+.btn-gold {
+  background-color: rgb(255,215,0);
+  color: black;
+}
+
+.btn-gold:hover {
+  background-color: #FFC400;
+  color: black;
+  font-weight: bolder;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .btn {
     transition: none;
   }
 }
 .btn:hover {
-  color: #fff;
   text-decoration: none;
 }
 .btn:focus, .btn.focus {
@@ -4530,7 +4549,7 @@ input[type=button].btn-block {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: rgba(75, 0, 130, 0.5);
+  background-color: rgba(75,0,130,0.5);
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
@@ -4556,6 +4575,9 @@ input[type=button].btn-block {
 
 .card-title {
   margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-align: center;
 }
 
 .card-subtitle {
@@ -5370,7 +5392,6 @@ a.badge-teal:focus, a.badge-teal.focus {
   display: block;
   padding: 0.75rem 1.25rem;
   margin-bottom: -1px;
-  background-color: rgba(75, 0, 130, 0.5);
   border: 1px solid rgba(0, 0, 0, 0.125);
 }
 .list-group-item:first-child {
@@ -5385,7 +5406,7 @@ a.badge-teal:focus, a.badge-teal.focus {
 .list-group-item.disabled, .list-group-item:disabled {
   color: #546e7a;
   pointer-events: none;
-  background-color: rgba(75, 0, 130, 0.5);
+  background-color: #394e80;
 }
 .list-group-item.active {
   z-index: 2;
@@ -17317,16 +17338,16 @@ h3 {
   font-size: 30px;
   line-height: 35px;
   padding: 10px 0px;
-  text-transform: capitalize;
-  /*&:after {
-      display: block;
-      content: "";
-      width: 70px;
-      height: 4px;
-      background-color: $yellow;
-      margin: 15px 0;
-  }*/
 }
+/*.h3:after, h2:after,
+.h2:after, h1:after, footer h3:after, .modal h5:after {
+  display: block;
+  content: "";
+  width: 70px;
+  height: 4px;
+  background-color: #fadb14;
+  margin: 15px 0;
+}*/
 
 #years_pickers,
 #time_pickers, #ajax_result ul, footer ul, aside ul {
@@ -17437,8 +17458,9 @@ h3 {
 }
 
 aside {
-  z-index: 1020;
-  background-color: rgba(75, 0, 130, 0.5);
+  z-index: 100;
+  /*background-color: #111035;*/
+  background-color: rgba(75,0,130,0.5);
   padding: 30px 0;
 }
 aside ul li {
@@ -17656,17 +17678,10 @@ footer .btn:hover {
   padding: 6px 10px 6px 25px;
 }
 
-.card-title {
-  text-transform: uppercase;
-  font-weight: bold;
-  text-align: center;
-}
-
 body {
   font-family: "lato";
   font-weight: 400;
   min-height: 100vh;
-  background-color: #0d0d0d;
 }
 
 a:hover {
@@ -17699,6 +17714,7 @@ h1 {
   font-weight: 400;
   font-size: 22px;
   line-height: 22px;
+  /*text-transform: capitalize;*/
 }
 .h3:after {
   height: 2px;
@@ -17707,8 +17723,8 @@ h1 {
 }
 
 h3.card-title {
-  text-transform: uppercase;
-  color: #000;
+  /*text-transform: uppercase;*/
+  color: #000000;
   font-size: 16px;
   line-height: 18px;
   margin-top: 8px;
@@ -17764,7 +17780,7 @@ hr {
 
 .white-card {
   padding: 0;
-  background-color: rgba(255, 215, 0, 0.9);
+  background-color: rgba(255,215,0,0.9);
 }
 
 form span.require {
@@ -17778,25 +17794,6 @@ form span.require {
 .spoiler {
   background-color: #000;
   color: #000;
-}
-
-.banner-gold {
-  text-align: center;
-  color: #000;
-  background-color: rgba(255, 215, 0, 0.9);
-  padding: 20px;
-  margin: 0px;
-}
-
-.btn-gold {
-  background-color: gold;
-  color: black;
-}
-
-.btn-gold:hover {
-  background-color: #ffc400;
-  color: black;
-  font-weight: bolder;
 }
 
 /*# sourceMappingURL=style.css.map */

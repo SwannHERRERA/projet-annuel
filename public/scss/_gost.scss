@@ -5,14 +5,14 @@
   line-height: 35px;
   padding: 10px 0px;
   text-transform: capitalize;
-  &:after {
+  /*&:after {
     display: block;
     content: "";
     width: 70px;
     height: 4px;
     background-color: $yellow;
     margin: 15px 0;
-  }
+}*/
 }
 %ul_without_bullet {
   list-style: none;

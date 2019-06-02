@@ -26,7 +26,7 @@ $black: #000;
 /*---- Personal color ------*/
 $myDark: #282c35;
 $light-dark: #93959a;
-$aside: #111035;
+$aside: rgba(75, 0, 130, 0.5);
 $lite: #d1f3f0;
 $lite_blue: #afd7e8;
 $lite_blue2: #394e80;
@@ -152,7 +152,7 @@ $modal-content-bg: $myDark;
 $modal-content-color: $white;
 $close-color: $white;
 $close-text-shadow: 0 1px 0 $myDark;
-$card-bg: $tertiary;
+$card-bg: rgba(75, 0, 130, 0.5);
 $card-color: $white;
-$list-group-bg: $tertiary;
+$list-group-bg: rgba(75, 0, 130, 0.5);
 $nav-tabs-link-active-color: $white;
