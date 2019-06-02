@@ -31,7 +31,7 @@ class Member_model extends My_model
             if ($_SESSION['captcha'] != $captcha) {
                 $_SESSION['register'][] = 'Le captcha est incorrect';
             }
-            if (!preg_match("#[a-z]#", $_POST['password']) || !preg_match("#[A-Z]#", $_POST['password']) || preg_match("#\d#", $_POST['password'])) {
+            if (!preg_match("#[a-z]#", $_POST['password']) || !preg_match("#[A-Z]#", $_POST['password']) || !preg_match("#\d#", $_POST['password'])) {
                 $_SESSION['register'][] = "Le mot de passe doit faire entre 8 et 50 caractères avec des majuscules, des minuscules et des chiffres";
             }
 
