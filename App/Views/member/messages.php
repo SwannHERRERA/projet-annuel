@@ -30,41 +30,46 @@
         <div class="col-sm-8">
             <div class="row ">
                 <div class="col-12 h-auto pre-scrollable" id="messages">
-                    <?php $messages = getMessages($correspondants[0]['correspondant'], $_SESSION['email']);
-                    if (!empty($messages)){
-                    foreach ($messages as $message) {
-                        if ($message['sending_member'] == $_SESSION['email']) { ?>
-                            <div class="row justify-content-end my-20">
-                                <div class="col-md-6">
-                                    <div class="card bg-secondary">
-                                        <div class="card-header ">
-                                            Envoyé le : <?= date('d-m-Y', strtotime($message['date_message'])) ?>
-                                        </div>
-                                        <div class="card-body ">
-                                            <p class="card-text"><?= $message['text_message'] ?></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php
-                        } else {
-                            ?>
-                            <div class="row justify-content-start my-20 ">
-                                <div class="col-md-6">
-                                    <div class="card bg-dark">
-                                        <div class="card-header ">
-                                            Envoyé le : <?= date('d-m-Y', strtotime($message['date_message'])) ?>
-                                        </div>
-                                        <div class="card-body ">
-                                            <p class="card-text"><?= $message['text_message'] ?></p>
+                    <?php
+                    if (!empty($correspondants)) {
+                        $messages = getMessages($correspondants[0]['correspondant'], $_SESSION['email']);
+                        if (!empty($messages)) {
+                            foreach ($messages as $message) {
+                                if ($message['sending_member'] == $_SESSION['email']) { ?>
+                                    <div class="row justify-content-end my-20">
+                                        <div class="col-md-6">
+                                            <div class="card bg-secondary">
+                                                <div class="card-header ">
+                                                    Envoyé le
+                                                    : <?= date('d-m-Y', strtotime($message['date_message'])) ?>
+                                                </div>
+                                                <div class="card-body ">
+                                                    <p class="card-text"><?= $message['text_message'] ?></p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <?php
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class="row justify-content-start my-20 ">
+                                        <div class="col-md-6">
+                                            <div class="card bg-dark">
+                                                <div class="card-header ">
+                                                    Envoyé le
+                                                    : <?= date('d-m-Y', strtotime($message['date_message'])) ?>
+                                                </div>
+                                                <div class="card-body ">
+                                                    <p class="card-text"><?= $message['text_message'] ?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                            }
                         }
                     }
-                }
                     ?>
                 </div>
             </div>
