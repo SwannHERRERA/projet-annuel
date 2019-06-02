@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-sm-4 border-right">
             <label for="filter">Recherche :</label>
-            <input class="form-control mb-20" type="text" id="filter" onkeyup="filter()">
+            <input class="form-control mb-20" type="text" id="filter" onkeyup="filterContact()">
             <div class="list-group h-auto pre-scrollable" id="list-tab" role="tablist">
                 <?php
                 $correspondants = listContactMessages();

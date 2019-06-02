@@ -57,7 +57,7 @@ function sendMessage() {
     }
 }
 
-function filter() {
+function filterContact() {
     const filter = document.getElementById('filter').value.toUpperCase();
     const elements = document.getElementById('list-tab').getElementsByTagName('a');
     for (let i = 0; i < elements.length; i++) {
