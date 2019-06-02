@@ -69,19 +69,20 @@
                     </tr>
                 </tbody>
             </table>
+
             <h3 class="mb-30">Age</h3>
             <table class="table table-striped table-bordered text-center mb-20">
                 <thead>
                     <tr>
-                        <th>email</th>
-                        <th>age</th>
+                        <th>Tranche d'age</th>
+                        <th>Nombre de membre</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($years_of_users as $years_of_user) : ?>
                         <tr>
-                            <td><?= $years_of_user['email']?></td>
-                            <td><?= $years_of_user['AGE']?></td>
+                            <td><?= $years_of_user['tranche']?></td>
+                            <td><?= $years_of_user['nb']?></td>
                         </tr>
                     <?php endforeach ?>
                 </tbody>
