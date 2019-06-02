@@ -1,5 +1,6 @@
 <div class="col-md-9 col-lg-10 align-self">
 
+    <script src="<?= $site_url . "/js/download.js" ?>" defer></script>
     <script src="<?= $site_url . "/js/canvas.js" ?>" defer></script>
 
     <?php if (isset($_SESSION['update_param'])): ?>
@@ -35,7 +36,7 @@
         <div class="form-row mt-5">
             <div class="form-group col-md-6">
                 <label for="email">E-mail</label>
-                <input type="text" class="form-control" name="email" id="email" value="<?= $current_param['email'] ?>">
+                <input type="text" class="form-control" name="email" id="email" disabled value="<?= $current_param['email'] ?>">
             </div>
             <div class="form-group col-md-6">
                 <label for="pseudo">Pseudonyme</label>
@@ -115,6 +116,7 @@
                     <div class="row">
                         <div class="col" style="text-align: center;">
                             <canvas width="400" id="can" height="400" style="background-color: #ffffff; border:2px solid;"></canvas>
+                            <img id="canvasimg" style="position:absolute;top:10%;left:52%;" style="display:none;">
                         </div>
                     </div>
                         <div id="green" class="color-picker" onclick="color(this)"></div>

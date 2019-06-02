@@ -38,11 +38,13 @@
                     <?php endif ?>
                     <ul class="mb-20">
                             <li><a href="<?= $site_url . '/recherche_avancee' ?>" class="link text-dark"><i class="fas fa-search"></i>&nbsp;Recherche avancée</a>
-                            <li><a href="#" class="link text-dark"><i class="fas fa-address-book"></i>&nbsp;Contact</a>
+                            <li><a href="mailto:contact@flixadvisor.fr" class="link text-dark"><i class="fas fa-address-book"></i>&nbsp;Contact</a>
                     </ul>
                     <?php if ($this->member_model->isConnected()):?>
                         <p class="text-center">
-                                <a href="<?= $site_url . '/member/parameters' ?>" class="btn btn-secondary"><i class="fas fa-cog"></i></a>
+                            <a href="<?= $site_url . '/member/parameters' ?>" class="btn btn-secondary"><i class="fas fa-cog"></i></a>
+                            <a href="<?= $site_url . '/profil?user=' . $this->member_model->getPseudo() ?>" class="btn btn-secondary"><i class="fas fa-user"></i> </a>
+                            <a href="<?= $site_url . '/messages' ?>" class="btn btn-secondary"><i class="fas fa-envelope"></i></a>
                         </p>
                     <?php endif;?>
 

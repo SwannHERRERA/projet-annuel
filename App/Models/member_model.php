@@ -441,7 +441,6 @@ class Member_model extends My_model
             $currentUser = $this->request_parameters($email);
             require BASEPATH . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR . 'Form_validation.php';
             $form_validation = new Form_validation('update_param');
-            $form_validation->set_rules('email', 'email', ['require', 'valid_email', 'is_unique', ['max_length' => 100]]);
             $form_validation->set_rules('pseudo', 'pseudo', ['trim', 'require', 'is_unique', ['max_length' => 20]]);
             $form_validation->set_rules('city', '', ['trim', ['max_length' => 60]]);
             $form_validation->set_rules('country', '', ['trim', ['max_length' => 50]]);
@@ -453,17 +452,9 @@ class Member_model extends My_model
                 $_SESSION['update_param'][] = 'Ce pseudonyme est dÃ©jÃ  pris !';
             }
 
-            $query = $this->pdo->prepare("SELECT email FROM MEMBER WHERE email = :email");
-            $result = $query->execute([':email' => $_POST['email']]);
-            $result = $query->fetch();
-            if ($_POST['email'] != $email && !empty($result['email'])) {
-                $_SESSION['update_param'][] = 'L\'email existe dÃ©jÃ .';
-            }
-
             if (empty($_SESSION['update_param'])) {
-                $query = $this->pdo->prepare('UPDATE ' . $this->_table . ' SET email=:email, pseudo=:pseudo, gender=:gender, birth_date=:birth_date, city=:city, country=:country WHERE email = :email2');
+                $query = $this->pdo->prepare('UPDATE ' . $this->_table . ' SET pseudo=:pseudo, gender=:gender, birth_date=:birth_date, city=:city, country=:country WHERE email = :email2');
                 $query->execute([
-                    ':email' => $_POST['email'],
                     ':pseudo' => $_POST['pseudo'],
                     ':gender' => $_POST['genre'],
                     ':birth_date' => ($_POST['dateNaissance'] == "") ? null : $_POST['dateNaissance'],
