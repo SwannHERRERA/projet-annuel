@@ -2,7 +2,7 @@ function watchEpisode(id) {
     const element = document.getElementById(id);
     const request = new XMLHttpRequest();
     request.open('GET', '/show/watchEpisode?ep=' + id);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (request.readyState === 4) {
             if (request.status === 200) {
                 element.className = "fas fa-eye-slash";
@@ -16,7 +16,7 @@ function unwatchEp(id) {
     const element = document.getElementById(id);
     const request = new XMLHttpRequest();
     request.open('GET', '/show/unwatchEpisode?ep=' + id);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (request.readyState === 4) {
             if (request.status === 200) {
                 element.className = "fas fa-eye";
@@ -39,7 +39,7 @@ function enableNotification(id) {
     const element = document.getElementById("notificationCheck");
     const request = new XMLHttpRequest();
     request.open('GET', '/show/enableNotification?show=' + id);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (request.readyState === 4) {
             if (request.status === 200) {
                 element.className = "fas fa-bell-slash";
@@ -53,7 +53,7 @@ function disableNotification(id) {
     const element = document.getElementById("notificationCheck");
     const request = new XMLHttpRequest();
     request.open('GET', '/show/disableNotification?show=' + id);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (request.readyState === 4) {
             if (request.status === 200) {
                 element.className = "far fa-bell";
@@ -77,7 +77,7 @@ function watchAll(id) {
     const elements = document.getElementsByClassName("accordion")[0].getElementsByTagName("i");
     const request = new XMLHttpRequest();
     request.open('GET', '/show/watchAll?show=' + id);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (request.readyState === 4) {
             if (request.status === 200) {
                 for (let i = 0; i < elements.length; i++) {
@@ -93,7 +93,7 @@ function unwatchAll(id) {
     const elements = document.getElementsByClassName("accordion")[0].getElementsByTagName("i");
     const request = new XMLHttpRequest();
     request.open('GET', '/show/unwatchAll?show=' + id);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (request.readyState === 4) {
             if (request.status === 200) {
                 for (let i = 0; i < elements.length; i++) {
@@ -124,7 +124,7 @@ function rating(rate, show) {
 function rateShow(rate, show) {
     const request = new XMLHttpRequest();
     request.open('GET', '/show/updateRating?show=' + show + '&rate=' + rate);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (request.readyState === 4) {
             if (request.status === 200) {
                 const element = document.getElementById("userRating");
@@ -155,7 +155,7 @@ function changeStatus(show) {
     let element = document.getElementById("userStatusSelect");
     const request = new XMLHttpRequest();
     request.open('GET', '/show/updateStatus?show=' + show + '&status=' + element.value);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (request.readyState === 4) {
             if (request.status === 200) {
                 if (element.value === 'termine') {
@@ -173,7 +173,7 @@ function submitComment(idShow) {
     const comment = document.getElementById("commentWrite");
     if (comment.value.length > 0) {
         const request = new XMLHttpRequest();
-        request.onreadystatechange = function () {
+        request.onreadystatechange = function() {
             if (request.readyState === 4) {
                 if (request.status === 200) {
                     const comments = document.getElementById("userComments");
@@ -196,7 +196,7 @@ function deleteComment(id) {
         const element = document.getElementById(id);
         const request = new XMLHttpRequest();
         request.open('GET', '/show/deleteComment?comment=' + id);
-        request.onreadystatechange = function () {
+        request.onreadystatechange = function() {
             if (request.readyState === 4) {
                 if (request.status === 200) {
                     element.remove();
@@ -219,7 +219,7 @@ function checkLike(idComment) {
 function likeComment(idComment) {
     const request = new XMLHttpRequest();
     request.open('GET', '/show/likeComment?comment=' + idComment);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (request.readyState === 4) {
             if (request.status === 200) {
                 const element = document.getElementById("thumb" + idComment);
@@ -235,7 +235,7 @@ function likeComment(idComment) {
 function unlikeComment(idComment) {
     const request = new XMLHttpRequest();
     request.open('GET', '/show/unlikeComment?comment=' + idComment);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (request.readyState === 4) {
             if (request.status === 200) {
                 const element = document.getElementById("thumb" + idComment);
@@ -254,7 +254,7 @@ function addList(idShow) {
     const visibility = document.getElementById("visibilityNewList");
     if (name.value.length > 0 && description.value.length > 0) {
         const request = new XMLHttpRequest();
-        request.onreadystatechange = function () {
+        request.onreadystatechange = function() {
             if (request.readyState === 4) {
                 if (request.status === 200) {
                     const element = document.getElementById("lists");
@@ -281,7 +281,7 @@ function removeList(idList) {
     if (confirm("Voulez vous vraiment supprimer cette liste ?")) {
         const request = new XMLHttpRequest();
         request.open('GET', '/show/deleteList?list=' + idList);
-        request.onreadystatechange = function () {
+        request.onreadystatechange = function() {
             if (request.readyState === 4) {
                 if (request.status === 200) {
                     const list = document.getElementById("list" + idList);
@@ -296,7 +296,7 @@ function removeList(idList) {
 function addShowToList(idShow, idList) {
     const request = new XMLHttpRequest();
     request.open('GET', '/show/addShowList?list=' + idList + '&show=' + idShow);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (request.readyState === 4) {
             if (request.status === 200) {
                 let element = document.getElementById("checkList" + idList);
@@ -312,7 +312,7 @@ function removeShowList(idShow, idList) {
     element.className = "fas fa-plus";
     const request = new XMLHttpRequest();
     request.open('GET', '/show/removeShowList?list=' + idList + '&show=' + idShow);
-    request.onreadystatechange = function () {
+    request.onreadystatechange = function() {
         if (request.readyState === 4) {
             if (request.status === 200) {
                 let element = document.getElementById("checkList" + idList);
@@ -332,4 +332,33 @@ function checkList(idShow, idList) {
     }
 }
 
+function hideSpoiler(textareaId) {
+    let startTag = "[spoil]";
+    let endTag = "[/spoil]";
+    let comment = document.getElementById(textareaId);
+    comment.focus();
 
+    if (window.ActiveXObject) { // Internet Explorer
+        let textRange = document.selection.createRange();
+        let selectedText = textRange.text;
+
+        selectedText = startTag + selectedText + endTag;
+        textRange.moveStart("character", -endTag.length - selectedText.length);
+        textRange.moveEnd("character", -endTag.length);
+        textRange.select();
+    } else { // Autres browsers
+        let beforeSelectedText = comment.value.substring(0, comment.selectionStart);
+        let selectedText = comment.value.substring(comment.selectionStart, comment.selectionEnd);
+        let afterSelectedText = comment.value.substring(comment.selectionEnd);
+
+        comment.value = beforeSelectedText + startTag + selectedText + endTag + afterSelectedText;
+        comment.focus();
+        comment.setSelectionRange(beforeSelectedText.length + startTag.length, beforeSelectedText.length + startTag.length + selectedText.length);
+    }
+}
+
+function unhideSpoiler(id) {
+    let span = document.getElementById(id);
+    span.style.color = "#fff";
+    span.style.backgroundColor = "rgba(75,0,130,0.5)";
+}

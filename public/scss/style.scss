@@ -8,11 +8,13 @@
 @import "./footer";
 @import "./slider";
 @import "./recherche";
+@import "card";
 
 body {
   font-family: "lato";
   font-weight: 400;
   min-height: 100vh;
+  background-color: #0d0d0d;
 }
 
 a:hover {
@@ -44,7 +46,7 @@ h2,
   font-weight: 400;
   font-size: 22px;
   line-height: 22px;
-  text-transform: capitalize;
+  // text-transform: capitalize;
   &:after {
     height: 2px;
     background-color: $red;
@@ -54,7 +56,7 @@ h2,
 
 h3.card-title {
   text-transform: uppercase;
-  color: $secondary;
+  color: $black;
   font-size: 16px;
   line-height: 18px;
   margin-top: 8px;
@@ -110,7 +112,7 @@ hr {
 .white-card {
   @extend .card;
   padding: 0;
-  background-color: $white;
+  background-color: rgba(255, 215, 0, 0.9);
 }
 
 form span.require {
@@ -119,4 +121,27 @@ form span.require {
 
 .logo-reseau-sociaux {
   width: 40px;
+}
+
+.spoiler {
+  background-color: $black;
+  color: $black;
+}
+
+.banner-gold {
+  text-align: center;
+  color: #000;
+  background-color: rgba(255, 215, 0, 0.9);
+  padding: 20px;
+  margin: 0px;
+}
+.btn-gold {
+  background-color: rgb(255, 215, 0);
+  color: black;
+}
+
+.btn-gold:hover {
+  background-color: #ffc400;
+  color: black;
+  font-weight: bolder;
 }

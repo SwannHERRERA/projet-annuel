@@ -1,5 +1,5 @@
 aside {
-  z-index: 100;
+  z-index: $zindex-sticky;
   background-color: $aside;
   padding: 30px 0;
   ul {
