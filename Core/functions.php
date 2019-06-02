@@ -874,7 +874,14 @@ function getMembersCity()
 function getMembersAge()
 {
     $pdo = connectDB();
-    $query = "SELECT email, floor(datediff(curdate(), birth_date) / 365) as AGE FROM MEMBER where birth_date is not null";
+    $query = "select '-18' as tranche, count(*) as nb from ( SELECT floor(datediff(curdate(), birth_date) / 365) as AGE " .
+        "FROM MEMBER where birth_date is not null) as AGES where AGE < 18 union select '18-24' as tranche, count(*) as nb from " .
+        "( SELECT floor(datediff(curdate(), birth_date) / 365) as AGE FROM MEMBER where birth_date is not null) as AGES where AGE " .
+        "between 18 and 24 union select '25-34' as tranche, count(*) as nb from ( SELECT floor(datediff(curdate(), birth_date) / 365)" .
+        " as AGE FROM MEMBER where birth_date is not null) as AGES where AGE between 25 and 34 union select '35-44' as tranche, " .
+        "count(*) as nb from ( SELECT floor(datediff(curdate(), birth_date) / 365) as AGE FROM MEMBER where birth_date is not null) " .
+        "as AGES where AGE between 35 and 44 union select '+44' as tranche, count(*) as nb from ( SELECT floor(datediff(curdate(), " .
+        "birth_date) / 365) as AGE FROM MEMBER where birth_date is not null) as AGES where AGE > 44";
     $queryPrepared = $pdo->query($query);
     if ($queryPrepared->errorCode() != '00000') {
         var_dump($queryPrepared->errorInfo());
