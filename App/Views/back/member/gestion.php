@@ -19,14 +19,16 @@
         <?php foreach ($members as $member) : ?>
             <tr>
                 <td><?= $member["email"] ?><span class="text-right"><i></i></span></td>
-                <td><?= $member['pseudo'] ?></td>
+                <td><?= $member['pseudo'] ?>
+                    <span class="d-inline-block float-right"><a
+                                href="<?= $site_url . '/profil?user=' . $member['pseudo'] ?>" target="_blank"><i
+                                    class="fas fa-external-link-alt"></i></a></span></td>
                 <td>
                     <?php $date = new DateTime($member['date_inscription']);
                     echo $date->format('d-m-Y'); ?>
                 </td>
                 <td>
-                    <?php echo $member['account_role'] ?><span class="d-inline-block float-right"><a><i
-                                    class="fas fa-edit"></i></a></span>
+                    <?php echo $member['account_role'] ?>
                 </td>
                 <td class="text-center">
                     <a href="<?= $site_url . '/back/member/modification?pseudo=' . $member['pseudo'] ?>"><i

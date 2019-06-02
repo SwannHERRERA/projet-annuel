@@ -72,7 +72,7 @@ body {
   line-height: 1.5;
   color: #fff;
   text-align: left;
-  background-color: #282c35;
+  background-color: #0d0d0d;
 }
 
 [tabindex="-1"]:focus {
@@ -488,7 +488,7 @@ mark,
 
 .img-thumbnail {
   padding: 0.25rem;
-  background-color: #282c35;
+  background-color: #0d0d0d;
   border: 1px solid #90a4ae;
   border-radius: 0.25rem;
   max-width: 100%;
@@ -3992,13 +3992,13 @@ input[type=button].btn-block {
   outline: none;
 }
 .custom-range:focus::-webkit-slider-thumb {
-  box-shadow: 0 0 0 1px #282c35, 0 0 0 0.2rem rgba(250, 219, 20, 0.25);
+  box-shadow: 0 0 0 1px #0d0d0d, 0 0 0 0.2rem rgba(250, 219, 20, 0.25);
 }
 .custom-range:focus::-moz-range-thumb {
-  box-shadow: 0 0 0 1px #282c35, 0 0 0 0.2rem rgba(250, 219, 20, 0.25);
+  box-shadow: 0 0 0 1px #0d0d0d, 0 0 0 0.2rem rgba(250, 219, 20, 0.25);
 }
 .custom-range:focus::-ms-thumb {
-  box-shadow: 0 0 0 1px #282c35, 0 0 0 0.2rem rgba(250, 219, 20, 0.25);
+  box-shadow: 0 0 0 1px #0d0d0d, 0 0 0 0.2rem rgba(250, 219, 20, 0.25);
 }
 .custom-range::-moz-focus-outer {
   border: 0;
@@ -4166,8 +4166,8 @@ input[type=button].btn-block {
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
   color: #fff;
-  background-color: #282c35;
-  border-color: #90a4ae #90a4ae #282c35;
+  background-color: #0d0d0d;
+  border-color: #90a4ae #90a4ae #0d0d0d;
 }
 .nav-tabs .dropdown-menu {
   margin-top: -1px;
@@ -5711,7 +5711,7 @@ a.badge-teal:focus, a.badge-teal.focus {
   font-weight: 700;
   line-height: 1;
   color: #fff;
-  text-shadow: 0 1px 0 #282c35;
+  text-shadow: 0 1px 0 #0d0d0d;
   opacity: 0.5;
 }
 .close:hover {
@@ -5857,7 +5857,7 @@ a.close.disabled {
   width: 100%;
   color: #fff;
   pointer-events: auto;
-  background-color: #282c35;
+  background-color: #0d0d0d;
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0.3rem;
@@ -17317,8 +17317,8 @@ h3 {
   font-size: 30px;
   line-height: 35px;
   padding: 10px 0px;
-  text-transform: capitalize;
-  /*&:after {
+  /*text-transform: capitalize;
+    &:after {
       display: block;
       content: "";
       width: 70px;
@@ -17666,7 +17666,6 @@ body {
   font-family: "lato";
   font-weight: 400;
   min-height: 100vh;
-  background-color: #0d0d0d;
 }
 
 a:hover {
@@ -17795,8 +17794,7 @@ form span.require {
 
 .btn-gold:hover {
   background-color: #ffc400;
-  color: black;
-  font-weight: bolder;
+  color: #000;
 }
 
 /*# sourceMappingURL=style.css.map */
