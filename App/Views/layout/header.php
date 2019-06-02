@@ -56,9 +56,8 @@ require_once BASEPATH . '/Core/functions.php';
         <ul class="mb-20 ">
             <li><a href="<?= $site_url . '/recherche_avancee' ?>" class="link"><i class="fas fa-search"></i>&nbsp;Recherche
                     avancée</a>
-            <li><a href="<?= $site_url . '/show?show=' . getRandomShowId()[0] ?>" class="link"><i
-                            class="fas fa-dice"></i>&nbsp;Surprenez-moi !</a>
-            <li><a href="#" class="link"><i class="fas fa-address-book"></i>&nbsp; Contact</a>
+            <li><a href="<?= $site_url . '/show?show='.getRandomShowId()[0] ?>" class="link"><i class="fas fa-dice"></i>&nbsp;Surprenez-moi !</a>
+            <li><a href="mailto:contact@flixadvisor.fr" class="link"><i class="fas fa-address-book"></i>&nbsp; Contact</a>
         </ul>
         <?php if ($this->member_model->isConnected()): ?>
             <p class="text-center">

@@ -202,3 +202,4 @@ function confirmAccountDelete(url){
         window.location = url;
     }
 }
+
