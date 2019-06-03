@@ -1,5 +1,5 @@
 <div class="col-md-9 col-lg-10 align-self">
-    <h1 style="text-align: center; font-size: 50px">Bienvenue sur Flixadvisor !</h1>
+    <h1  class="h1-home my-20">Bienvenue sur Flixadvisor !</h1>
     <br>
     <hr>
     <h2>Les séries les plus vues</h2>

@@ -6,7 +6,7 @@ let canvas, ctx, flag = false,
     dot_flag = false;
 let canvasOffset;
 
-var x = "black",
+var x = "white",
     y = 2;
 
 $('#canvas').on('shown.bs.modal', function (e) {
@@ -63,7 +63,7 @@ function color(obj) {
             x = "white";
             break;
     }
-    if (x == "white") y = 14;
+    if (x == "black") y = 14;
     else y = 2;
 
 }
@@ -87,10 +87,10 @@ function erase() {
 
 function save() {
     document.getElementById("canvasimg").style.border = "2px solid";
-    var dataURL = canvas.toDataURL();
+    var dataURL = canvas.toDataURL('image/jpeg');
     document.getElementById("canvasimg").src = dataURL;
     document.getElementById("canvasimg").style.display = "block";
-    download(dataURL , "flixadvisor.png", "image/png");
+    download(dataURL , "flixadvisor.jpeg", "image/jpeg");
     window.location.reload();
 }
 

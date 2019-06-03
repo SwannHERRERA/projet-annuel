@@ -325,7 +325,7 @@ $show = getTVShow($idShow);
                     <div class="row">
                         <div class="col-md-12 text-right align-baseline">
                             <?php if ($this->member_model->isConnected() && isFollowing($_SESSION['email'], $idShow)) { ?>
-                                <div class="row">
+                                <div class="row my-20">
                                     <div class="col-md-6 text-md-right">
                                         <a class="btn btn-success" onclick="watchAll(<?= $idShow ?>)"> Tout marquer comme vu</a>
                                     </div>

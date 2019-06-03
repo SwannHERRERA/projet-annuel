@@ -96,7 +96,7 @@
         </button>
       </div>
         <div class="modal-body">
-          Merci de vous être inscrit un email vous a été envoyer pour valider votre compte
+          Merci de vous être inscrit un email vous a été envoyé pour valider votre compte
         </div>
     </div>
   </div>

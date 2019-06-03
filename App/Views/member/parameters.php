@@ -117,8 +117,8 @@
                 <form id="canvasImage" method="POST">
                     <div class="row">
                         <div class="col" style="text-align: center;">
-                            <canvas width="400" id="can" height="400" style="background-color: #ffffff; border:2px solid;"></canvas>
-                            <img id="canvasimg" style="position:absolute;top:10%;left:52%;" style="display:none;">
+                            <canvas width="400" id="can" height="400" style="background-color: #000000; border:2px solid;"></canvas>
+                            <img id="canvasimg" style="display:none;">
                         </div>
                     </div>
                         <div id="green" class="color-picker" onclick="color(this)"></div>
@@ -126,8 +126,8 @@
                         <div id="blue" class="color-picker" onclick="color(this)"></div>
                         <div id="red" class="color-picker" onclick="color(this)"></div>
                         <div id="orange" class="color-picker" onclick="color(this)"></div>
-                        <div id="black" class="color-picker" onclick="color(this)"></div>
                         <div id="white" class="color-picker" onclick="color(this)"></div>
+                        <div id="black" class="color-picker" onclick="color(this)"></div>
                     </div>
                 </form>
                 <div class="modal-footer d-flex justify-content-between">
