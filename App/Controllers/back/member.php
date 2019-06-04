@@ -106,16 +106,17 @@ class Member extends Controller
         try{
             $pdo = new PDO('mysql:host=51.75.249.213;dbname=flixadvisor','root', 'fredo');
             $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING);
-            $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_OBJ);
         } catch (PDOExeption $e) {
             echo 'Connexion impossible';
         }
-        $query = $pdo->prepare('SELECT email, pseudo, date_inscription, account_role FROM MEMBER;');
+        $query = $pdo->prepare('SELECT * FROM MEMBER;');
         $query->execute();
         $datas = $query->fetchAll();
-        echo "Email";"Pseudo";"date d'inscription";"role";
+        echo "email;pseudo;photo;gender;birth_date;city;country;account_status;account_role;token,verified_email";
         foreach ($datas as $data) {
-            echo "\n" . '"' . $data->email . '";"' . $data->pseudo . '";"' . $data->date_inscription . '";"' . $data->account_role .'"';
+            echo "\n" . $data['email'] . ";" . $data['pseudo'] . ";" .$data['photo'] . ";" .$data['gender'] . ";"
+             . $data['birth_date'] . ";" .$data['city'] . ";" .$data['country'] . ";" .$data['account_status'] . ";" .
+             $data['account_role'] . ";" .$data['token'] . ";" .$data['verified_email'];
         }
     }
 }
