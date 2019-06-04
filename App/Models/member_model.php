@@ -477,6 +477,15 @@ class Member_model extends My_model
             }
         }
     }
+    /*
+    *
+    */
+    public function getMembersList()
+    {
+        $query = $this->pdo->query("SELECT * from MEMBER where account_status != 'ban-perm' && account_status !='ban-temp'");
+        //$query = $this->pdo->query("SELECT * from MEMBER");
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     /**
      * @param $nameMember string (pseuso du membre, recherche flexible : ma => marie, manon,...)

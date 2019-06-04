@@ -12,6 +12,7 @@
             <th class='text-center'>Pseudo</th>
             <th class='text-center'>Date</th>
             <th class='text-center'>Role</th>
+            <th class='text-center'>Status</th>
             <th></th>
         </tr>
         </thead>
@@ -29,6 +30,9 @@
                 </td>
                 <td>
                     <?php echo $member['account_role'] ?>
+                </td>
+                <td>
+                    <?php echo $member['account_status'] ?>
                 </td>
                 <td class="text-center">
                     <a href="<?= $site_url . '/back/member/modification?pseudo=' . $member['pseudo'] ?>"><i
