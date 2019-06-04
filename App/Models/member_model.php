@@ -477,6 +477,7 @@ class Member_model extends My_model
             }
         }
     }
+
     /*
     *
     */
@@ -502,4 +503,5 @@ class Member_model extends My_model
         }
         return $queryPrepared->fetchAll();
     }
+
 }

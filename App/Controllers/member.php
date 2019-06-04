@@ -7,6 +7,7 @@ use PHPMailer\PHPMailer\Exception;
 class Member extends Controller
 {
     public $member_model;
+    private $pdo;
 
     public function __construct()
     {
@@ -88,6 +89,35 @@ class Member extends Controller
         require self::VIEW_PATH . 'layout/header.php';
         require self::VIEW_PATH . 'member/parameters.php';
         require self::VIEW_PATH . 'layout/footer.php';
+    }
+
+    public function changePassword()
+    {
+        if (!isset($_POST['current_password_modal']) || !isset($_POST['new_password_modal']) || !isset($_POST['confirmation_password_modal'])) {
+            header('Location : /');
+        } else {
+            $pdo = connectDB();
+            $query = "SELECT password FROM MEMBER WHERE email = :email";
+            $queryPrepared = $pdo->prepare($query);
+            $queryPrepared->execute([":email" => $_SESSION['email']]);
+
+            if (password_verify($_POST['current_password_modal'], $queryPrepared->fetch()[0])
+                && $_POST['new_password_modal'] == $_POST['confirmation_password_modal']
+                && preg_match("#[a-z]#", $_POST['new_password_modal'])
+                && preg_match("#[A-Z]#", $_POST['new_password_modal'])
+                && preg_match("#\d#", $_POST['new_password_modal'])) {
+
+                $query = "UPDATE MEMBER SET password = :password WHERE email = :email";
+                $queryPrepared = $pdo->prepare($query);
+                $queryPrepared->execute([
+                    ":email" => $_SESSION['email'],
+                    ":password" => password_hash($_POST['new_password_modal'], PASSWORD_DEFAULT)
+                ]);
+                //header('Location : /member/parameters');
+            } else {
+                header('Location : /');
+            }
+        }
     }
 
     public function delete()
