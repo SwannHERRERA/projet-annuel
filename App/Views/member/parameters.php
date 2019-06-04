@@ -151,7 +151,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="<?= $site_url . '/member/login'?>" method="POST">
+                <form action="<?= $site_url . '/member/changePassword'?>" method="POST">
                     <div class="form-group">
                         <label for="current_password_modal">Mot de passe actuel :</label>
                         <input type="password" class="form-control" id="current_password_modal" name="current_password_modal">
@@ -162,10 +162,10 @@
                         <label for="confirmation_password_modal">Confirmation du nouveau mot de passe :</label>
                         <input type="password" class="form-control" id="confirmation_password_modal" name="confirmation_password_modal">
                     </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Sauvegarder</button>
             </div>
         </div>
     </div>

@@ -477,6 +477,7 @@ class Member_model extends My_model
             }
         }
     }
+
     /*
     *
     */
@@ -501,5 +502,33 @@ class Member_model extends My_model
             die("Une erreur est survenue lors de la recherhce des séries.");
         }
         return $queryPrepared->fetchAll();
+    }
+
+    public function changePassword()
+    {
+        if (!isset($_POST['current_password_modal']) || !isset($_POST['new_password_modal']) || !isset($_POST['confirmation_password_modal'])) {
+            header('Location : /');
+        } else {
+            $query = "SELECT password FROM MEMBER WHERE email = :email";
+            $queryPrepared = $this->pdo->prepare($query);
+            $queryPrepared->execute([":email" => $_SESSION['email']]);
+
+            if (password_verify($_POST['current_password_modal'], $queryPrepared->fetch()[0])
+                && $_POST['new_password_modal'] == $_POST['confirmation_password_modal']
+                && preg_match("#[a-z]#", $_POST['new_password_modal'])
+                && preg_match("#[A-Z]#", $_POST['new_password_modal'])
+                && preg_match("#\d#", $_POST['new_password_modal'])) {
+
+                $query = "UPDATE MEMBER SET password = :password WHERE email = :email";
+                $queryPrepared = $this->pdo->prepare($query);
+                $queryPrepared->execute([
+                    ":email" => $_SESSION['email'],
+                    ":password" => $_POST['new_password_modal']
+                ]);
+                header('Location : /member/parameters');
+            } else {
+                header('Location : /');
+            }
+        }
     }
 }
