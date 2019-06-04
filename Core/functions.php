@@ -402,6 +402,13 @@ function getTVShowFollowersNumber($idShow)
     return $queryPrepared->fetch()[0];
 }
 
+function getMembersList()
+{
+    $pdo = connectDB();
+    $query = $pdo->query("SELECT * from MEMBER where account_status != 'ban-perm' && account_status !='ban-temp'");
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
 /**
  * Récupère la liste des commentaires d'une série par ordre de like dans un tableau à 2 dimensions
  * @param $idShow
