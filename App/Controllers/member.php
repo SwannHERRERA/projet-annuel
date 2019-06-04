@@ -94,7 +94,7 @@ class Member extends Controller
     public function changePassword()
     {
         if (!isset($_POST['current_password_modal']) || !isset($_POST['new_password_modal']) || !isset($_POST['confirmation_password_modal'])) {
-            header('Location : /');
+            header('Location: /');
         } else {
             $pdo = connectDB();
             $query = "SELECT password FROM MEMBER WHERE email = :email";
@@ -113,9 +113,10 @@ class Member extends Controller
                     ":email" => $_SESSION['email'],
                     ":password" => password_hash($_POST['new_password_modal'], PASSWORD_DEFAULT)
                 ]);
-                header('Location : https://flixadvisor.fr/member/parameters');
+                header('Location: /member/parameters');
+                exit();
             } else {
-                header('Location : /');
+                header('Location: /');
             }
         }
     }
