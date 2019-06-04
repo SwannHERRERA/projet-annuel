@@ -113,7 +113,7 @@ class Member extends Controller
                     ":email" => $_SESSION['email'],
                     ":password" => password_hash($_POST['new_password_modal'], PASSWORD_DEFAULT)
                 ]);
-                //header('Location : /member/parameters');
+                header('Location : https://flixadvisor.fr/member/parameters');
             } else {
                 header('Location : /');
             }
