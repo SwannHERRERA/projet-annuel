@@ -7,6 +7,7 @@ use PHPMailer\PHPMailer\Exception;
 class Member extends Controller
 {
     public $member_model;
+    private $pdo;
 
     public function __construct()
     {
@@ -95,8 +96,9 @@ class Member extends Controller
         if (!isset($_POST['current_password_modal']) || !isset($_POST['new_password_modal']) || !isset($_POST['confirmation_password_modal'])) {
             header('Location : /');
         } else {
+            $pdo = connectDB();
             $query = "SELECT password FROM MEMBER WHERE email = :email";
-            $queryPrepared = $this->pdo->prepare($query);
+            $queryPrepared = $pdo->prepare($query);
             $queryPrepared->execute([":email" => $_SESSION['email']]);
 
             if (password_verify($_POST['current_password_modal'], $queryPrepared->fetch()[0])
@@ -106,7 +108,7 @@ class Member extends Controller
                 && preg_match("#\d#", $_POST['new_password_modal'])) {
 
                 $query = "UPDATE MEMBER SET password = :password WHERE email = :email";
-                $queryPrepared = $this->pdo->prepare($query);
+                $queryPrepared = $pdo->prepare($query);
                 $queryPrepared->execute([
                     ":email" => $_SESSION['email'],
                     ":password" => $_POST['new_password_modal']
