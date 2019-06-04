@@ -100,4 +100,23 @@ class Member extends Controller
         $this->member_model->delete($_GET['pseudo']);
         header('Location: /back/member/gestion');
     }
+    public function export_csv(){
+        header('Content-Disposition: attachment; filename=utilisateurs.csv');
+        header('Content-Type: text/csv;  charset=UTF-8');
+        try{
+            $pdo = new PDO('mysql:host=51.75.249.213;dbname=flixadvisor','root', 'fredo');
+            $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_WARNING);
+        } catch (PDOExeption $e) {
+            echo 'Connexion impossible';
+        }
+        $query = $pdo->prepare('SELECT * FROM MEMBER;');
+        $query->execute();
+        $datas = $query->fetchAll();
+        echo "email;pseudo;photo;gender;birth_date;city;country;account_status;account_role;token,verified_email";
+        foreach ($datas as $data) {
+            echo "\n" . $data['email'] . ";" . $data['pseudo'] . ";" .$data['photo'] . ";" .$data['gender'] . ";"
+             . $data['birth_date'] . ";" .$data['city'] . ";" .$data['country'] . ";" .$data['account_status'] . ";" .
+             $data['account_role'] . ";" .$data['token'] . ";" .$data['verified_email'];
+        }
+    }
 }
