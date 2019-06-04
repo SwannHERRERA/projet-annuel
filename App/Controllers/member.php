@@ -111,7 +111,7 @@ class Member extends Controller
                 $queryPrepared = $pdo->prepare($query);
                 $queryPrepared->execute([
                     ":email" => $_SESSION['email'],
-                    ":password" => $_POST['new_password_modal']
+                    ":password" => password_hash($_POST['new_password_modal'], PASSWORD_DEFAULT)
                 ]);
                 header('Location : /member/parameters');
             } else {
