@@ -47,7 +47,7 @@
         </tbody>
     </table>
     <p class="mt-5 mr-5 text-right">
-        <a href="<?= $site_url . '/export.php' ?>" class="btn btn-primary">exporter en CSV</a>
+        <a href="<?= $site_url . '/back/member/export_csv' ?>" class="btn btn-primary">exporter en CSV</a>
     </p>
 </div>
 
