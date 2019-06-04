@@ -1,6 +1,6 @@
 <?php
 require_once BASEPATH . DIRECTORY_SEPARATOR . "Core" . DIRECTORY_SEPARATOR . "My_model.php";
-class Actor_model extends My_model
+class Casting_model extends My_model
 {
     protected $_table = 'CASTING';
     protected $table_primary_key = ['tv_show', 'actor'];
