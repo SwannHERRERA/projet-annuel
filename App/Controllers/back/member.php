@@ -84,11 +84,9 @@ class Member extends Controller
                 if ($_POST['type'] == 'permanent'){
                     $this->member_model->ban($_POST['email_hidden'], 'ban-perm', NULL);
                 } else {
-                    $this->member_model->ban($_POST['email_hidden'], 'ban', $_POST['nb_day']);
+                    $this->member_model->ban($_POST['email_hidden'], 'ban-temp', $_POST['nb_day']);
                 }
                 header('Location: /back/member/ban');
-            } else {
-                var_dump($_SESSION['ban_modal']);
             }
         }
     }

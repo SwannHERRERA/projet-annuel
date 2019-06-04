@@ -7,17 +7,21 @@ $controllerPath;
 if ($uri_segments[1] == "back" || $uri_segments[1] == "bo") {
   $controllerPath =  BASEPATH . DIRECTORY_SEPARATOR . "App" . DIRECTORY_SEPARATOR . "Controllers"
    . DIRECTORY_SEPARATOR . 'back' . DIRECTORY_SEPARATOR;
-  require $controllerPath . $uri_segments[2] . '.php';
-  $class[] = new $uri_segments[2];
+   if (file_exists($controllerPath . $uri_segments[2] . '.php')){
+        require $controllerPath . $uri_segments[2] . '.php';
+        $class[] = new $uri_segments[2];
+   } else {
+        http_response_code(404);
+        require BASEPATH . "/public/404.php";
+   }
 }else {
   $controllerPath =  BASEPATH . DIRECTORY_SEPARATOR . "App" . DIRECTORY_SEPARATOR . "Controllers"
    . DIRECTORY_SEPARATOR;
    if (file_exists($controllerPath . $uri_segments[1] . '.php')){
-     require $controllerPath . $uri_segments[1] . '.php';
-     $class[] = new $uri_segments[1];
+       require $controllerPath . $uri_segments[1] . '.php';
+       $class[] = new $uri_segments[1];
     } else {
-      require $controllerPath . 'page.php';
-      $class[] = new Page;
+        require $controllerPath . 'page.php';
+        $class[] = new Page;
    }
 }
-//unset($_SESSION['flashdata']);
